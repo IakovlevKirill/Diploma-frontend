@@ -7,8 +7,8 @@ type PanelProps = {
 export const Panel = ({ position, children }: PanelProps) => {
     return (
         <div
-            className={`w-64 bg-white border-r border-gray-200 p-4 ${
-                position === "left" ? "order-first" : "order-last"
+            className={`bg-white w-[12.5%] ${
+                position === "left" ? "order-first border-r-[1px] border-[#E6E6E6]" : "order-last border-[#E6E6E6] border-l-[1px]"
             }`}
         >
             {children}
