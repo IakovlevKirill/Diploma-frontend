@@ -1,16 +1,14 @@
 import './App.css'
-import {LeftSidebar} from "./components/LeftSidebar.tsx";
-import {RightSidebar} from "./components/RightSidebar.tsx";
-import {CanvasArea} from "./components/CanvasArea.tsx";
+import {Provider} from "react-redux";
+import {store} from "./store/store.ts";
+import {InfiniteGameDesignDashboard} from "./components/infiniteGameDesignDashboard/infiniteGameDesignDashboard.tsx";
 
 function App() {
 
   return (
-      <div className="flex h-screen w-screen bg-gray-100 overflow-hidden">
-          <LeftSidebar />
-          <CanvasArea />
-          <RightSidebar />
-      </div>
+      <Provider store={store}>
+          <InfiniteGameDesignDashboard></InfiniteGameDesignDashboard>
+      </Provider>
   )
 }
 

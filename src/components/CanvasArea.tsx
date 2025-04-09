@@ -1,17 +1,20 @@
-// CanvasArea.tsx
 import { useState } from "react";
 import { Toolbar } from "./Toolbar";
+import {useAppSelector} from "../app/hooks.ts";
+import {currentToolType} from "../store/types.ts";
 
 type CanvasObject = {
     id: string;
-    type: "square" | "line";
+    type: currentToolType
     x: number;
     y: number;
 };
 
 export const CanvasArea = () => {
+
+    const currentTool = useAppSelector((state) => state.currentTool.tool);
+
     const [objects, setObjects] = useState<CanvasObject[]>([]);
-    const [currentTool, setCurrentTool] = useState<"square" | "line" | null>(null);
 
     const handleCanvasClick = (e: React.MouseEvent) => {
         if (!currentTool) return;
@@ -32,10 +35,13 @@ export const CanvasArea = () => {
 
     return (
         <div
-            className="flex-1 relative bg-gray-50 overflow-hidden"
+            className={`flex-1 relative bg-gray-50 overflow-hidden 
+            ${currentTool !== "default" ? "cursor-crosshair" : "cursor-default"}
+            `}
+
             onClick={handleCanvasClick}
         >
-            <Toolbar currentTool={currentTool} setCurrentTool={setCurrentTool} />
+            <Toolbar/>
 
             {/* Область для объектов */}
             <div className="absolute bg-[#F5F5F5] z-1 w-[5000px] h-[5000px]">
