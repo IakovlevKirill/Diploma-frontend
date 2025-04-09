@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Toolbar } from "./Toolbar";
-import {useAppSelector} from "../app/hooks.ts";
-import {currentToolType} from "../store/types.ts";
+import { Toolbar } from "./Toolbar.tsx";
+import {useAppSelector} from "../../app/hooks.ts";
+import {currentToolType} from "../../store/types.ts";
+import {Route} from "./Route.tsx";
 
 type CanvasObject = {
     id: string;
@@ -41,6 +42,7 @@ export const CanvasArea = () => {
 
             onClick={handleCanvasClick}
         >
+            <Route></Route>
             <Toolbar/>
 
             {/* Область для объектов */}
