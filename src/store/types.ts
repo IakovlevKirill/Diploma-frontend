@@ -1,4 +1,11 @@
 
 export type currentToolType = {
-    tool: 'default' | 'move' | 'square' | 'link' | 'text'
+    tool: 'default' | 'square' | 'link' | 'text'
 }
+
+export type CanvasObject = {
+    id: string;
+    type: currentToolType
+    x: number;
+    y: number;
+};

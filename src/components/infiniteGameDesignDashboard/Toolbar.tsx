@@ -4,8 +4,6 @@ import link from "../../assets/images/link_toolbar.png"
 import link_active from "../../assets/images/link_active_tollbar.png"
 import text_toolbar from "../../assets/images/text_toolbar.png"
 import text_toolbar_active from "../../assets/images/text_active_toolbar.png"
-import default_hand from "../../assets/images/default_hand_toolbox.png"
-import default_hand_active from "../../assets/images/default_hand_toolbox_active.png"
 import move_hand from "../../assets/images/move_hand_toolbox.png"
 import move_hand_active from "../../assets/images/move_hand_toolbox_active.png"
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
@@ -17,8 +15,13 @@ export const Toolbar = () => {
 
     const dispatch = useAppDispatch();
 
+    const handleToolbarClick = (e) => {
+        e.stopPropagation(); // Останавливаем всплытие события
+    };
+
     return (
-        <div className="z-100 w-full flex items-center justify-center absolute top-[2%]">
+        <div onClick={handleToolbarClick}
+            className="absolute z-100 left-[43.5%] top-[2%]">
             <div className="cursor-default gap-[10px] px-[10px] py-[5px] flex items-center bg-[#FFFFFF] rounded-[10px] border-[1px] border-[#EBEBEB] shadow-[0px_5px_16px_0px_rgba(0,_0,_0,_0.1)]">
                 <button
                     className={`bg-[white] flex items-center justify-center border-[1px] border-[white] w-[35px] h-[35px] rounded-[8px]
@@ -31,26 +34,9 @@ export const Toolbar = () => {
                     }}
                 >
                     {(currentTool === "default") && (
-                        <img className="w-full" src={default_hand_active} alt=""/>
-                    )}
-                    {(currentTool !== "default") && (
-                        <img className="w-full" src={default_hand} alt=""/>
-                    )}
-                </button>
-                <button
-                    className={`bg-[white] flex items-center justify-center border-[1px] border-[white] w-[35px] h-[35px] rounded-[8px]
-                    hover:bg-[#F2F2F2] focus:outline-[0]
-                    ${currentTool === "move" ? "bg-[#3575FF]! border-[1px] " : ""}
-                    `}
-                    onClick={() => {
-                        dispatch(setCurrentTool("move"))
-                        console.log(currentTool)
-                    }}
-                >
-                    {(currentTool === "move") && (
                         <img className="w-full" src={move_hand_active} alt=""/>
                     )}
-                    {(currentTool !== "move") && (
+                    {(currentTool !== "default") && (
                         <img className="w-full" src={move_hand} alt=""/>
                     )}
                 </button>

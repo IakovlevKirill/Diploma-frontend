@@ -1,19 +1,16 @@
 import { useState } from "react";
 import { Toolbar } from "./Toolbar.tsx";
-import {useAppSelector} from "../../app/hooks.ts";
-import {currentToolType} from "../../store/types.ts";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
+import {CanvasObject} from "../../store/types.ts";
 import {Route} from "./Route.tsx";
-
-type CanvasObject = {
-    id: string;
-    type: currentToolType
-    x: number;
-    y: number;
-};
+import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
 
 export const CanvasArea = () => {
 
+    const dispatch = useAppDispatch();
+
     const currentTool = useAppSelector((state) => state.currentTool.tool);
+    const currentSelectedObject = useAppSelector((state) => state.currentObject.object);
 
     const [objects, setObjects] = useState<CanvasObject[]>([]);
 
@@ -32,12 +29,16 @@ export const CanvasArea = () => {
         };
 
         setObjects([...objects, newObject]);
+
     };
 
     return (
         <div
             className={`flex-1 relative bg-gray-50 overflow-hidden 
-            ${currentTool !== "default" ? "cursor-crosshair" : "cursor-default"}
+            ${currentTool === "default" ? "cursor-default" : ""}
+            ${currentTool === "square" ? "cursor-crosshair" : ""}
+            ${currentTool === "link" ? "cursor-crosshair" : ""}
+            ${currentTool === "text" ? "cursor-text" : ""}
             `}
 
             onClick={handleCanvasClick}
@@ -45,14 +46,35 @@ export const CanvasArea = () => {
             <Route></Route>
             <Toolbar/>
 
-            {/* Область для объектов */}
+
             <div className="absolute bg-[#F5F5F5] z-1 w-[5000px] h-[5000px]">
                 {objects.map((obj) => (
                     <div
                         key={obj.id}
-                        className={`absolute ${obj.type === "square"
-                            ? "w-20 h-20 bg-blue-500"
-                            : "w-32 h-1 bg-red-500"}`}
+                        onClick={() => {
+                            dispatch(setCurrentObject(obj.id));
+                            if (currentSelectedObject == obj.id) { // Используем нестрогое сравнение ==
+                                console.log(true);
+                            } else {
+                                console.log(false);
+                                console.log("currentSelectedObject:", currentSelectedObject, typeof currentSelectedObject);
+                                console.log("obj.id:", obj.id, typeof obj.id);
+                            }
+                        }}
+                        className={`absolute z-99
+                ${obj.type === "square"
+                            ? "w-[50px] h-[50px] hover:border-[2px] hover:cursor-pointer hover:border-[#0d99ff] bg-[#D9D9D9]"
+                            : ""
+                        }
+                ${(obj.type === "square" && currentSelectedObject == obj.id) // Используем нестрогое сравнение ==
+                            ? "border-[2px] border-[#0d99ff]" // Убрал дублирование стилей, оставил только отличие
+                            : ""
+                        }
+                ${obj.type === "link"
+                            ? "w-[20px] h-[2px] bg-[black]"
+                            : ""
+                        }
+            `}
                         style={{
                             left: `${obj.x}px`,
                             top: `${obj.y}px`,
