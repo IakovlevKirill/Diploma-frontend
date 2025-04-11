@@ -5,6 +5,7 @@ export type currentToolType = {
 
 export type CanvasObject = {
     id: string;
+    name: string;
     type: currentToolType
     x: number;
     y: number;

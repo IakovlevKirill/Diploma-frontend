@@ -5,14 +5,16 @@ import {Route} from "./Route.tsx";
 import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
 import {addObject} from "../../app/slices/CanvasObjectsSlice.ts";
 import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
+import {incrementObjectCount} from "../../app/slices/objectCountSlice.ts";
 
 export const CanvasArea = () => {
 
     const dispatch = useAppDispatch();
 
     const currentTool = useAppSelector((state) => state.currentTool.tool);
-    const currentSelectedObject = useAppSelector((state) => state.currentObject.object);
+    const currentSelectedObjectId = useAppSelector((state) => state.currentObject.object_id);
     const objects_array = useAppSelector((state) => state.canvasObjects.objects);
+    const objects_count = useAppSelector((state) => state.objectCount.objectCount);
 
     const handleCanvasClick = (e: React.MouseEvent) => {
         if (currentTool == 'default') return;
@@ -24,24 +26,26 @@ export const CanvasArea = () => {
         const newObject: CanvasObject = {
             id: Math.random().toString(36).substring(2, 9),
             type: currentTool,
+            name: `rectangle ` + objects_count,
             x,
             y,
         };
 
         dispatch(addObject(newObject))
+        dispatch(incrementObjectCount())
         console.log(objects_array);
 
     };
 
     const handleObjectClick = (e : React.MouseEvent  , obj : CanvasObject) => {
         e.stopPropagation(); // Останавливаем всплытие события
-        dispatch(setCurrentObject(obj.id));
+        dispatch(setCurrentObject({id: obj.id, name: obj.name}));
         dispatch(setCurrentTool('default'));
-        if (currentSelectedObject == obj.id) { // Используем нестрогое сравнение ==
+        if (currentSelectedObjectId == obj.id) { // Используем нестрогое сравнение ==
             console.log(true);
         } else {
             console.log(false);
-            console.log("currentSelectedObject:", currentSelectedObject, typeof currentSelectedObject);
+            console.log("currentSelectedObject:", currentSelectedObjectId, typeof currentSelectedObjectId);
             console.log("obj.id:", obj.id, typeof obj.id);
         }
     };
@@ -71,12 +75,8 @@ export const CanvasArea = () => {
                             ? " w-[50px] h-[50px] rounded-[4px] hover:border-[2px] hover:cursor-pointer hover:border-[#0d99ff] bg-[#D9D9D9]"
                             : ""
                         }
-                ${(obj.type === "square" && currentSelectedObject == obj.id) // Используем нестрогое сравнение ==
+                ${(obj.type === "square" && currentSelectedObjectId == obj.id) // Используем нестрогое сравнение ==
                             ? "border-[2px] border-[#0d99ff]" // Убрал дублирование стилей, оставил только отличие
-                            : ""
-                        }
-                ${obj.type === "link"
-                            ? "w-[20px] h-[2px] bg-[black]"
                             : ""
                         }
             `}

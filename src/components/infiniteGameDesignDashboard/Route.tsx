@@ -1,9 +1,22 @@
+import {useAppSelector} from "../../app/hooks.ts";
 
 export const Route = () => {
 
-    const currentRoute = 'Project name / main / children_node'
+    const currentSelectedObjectName = useAppSelector((state) => state.currentObject.object_name);
 
-    const handleRouteClick = (e) => {
+    const current_project_name = 'Project name' // потом брать из урла
+
+    const current_branch = 'main' // потом брать из урла
+
+    let currentRoute : string
+
+    if (currentSelectedObjectName == '') {
+        currentRoute = current_project_name + ` / ` + current_branch
+    } else {
+        currentRoute = current_project_name + ` / ` + current_branch + ` / ` + currentSelectedObjectName
+    }
+
+    const handleRouteClick = (e: any) => {
         e.stopPropagation(); // Останавливаем всплытие события
     };
 

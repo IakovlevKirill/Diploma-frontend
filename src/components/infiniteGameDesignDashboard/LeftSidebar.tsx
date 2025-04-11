@@ -2,6 +2,7 @@
 import { Panel } from "./Panel.tsx";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
+import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
 
 export const LeftSidebar = () => {
 
@@ -16,13 +17,14 @@ export const LeftSidebar = () => {
                 {objects_array.map((object) => (
                     <div
                         onClick={() => {
-                            dispatch(setCurrentObject(object.id))
+                            dispatch(setCurrentObject({id: object.id, name: object.name}));
+                            dispatch(setCurrentTool("default"))
                         }}
                         key={object.id}
                         className="font-[Inter] cursor-pointer w-full text-center
                         hover:opacity-80
                         ">
-                        {object.id}
+                        {object.name}
                     </div>
                 ))}
             </div>
