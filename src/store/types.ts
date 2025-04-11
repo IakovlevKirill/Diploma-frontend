@@ -8,4 +8,8 @@ export type CanvasObject = {
     type: currentToolType
     x: number;
     y: number;
+    //width?: number;
+    //     height?: number;
+    //     color?: string;
+    //     text?: string;
 };

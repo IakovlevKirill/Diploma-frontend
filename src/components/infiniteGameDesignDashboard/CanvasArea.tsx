@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { Toolbar } from "./Toolbar.tsx";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {CanvasObject} from "../../store/types.ts";
 import {Route} from "./Route.tsx";
 import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
+import {addObject} from "../../app/slices/CanvasObjectsSlice.ts";
+import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
 
 export const CanvasArea = () => {
 
@@ -11,11 +12,10 @@ export const CanvasArea = () => {
 
     const currentTool = useAppSelector((state) => state.currentTool.tool);
     const currentSelectedObject = useAppSelector((state) => state.currentObject.object);
-
-    const [objects, setObjects] = useState<CanvasObject[]>([]);
+    const objects_array = useAppSelector((state) => state.canvasObjects.objects);
 
     const handleCanvasClick = (e: React.MouseEvent) => {
-        if (!currentTool) return;
+        if (currentTool == 'default') return;
 
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -28,8 +28,22 @@ export const CanvasArea = () => {
             y,
         };
 
-        setObjects([...objects, newObject]);
+        dispatch(addObject(newObject))
+        console.log(objects_array);
 
+    };
+
+    const handleObjectClick = (e : React.MouseEvent  , obj : CanvasObject) => {
+        e.stopPropagation(); // Останавливаем всплытие события
+        dispatch(setCurrentObject(obj.id));
+        dispatch(setCurrentTool('default'));
+        if (currentSelectedObject == obj.id) { // Используем нестрогое сравнение ==
+            console.log(true);
+        } else {
+            console.log(false);
+            console.log("currentSelectedObject:", currentSelectedObject, typeof currentSelectedObject);
+            console.log("obj.id:", obj.id, typeof obj.id);
+        }
     };
 
     return (
@@ -48,22 +62,13 @@ export const CanvasArea = () => {
 
 
             <div className="absolute bg-[#F5F5F5] z-1 w-[5000px] h-[5000px]">
-                {objects.map((obj) => (
+                {objects_array.map((obj) => (
                     <div
                         key={obj.id}
-                        onClick={() => {
-                            dispatch(setCurrentObject(obj.id));
-                            if (currentSelectedObject == obj.id) { // Используем нестрогое сравнение ==
-                                console.log(true);
-                            } else {
-                                console.log(false);
-                                console.log("currentSelectedObject:", currentSelectedObject, typeof currentSelectedObject);
-                                console.log("obj.id:", obj.id, typeof obj.id);
-                            }
-                        }}
+                        onClick={(e) => handleObjectClick(e, obj)}
                         className={`absolute z-99
                 ${obj.type === "square"
-                            ? "w-[50px] h-[50px] hover:border-[2px] hover:cursor-pointer hover:border-[#0d99ff] bg-[#D9D9D9]"
+                            ? " w-[50px] h-[50px] rounded-[4px] hover:border-[2px] hover:cursor-pointer hover:border-[#0d99ff] bg-[#D9D9D9]"
                             : ""
                         }
                 ${(obj.type === "square" && currentSelectedObject == obj.id) // Используем нестрогое сравнение ==

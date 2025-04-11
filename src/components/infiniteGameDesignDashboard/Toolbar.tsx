@@ -15,7 +15,7 @@ export const Toolbar = () => {
 
     const dispatch = useAppDispatch();
 
-    const handleToolbarClick = (e) => {
+    const handleToolbarClick = (e : any) => {
         e.stopPropagation(); // Останавливаем всплытие события
     };
 
