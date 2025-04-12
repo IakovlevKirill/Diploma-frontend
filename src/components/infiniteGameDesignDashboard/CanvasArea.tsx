@@ -51,8 +51,7 @@ export const CanvasArea = () => {
     };
 
     return (
-        <div
-            className={`flex-1 relative bg-gray-50 overflow-hidden 
+        <div className={`flex-1 relative bg-gray-50 overflow-hidden w-[60%]
             ${currentTool === "default" ? "cursor-default" : ""}
             ${currentTool === "square" ? "cursor-crosshair" : ""}
             ${currentTool === "link" ? "cursor-crosshair" : ""}
@@ -65,7 +64,7 @@ export const CanvasArea = () => {
             <Toolbar/>
 
 
-            <div className="absolute bg-[#F5F5F5] z-1 w-[5000px] h-[5000px]">
+            <div className="absolute bg-[#F5F5F5] z-1 w-[10000px] h-[5000px]">
                 {objects_array.map((obj) => (
                     <div
                         key={obj.id}

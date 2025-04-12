@@ -27,7 +27,7 @@ export const InfiniteGameDesignDashboard = () => {
     }, []);
 
     return (
-        <div className="flex h-screen w-screen bg-gray-100 overflow-hidden">
+        <div className="flex h-screen w-screen overflow-hidden">
             <LeftSidebar />
             <CanvasArea />
             <RightSidebar />
