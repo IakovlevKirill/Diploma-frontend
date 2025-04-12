@@ -4,6 +4,7 @@ import {RightSidebar} from "./RightSidebar.tsx";
 import {useAppDispatch} from "../../app/hooks.ts";
 import {useEffect} from "react";
 import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
+import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
 
 
 export const InfiniteGameDesignDashboard = () => {
@@ -14,6 +15,7 @@ export const InfiniteGameDesignDashboard = () => {
         const handleKeyDown = (e : any) => {
             if (e.key === "Escape") {
                 dispatch(setCurrentTool("default"))
+                dispatch(setCurrentObject({ id: '', name: '' }))
             }
         };
 

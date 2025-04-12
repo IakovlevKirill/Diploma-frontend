@@ -17,7 +17,8 @@ export const CanvasArea = () => {
     const objects_count = useAppSelector((state) => state.objectCount.objectCount);
 
     const handleCanvasClick = (e: React.MouseEvent) => {
-        if (currentTool == 'default') return;
+
+        if (currentTool == 'default') return
 
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -25,15 +26,14 @@ export const CanvasArea = () => {
 
         const newObject: CanvasObject = {
             id: Math.random().toString(36).substring(2, 9),
-            type: currentTool,
             name: `rectangle ` + objects_count,
-            x,
-            y,
+            type: currentTool,
+            x: x,
+            y: y,
         };
 
         dispatch(addObject(newObject))
         dispatch(incrementObjectCount())
-        console.log(objects_array);
 
     };
 
@@ -71,11 +71,11 @@ export const CanvasArea = () => {
                         key={obj.id}
                         onClick={(e) => handleObjectClick(e, obj)}
                         className={`absolute z-99
-                ${obj.type === "square"
+                ${obj.type == "square"
                             ? " w-[50px] h-[50px] rounded-[4px] hover:border-[2px] hover:cursor-pointer hover:border-[#0d99ff] bg-[#D9D9D9]"
                             : ""
                         }
-                ${(obj.type === "square" && currentSelectedObjectId == obj.id) // Используем нестрогое сравнение ==
+                ${(obj.type == "square" && currentSelectedObjectId == obj.id) // Используем нестрогое сравнение ==
                             ? "border-[2px] border-[#0d99ff]" // Убрал дублирование стилей, оставил только отличие
                             : ""
                         }
