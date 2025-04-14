@@ -28,6 +28,7 @@ export const CanvasArea = () => {
             id: Math.random().toString(36).substring(2, 9),
             name: `rectangle ` + objects_count,
             type: currentTool,
+            color: '#D9D9D9',
             x: x,
             y: y,
         };
@@ -39,15 +40,12 @@ export const CanvasArea = () => {
 
     const handleObjectClick = (e : React.MouseEvent  , obj : CanvasObject) => {
         e.stopPropagation(); // Останавливаем всплытие события
-        dispatch(setCurrentObject({id: obj.id, name: obj.name}));
+        dispatch(setCurrentObject({
+            id: obj.id,
+            name: obj.name,
+            color: obj.color,
+        }));
         dispatch(setCurrentTool('default'));
-        if (currentSelectedObjectId == obj.id) { // Используем нестрогое сравнение ==
-            console.log(true);
-        } else {
-            console.log(false);
-            console.log("currentSelectedObject:", currentSelectedObjectId, typeof currentSelectedObjectId);
-            console.log("obj.id:", obj.id, typeof obj.id);
-        }
     };
 
     return (
@@ -69,19 +67,20 @@ export const CanvasArea = () => {
                     <div
                         key={obj.id}
                         onClick={(e) => handleObjectClick(e, obj)}
-                        className={`absolute z-99
-                ${obj.type == "square"
-                            ? " w-[50px] h-[50px] rounded-[4px] hover:border-[2px] hover:cursor-pointer hover:border-[#0d99ff] bg-[#D9D9D9]"
+                        className={`absolute z-99 border-2 border-[#F5F5F5]
+                        ${obj.type === "square"
+                            ? "w-[50px] h-[50px] rounded-[4px] hover:border-[2px] hover:cursor-pointer hover:border-[#0d99ff]"
                             : ""
                         }
-                ${(obj.type == "square" && currentSelectedObjectId == obj.id) // Используем нестрогое сравнение ==
-                            ? "border-[2px] border-[#0d99ff]" // Убрал дублирование стилей, оставил только отличие
+                        ${(obj.type === "square" && currentSelectedObjectId === obj.id)
+                            ? "border-[2px] border-[#0d99ff]!"
                             : ""
                         }
-            `}
+  `}
                         style={{
                             left: `${obj.x}px`,
                             top: `${obj.y}px`,
+                            backgroundColor: obj.color // Динамический цвет через style
                         }}
                     />
                 ))}

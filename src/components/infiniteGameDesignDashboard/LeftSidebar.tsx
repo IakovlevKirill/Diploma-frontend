@@ -15,12 +15,12 @@ export const LeftSidebar = () => {
 
     return (
         <Panel position="left">
-            <div className="flex flex-col gap-[30px] items-center h-full ">
+            <div className="flex flex-col gap-[30px] items-center h-full px-[10px] py-[50px]">
                 <div className="h-[80%] flex flex-col gap-[10px] items-center overflow-x-hidden w-full">
                     {objects_array.map((object) => (
                         <div
                             onClick={() => {
-                                dispatch(setCurrentObject({id: object.id, name: object.name}));
+                                dispatch(setCurrentObject({color: object.color, id: object.id, name: object.name}));
                                 dispatch(setCurrentTool("default"))
                             }}
                             key={object.id}

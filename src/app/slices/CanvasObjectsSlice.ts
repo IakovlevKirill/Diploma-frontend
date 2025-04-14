@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {CanvasObject} from "../../store/types.ts";
-
+import { CanvasObject } from "../../store/types.ts";
 
 interface CanvasObjectsState {
     objects: CanvasObject[];
@@ -10,10 +9,6 @@ const initialState: CanvasObjectsState = {
     objects: [],
 };
 
-// const currentSelectedObject = useAppSelector((state) => state.currentObject.object);
-//
-// const dispatch = useAppDispatch();
-
 export const canvasObjectsSlice = createSlice({
     name: 'canvasObjects',
     initialState,
@@ -21,12 +16,6 @@ export const canvasObjectsSlice = createSlice({
         addObject: (state, action: PayloadAction<CanvasObject>) => {
             state.objects.push(action.payload);
         },
-        //removeObject: (state, action: PayloadAction<string>) => {
-        //             state.objects = state.objects.filter(obj => obj.id !== action.payload);
-        //             if (currentSelectedObject === action.payload) {
-        //                 dispatch(setCurrentObject(''))
-        //             }
-        //         },
         updateObject: (state, action: PayloadAction<{id: string; changes: Partial<CanvasObject>}>) => {
             const index = state.objects.findIndex(obj => obj.id === action.payload.id);
             if (index !== -1) {
@@ -40,19 +29,23 @@ export const canvasObjectsSlice = createSlice({
                 obj.y = action.payload.y;
             }
         },
-        // Дополнительные редьюсеры по необходимости
+        changeColor: (state, action: PayloadAction<{id: string; color: string}>) => {
+            const obj = state.objects.find(obj => obj.id === action.payload.id);
+            if (obj) {
+                obj.color = action.payload.color;
+            }
+        },
         clearCanvas: (state) => {
             state.objects = [];
         },
     },
 });
 
-// Экспортируем actions
 export const {
     addObject,
-    //removeObject,
     updateObject,
     moveObject,
+    changeColor,
     clearCanvas
 } = canvasObjectsSlice.actions;
 
