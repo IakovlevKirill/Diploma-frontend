@@ -14,3 +14,9 @@ export type CanvasObject = {
     //     height?: number;
     //     text?: string;
 };
+
+// RESPONSES
+
+export type getTestRequestResponseType = {
+    test: string;
+}
