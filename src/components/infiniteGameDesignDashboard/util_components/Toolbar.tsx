@@ -1,13 +1,13 @@
-import cell from "../../assets/images/cell_toolbar.png"
-import cell_active from "../../assets/images/cell_active_tollbar.png"
-import link from "../../assets/images/link_toolbar.png"
-import link_active from "../../assets/images/link_active_tollbar.png"
-import text_toolbar from "../../assets/images/text_toolbar.png"
-import text_toolbar_active from "../../assets/images/text_active_toolbar.png"
-import move_hand from "../../assets/images/move_hand_toolbox.png"
-import move_hand_active from "../../assets/images/move_hand_toolbox_active.png"
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
+import cell from "../../../assets/images/cell_toolbar.png"
+import cell_active from "../../../assets/images/cell_active_tollbar.png"
+import link from "../../../assets/images/link_toolbar.png"
+import link_active from "../../../assets/images/link_active_tollbar.png"
+import text_toolbar from "../../../assets/images/text_toolbar.png"
+import text_toolbar_active from "../../../assets/images/text_active_toolbar.png"
+import move_hand from "../../../assets/images/move_hand_toolbox.png"
+import move_hand_active from "../../../assets/images/move_hand_toolbox_active.png"
+import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
+import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
 
 export const Toolbar = () => {
 

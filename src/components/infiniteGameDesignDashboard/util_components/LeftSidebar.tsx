@@ -1,10 +1,10 @@
 
 import { Panel } from "./Panel.tsx";
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
-import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
+import {setCurrentObject} from "../../../app/slices/currentCanvasObjectSlice.ts";
+import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
 import {useNavigate} from "react-router-dom";
-import {useGetTestRequestQuery} from "../../api/testApi.ts";
+import {useGetTestRequestQuery} from "../../../api/testApi.ts";
 
 export const LeftSidebar = () => {
 

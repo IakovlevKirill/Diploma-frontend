@@ -10,8 +10,8 @@ export type CanvasObject = {
     x: number;
     y: number;
     color: string;
-    //width?: number;
-    //     height?: number;
+    width: number;
+    height: number;
     //     text?: string;
 };
 

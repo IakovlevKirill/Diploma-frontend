@@ -1,7 +1,7 @@
-import { Toolbar } from "./Toolbar.tsx";
+import { Toolbar } from "./util_components/Toolbar.tsx";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {CanvasObject} from "../../store/types.ts";
-import {Route} from "./Route.tsx";
+import {Route} from "./util_components/Route.tsx";
 import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
 import {addObject} from "../../app/slices/CanvasObjectsSlice.ts";
 import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
@@ -29,6 +29,8 @@ export const CanvasArea = () => {
             name: `rectangle ` + objects_count,
             type: currentTool,
             color: '#D9D9D9',
+            width: 40,
+            height: 40,
             x: x,
             y: y,
         };
@@ -80,6 +82,8 @@ export const CanvasArea = () => {
                         style={{
                             left: `${obj.x}px`,
                             top: `${obj.y}px`,
+                            width: `${obj.width}px`,
+                            height: `${obj.height}px`,
                             backgroundColor: obj.color // Динамический цвет через style
                         }}
                     />

@@ -1,4 +1,4 @@
-import {useAppSelector} from "../../app/hooks.ts";
+import {useAppSelector} from "../../../app/hooks.ts";
 
 export const Route = () => {
 
