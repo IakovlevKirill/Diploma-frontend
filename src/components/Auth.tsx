@@ -98,58 +98,66 @@ export const Auth = () => {
                     className="flex flex-col gap-[20px] border-1 border-black p-[20px] rounded-[15px]"
                     onSubmit={handleSubmit} // Добавлен обработчик submit
                 >
-                    <label
-                        className="font-[Inter]"
-                        htmlFor="username"
-                    >Username</label> {/* Добавлено поле username */}
-                    <input
-                        className="font-[Inter]"
-                        name="username"
-                        type="text"
-                        value={formValues.username}
-                        onChange={handleInputChange}
-                    />
-                    <label
-                        className="font-[Inter]"
-                        htmlFor="password"
-                    >Password</label>
-                    <input
-                        className="font-[Inter]"
-                        name="password"
-                        value={formValues.password}
-                        onChange={handleInputChange}
-                    />
-                    <label
-                        className="font-[Inter]"
-                        htmlFor="email"
-                    >Email</label>
-                    <input
-                        className="font-[Inter]"
-                        name="email"
-                        type="text"
-                        value={formValues.email}
-                        onChange={handleInputChange}
-                    />
-                    <button
-                        className="mt-[20px] font-[Inter]"
-                        onClick={() => {
-                            setAuthFuncType('register');
-                        }}
-                        type="submit"
-                        disabled={isRegisterLoading} // Добавлена блокировка кнопки при загрузке
-                    >
-                        {isRegisterLoading ? 'Загрузка...' : 'Зарегистрироваться'}
-                    </button>
-                    <button
-                        className="mt-[20px] font-[Inter]"
-                        onClick={() => {
-                            setAuthFuncType('login');
-                        }}
-                        type="submit"
-                        disabled={isLoginLoading} // Добавлена блокировка кнопки при загрузке
-                    >
-                        {isRegisterLoading ? 'Загрузка...' : 'Войти'}
-                    </button>
+                    <div className="flex flex-col gap-[10px]">
+                        <label
+                            className="font-[Inter]"
+                            htmlFor="username"
+                        >Username</label> {/* Добавлено поле username */}
+                        <input
+                            className="font-[Inter]"
+                            name="username"
+                            type="text"
+                            value={formValues.username}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-[10px]">
+                        <label
+                            className="font-[Inter]"
+                            htmlFor="password"
+                        >Password</label>
+                        <input
+                            className="font-[Inter]"
+                            name="password"
+                            value={formValues.password}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-[10px]">
+                        <label
+                            className="font-[Inter]"
+                            htmlFor="email"
+                        >Email</label>
+                        <input
+                            className="font-[Inter]"
+                            name="email"
+                            type="text"
+                            value={formValues.email}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-[10px] mt-[30px]">
+                        <button
+                            className="font-[Inter]"
+                            onClick={() => {
+                                setAuthFuncType('login');
+                            }}
+                            type="submit"
+                            disabled={isLoginLoading} // Добавлена блокировка кнопки при загрузке
+                        >
+                            {isRegisterLoading ? 'Загрузка...' : 'Войти'}
+                        </button>
+                        <button
+                            className="font-[Inter]"
+                            onClick={() => {
+                                setAuthFuncType('register');
+                            }}
+                            type="submit"
+                            disabled={isRegisterLoading} // Добавлена блокировка кнопки при загрузке
+                        >
+                            {isRegisterLoading ? 'Загрузка...' : 'Зарегистрироваться'}
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
