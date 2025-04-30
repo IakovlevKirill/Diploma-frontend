@@ -1,7 +1,4 @@
-@import "../normalize.css";
+@import "../src/normalize.css";
 @import "./fonts.module.css";
 
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
-

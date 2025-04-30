@@ -21,7 +21,7 @@ export const LeftSidebar = () => {
     return (
         <Panel position="left">
             <div className="flex flex-col gap-[30px] items-center h-full px-[10px] py-[50px]">
-                <div className="h-[70%] flex w-full">
+                <div className="h-[10%] flex w-full">
                     {test_msg}
                 </div>
                 <div className="h-[70%] flex flex-col gap-[10px] items-center overflow-x-hidden w-full">

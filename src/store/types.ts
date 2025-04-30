@@ -14,9 +14,27 @@ export type CanvasObject = {
     height: number;
     //     text?: string;
 };
+// REQUESTS
+
+export type registerRequestType = {
+    email: string,
+    password: string,
+    username: string
+}
+
+export type loginRequestType = {
+    email: string,
+    password: string
+    username: string
+}
+
 
 // RESPONSES
 
-export type getTestRequestResponseType = {
-    test: string;
+export type registerResponseType = {
+    access_token: string;
+}
+
+export type loginResponseType = {
+    access_token: string;
 }
