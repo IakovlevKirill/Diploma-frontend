@@ -8,6 +8,7 @@ import move_hand from "../../../assets/images/move_hand_toolbox.png"
 import move_hand_active from "../../../assets/images/move_hand_toolbox_active.png"
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
+import * as React from "react";
 
 export const Toolbar = () => {
 
@@ -15,13 +16,13 @@ export const Toolbar = () => {
 
     const dispatch = useAppDispatch();
 
-    const handleToolbarClick = (e : any) => {
+    const handleToolbarClick = (e : React.MouseEvent) => {
         e.stopPropagation(); // Останавливаем всплытие события
     };
 
     return (
         <div onClick={handleToolbarClick}
-            className="absolute z-100 left-[43.5%] top-[2%]">
+            className="absolute z-100 left-[45.5%] top-[2%]">
             <div className="cursor-default gap-[10px] px-[10px] py-[5px] flex items-center bg-[#FFFFFF] rounded-[10px] border-[1px] border-[#EBEBEB] shadow-[0px_5px_16px_0px_rgba(0,_0,_0,_0.1)]">
                 <button
                     className={`bg-[white] flex items-center justify-center border-[1px] border-[white] w-[35px] h-[35px] rounded-[8px]
@@ -57,6 +58,7 @@ export const Toolbar = () => {
                         <img className="w-full" src={cell} alt=""/>
                     )}
                 </button>
+                {/*
                 <button
                     className={`bg-[white] flex items-center justify-center border-[1px] border-[white] w-[35px] h-[35px] rounded-[8px]
                     hover:bg-[#F2F2F2] focus:outline-[0]
@@ -91,6 +93,7 @@ export const Toolbar = () => {
                         <img className="w-full" src={text_toolbar} alt=""/>
                     )}
                 </button>
+                */}
             </div>
         </div>
     );

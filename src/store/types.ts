@@ -6,7 +6,7 @@ export type currentToolType = {
 export type CanvasObject = {
     id: string;
     name: string;
-    type: currentToolType
+    type: 'default' | 'square' | 'link' | 'text'
     x: number;
     y: number;
     color: string;
