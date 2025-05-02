@@ -15,7 +15,6 @@ export const Auth = () => {
     const [formValues, setFormValues] = useState({
         email: '',
         password: '',
-        username: ''
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +28,6 @@ export const Auth = () => {
     const onAuth = async (values: {
         email: string,
         password: string,
-        username: string
     }) => {
 
         if (authFuncType == 'login') {
@@ -37,23 +35,21 @@ export const Auth = () => {
                 const response = await loginToAccount({
                     email: values.email,
                     password: values.password,
-                    username: values.username,
                 }).unwrap();
 
                 if (response.access_token) {
                     // Перенес сохранение токена и имени пользователя сюда
                     const jwtToken = response.access_token; // В реальном приложении token должен приходить с сервера
-                    const userName = values.username; // Используем имя из формы
 
                     localStorage.setItem('authToken', jwtToken);
-                    localStorage.setItem('username', userName);
+                    localStorage.setItem('userId', response.id);
 
                     navigate('/');
                 } else {
-                    alert('Ошибка');
+                    console.log('Ошибка');
                 }
             } catch (error) {
-                alert('Произошла ошибка при регистрации');
+                console.log('Произошла ошибка при регистрации');
                 console.error(error);
             }
         }
@@ -62,23 +58,21 @@ export const Auth = () => {
                 const response = await createAccount({
                     email: values.email,
                     password: values.password,
-                    username: values.username,
                 }).unwrap();
 
                 if (response.access_token) {
                     // Перенес сохранение токена и имени пользователя сюда
                     const jwtToken = response.access_token; // В реальном приложении token должен приходить с сервера
-                    const userName = values.username; // Используем имя из формы
 
                     localStorage.setItem('authToken', jwtToken);
-                    localStorage.setItem('username', userName);
+                    localStorage.setItem('userId', response.id);
 
                     navigate('/');
                 } else {
-                    alert('Ошибка');
+                    console.log('Ошибка');
                 }
             } catch (error) {
-                alert('Произошла ошибка при регистрации');
+                console.log('Произошла ошибка при регистрации');
                 console.error(error);
             }
         }
@@ -98,19 +92,6 @@ export const Auth = () => {
                     className="flex flex-col gap-[20px] border-1 border-black p-[20px] rounded-[15px]"
                     onSubmit={handleSubmit} // Добавлен обработчик submit
                 >
-                    <div className="flex flex-col gap-[10px]">
-                        <label
-                            className="font-[Inter]"
-                            htmlFor="username"
-                        >Username</label> {/* Добавлено поле username */}
-                        <input
-                            className="font-[Inter]"
-                            name="username"
-                            type="text"
-                            value={formValues.username}
-                            onChange={handleInputChange}
-                        />
-                    </div>
                     <div className="flex flex-col gap-[10px]">
                         <label
                             className="font-[Inter]"

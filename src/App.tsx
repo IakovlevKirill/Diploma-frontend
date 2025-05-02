@@ -35,7 +35,7 @@ export const App = () => {
                         </ProtectedRoute>}
                     />
 
-                    <Route path="/dashboard" element={<InfiniteGameDesignDashboard/>}/>
+                    <Route path="/dashboard/:projectId" element={<InfiniteGameDesignDashboard/>}/>
 
                     <Route path="*" element={<PageNotFound />} />
 

@@ -1,7 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
-    getTestRequestResponseType,
-    loginRequestType, loginResponseType,
+    createProjectRequestType,
+    createProjectResponseType,
+    getAllProjectsResponseType,
+    getProjectByIdResponseType,
+    loginRequestType,
+    loginResponseType,
     registerRequestType,
     registerResponseType
 } from "../store/types.ts";
@@ -14,13 +18,6 @@ export const diplomaApi = createApi({
     reducerPath: 'diplomaApi',
     baseQuery: fetchBaseQuery({baseUrl}),
     endpoints: (builder) => ({
-        getTestRequest: builder.query<getTestRequestResponseType, void>({
-            query: arg => ({
-                url: `${baseUrl}/api/test`,
-                method: 'GET',
-                body: arg,
-            })
-        }),
         registerRequest: builder.mutation<registerResponseType, registerRequestType>({
             query: arg => ({
                 url: `${baseUrl}/api/auth/register`,
@@ -35,12 +32,33 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
+        createProject: builder.mutation<createProjectResponseType, createProjectRequestType>({
+            query: arg => ({
+                url: `${baseUrl}/api/project/create`,
+                method: 'POST',
+                body: arg,
+            })
+        }),
+        getAllProjects: builder.query<getAllProjectsResponseType, void>({
+            query: (userId) => ({
+                url: `${baseUrl}/api/project/get/all?userId=${userId}`,
+                method: 'GET',
+            })
+        }),
+        getProjectById: builder.query<getProjectByIdResponseType, void>({
+            query: (projectId) => ({
+                url: `${baseUrl}/api/project/get?projectId=${projectId}`,
+                method: 'GET',
+            })
+        }),
     }),
 });
 
 
 export const {
-    useGetTestRequestQuery,
     useRegisterRequestMutation,
-    useLoginRequestMutation
+    useLoginRequestMutation,
+    useCreateProjectMutation,
+    useGetAllProjectsQuery,
+    useGetProjectByIdQuery
 } = diplomaApi;

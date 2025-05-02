@@ -1,19 +1,24 @@
 import {useAppSelector} from "../../../app/hooks.ts";
+import {useParams} from "react-router-dom";
+import {useGetProjectByIdQuery} from "../../../api/testApi.ts";
 
 export const Route = () => {
 
-    const currentSelectedObjectName = useAppSelector((state) => state.currentObject.object_name);
+    const { projectId } = useParams();
 
-    const current_project_name = 'Project name' // потом брать из урла
+    const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(projectId);
+    const project = project_data?.project
+
+    const currentSelectedObjectName = useAppSelector((state) => state.currentObject.object_name);
 
     const current_branch = 'main' // потом брать из урла
 
     let currentRoute : string
 
     if (currentSelectedObjectName == '') {
-        currentRoute = current_project_name + ` / ` + current_branch
+        currentRoute = project?.title + ` / ` + current_branch
     } else {
-        currentRoute = current_project_name + ` / ` + current_branch + ` / ` + currentSelectedObjectName
+        currentRoute = project?.title + ` / ` + current_branch + ` / ` + currentSelectedObjectName
     }
 
     const handleRouteClick = (e: any) => {

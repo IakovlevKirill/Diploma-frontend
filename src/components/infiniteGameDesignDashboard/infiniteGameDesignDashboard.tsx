@@ -15,7 +15,7 @@ export const InfiniteGameDesignDashboard = () => {
         const handleKeyDown = (e : any) => {
             if (e.key === "Escape") {
                 dispatch(setCurrentTool("default"))
-                dispatch(setCurrentObject({ id: '', name: '' }))
+                dispatch(setCurrentObject({ id: '', name: '', color: '' }))
             }
         };
 
