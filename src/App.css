@@ -1,4 +1,5 @@
 @import "../src/normalize.css";
 @import "./fonts.module.css";
+@import "./scrollbar.module.css";
 
 @tailwind utilities;

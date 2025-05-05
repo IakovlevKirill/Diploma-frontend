@@ -1,0 +1,19 @@
+/* Кастомизация скроллбара */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #353535; /* Цвет трека */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #616161; /* Цвет ползунка */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #aeaeae; /* Цвет ползунка при наведении */
+}

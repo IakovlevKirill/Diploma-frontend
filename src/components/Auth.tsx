@@ -86,15 +86,16 @@ export const Auth = () => {
     };
 
     return (
+        //bg-[url('../../../../src/assets/images/bg.png')]
         <div className="h-[100vh] w-[100vw] flex flex-col ">
             <div className="flex h-screen items-center justify-center gap-[20px]">
                 <form
-                    className="flex flex-col gap-[20px] border-1 border-black p-[20px] rounded-[15px]"
+                    className="flex flex-col gap-[20px] border-0 border-black shadow-[0px_6px_6px_6px_rgba(0,_0,_0,_0.1)] p-[20px] py-[40px] rounded-[15px] bg-[#FFF]"
                     onSubmit={handleSubmit} // Добавлен обработчик submit
                 >
                     <div className="flex flex-col gap-[10px]">
                         <label
-                            className="font-[Inter]"
+                            className="font-[Inter] text-[18px]"
                             htmlFor="password"
                         >Password</label>
                         <input
@@ -117,9 +118,9 @@ export const Auth = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <div className="flex flex-col gap-[10px] mt-[30px]">
+                    <div className="flex flex-col gap-[10px] items-center">
                         <button
-                            className="font-[Inter]"
+                            className="font-[Inter] w-1/2 cursor-pointer"
                             onClick={() => {
                                 setAuthFuncType('login');
                             }}
@@ -128,8 +129,9 @@ export const Auth = () => {
                         >
                             {isRegisterLoading ? 'Загрузка...' : 'Войти'}
                         </button>
+                        <span className="font-[Inter]">или</span>
                         <button
-                            className="font-[Inter]"
+                            className="font-[Inter] w-auto cursor-pointer"
                             onClick={() => {
                                 setAuthFuncType('register');
                             }}
