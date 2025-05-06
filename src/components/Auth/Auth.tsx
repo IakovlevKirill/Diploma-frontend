@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
-import {useLoginRequestMutation, useRegisterRequestMutation} from "../api/testApi.ts";
+import {useLoginRequestMutation, useRegisterRequestMutation} from "../../api/testApi.ts";
 import {FormEvent, useState} from "react"; // Добавлен импорт useState и FormEvent
-import mail from "../../src/assets/images/mail.png"
+import mail from "../../assets/images/Mail.png"
 
 export const Auth = () => {
 
@@ -47,7 +47,7 @@ export const Auth = () => {
                     localStorage.setItem('authToken', jwtToken);
                     localStorage.setItem('userId', response.id);
 
-                    navigate('/');
+                    navigate('/menu');
                 } else {
                     console.log('Ошибка');
                 }
@@ -70,7 +70,7 @@ export const Auth = () => {
                     localStorage.setItem('authToken', jwtToken);
                     localStorage.setItem('userId', response.id);
 
-                    navigate('/');
+                    navigate('/menu');
                 } else {
                     console.log('Ошибка');
                 }

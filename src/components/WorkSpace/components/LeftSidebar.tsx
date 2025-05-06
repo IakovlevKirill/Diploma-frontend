@@ -34,7 +34,7 @@ export const LeftSidebar = () => {
                 <div className="h-[20%]">
                     <button
                         onClick={ ()=>{
-                            navigate('/')
+                            navigate('/menu')
                         }}
                         className="font-[Inter] border-0 bg-[#FFFFFF] cursor-pointer hover:text-[#0d99ff] underline">
                         Меню
