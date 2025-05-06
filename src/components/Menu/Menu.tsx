@@ -1,5 +1,7 @@
 import {useCreateProjectMutation, useGetAllProjectsQuery} from "../../api/testApi.ts";
-import icon from "../../assets/images/icon.png"
+import mail from "../../assets/images/mail_icon.png"
+import team_icon from "../../assets/images/team_icon.png"
+import logo from "../../assets/images/logo.png"
 import avatar_example from "../../assets/images/avatar_example.png"
 import user_group from "../../assets/images/Users_Group.png"
 import polygon_sidebar_open from "../../assets/images/polygon_sidebar_open.png"
@@ -42,15 +44,15 @@ export const Menu = () => {
     return (
         <div className="flex flex-col w-screen h-screen overflow-hidden ">
             <div className="flex flex-row items-center gap-[20px] px-[30px] w-screen min-h-[50px] h-[5%] bg-[#0D0E11] border-b-[1px] border-[#535558]">
-                <img className="w-[26px] h-[26px]" src={icon} alt=""/>
-                <span className="text-[#FFF] font-[Inter] font-bold text-[15px]">Lorem ipsum</span>
+                <img className="w-[26px] h-[26px]" src={logo} alt=""/>
+                <span className="text-[#FFF] font-[Inter] font-bold text-[15px]">Nazvanie</span>
             </div>
             <div className="w-[100vw] h-[95%] flex flex-row">
                 <div className="flex flex-col items-center w-[16%] h-full  bg-[#191C21] border-r-[1px] border-[#535558]">
 
-                    <div className="flex flex-col h-[90%]">
-                        <div className="flex flex-col h-[50%] w-full">
-                            <div className="flex text-[#FFF] font-[Inter] font-regular text-[15px] px-[30px]">Search projects</div>
+                    <div className="flex flex-col h-[95%]">
+                        <div className="flex flex-col h-[35%] w-full">
+                            <div className="flex text-[#FFF] font-[Inter] font-regular text-[15px] pt-[30px] px-[30px]">Search projects</div>
                             <div className="flex w-full py-[16px] ">
                                 <div className="flex flex-col w-full px-[30px]">
                                     <input
@@ -58,17 +60,20 @@ export const Menu = () => {
                                         type="text"
                                         placeholder="@Project"
                                     />
+                                    {/*
+                                    <div className="w-full h-[1px] my-[16px] bg-[#575F69]"></div>
+                                    */}
                                 </div>
                             </div>
                         </div>
 
-                        <div className="w-full flex flex-col h-[50%] gap-[15px]">
+                        <div className="w-full flex flex-col h-[65%] gap-[15px] border-t-[1px] border-[#535558] pt-[50px]">
                             <button className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                                <img className="w-[24px] h-[24px]" src={user_group} alt=""/>
+                                <img className="w-[24px] h-[24px]" src={mail} alt=""/>
                                 <div className="text-[#FFF] font-[Inter] font-medium text-[16px]">Inbox</div>
                             </button>
                             <button className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                                <img className="w-[24px] h-[24px]" src={user_group} alt=""/>
+                                <img className="w-[24px] h-[24px]" src={team_icon} alt=""/>
                                 <div className="text-[#FFF] font-[Inter] font-medium text-[16px]">Teams</div>
                             </button>
                             <button className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
@@ -78,7 +83,7 @@ export const Menu = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-row w-full h-[10%] justify-between items-center py-[18px] cursor-pointe border-t-[1px] border-[#535558]">
+                    <div className="flex flex-row w-full h-[5%] justify-between items-center py-[18px] cursor-pointe border-t-[1px] border-[#535558]">
                         <div className="flex flex-row gap-[14px] items-center pl-[25px] ">
                             <img src={avatar_example} alt=""/>
                             <div className="flex flex-col">
