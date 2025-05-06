@@ -1,12 +1,12 @@
-import { LeftSidebar } from "./util_components/LeftSidebar.tsx";
+import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
-import { RightSidebar } from "./util_components/RightSidebar.tsx";
+import { RightSidebar } from "./components/RightSidebar.tsx";
 import { useAppDispatch } from "../../app/hooks.ts";
 import { useEffect } from "react";
 import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
 import { setCurrentObject } from "../../app/slices/currentCanvasObjectSlice.ts";
 
-export const InfiniteGameDesignDashboard = () => {
+export const WorkSpace = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {

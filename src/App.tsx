@@ -1,11 +1,11 @@
 import './App.css'
 import {Provider} from "react-redux";
 import {store} from "./store/store.ts";
-import {InfiniteGameDesignDashboard} from "./components/infiniteGameDesignDashboard/infiniteGameDesignDashboard.tsx";
+import {WorkSpace} from "./components/WorkSpace/WorkSpace.tsx";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Auth} from "./components/Auth.tsx";
 import {PageNotFound} from "./components/PageNotFound.tsx";
-import {Menu} from "./components/Menu.tsx";
+import {Menu} from "./components/Menu/Menu.tsx";
 
 const ProtectedRoute = ({ children } : any) => {
     const isAuthenticated = !!localStorage.getItem('authToken'); // Пример проверки авторизации
@@ -35,7 +35,7 @@ export const App = () => {
                         </ProtectedRoute>}
                     />
 
-                    <Route path="/dashboard/:projectId" element={<InfiniteGameDesignDashboard/>}/>
+                    <Route path="/workspace/:projectId" element={<WorkSpace/>}/>
 
                     <Route path="*" element={<PageNotFound />} />
 

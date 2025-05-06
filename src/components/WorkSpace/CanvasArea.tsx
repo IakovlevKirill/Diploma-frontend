@@ -1,7 +1,7 @@
-import { Toolbar } from "./util_components/Toolbar.tsx";
+import { Toolbar } from "./components/Toolbar.tsx";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {CanvasObject} from "../../store/types.ts";
-import {Route} from "./util_components/Route.tsx";
+import {Route} from "./components/Route.tsx";
 import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
 import {addObject} from "../../app/slices/CanvasObjectsSlice.ts";
 import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
