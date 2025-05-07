@@ -6,13 +6,18 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Auth} from "./components/Auth/Auth.tsx";
 import {PageNotFound} from "./components/PageNotFound.tsx";
 import {MenuLayout} from "./components/Menu/MenuLayout.tsx";
-import {Menu} from "./components/Menu/Menu.tsx";
+import {Projects} from "./components/Menu/Projects.tsx";
 import {Profile} from "./components/Menu/Profile/Profile.tsx";
 import {Teams} from "./components/Menu/Teams/Teams.tsx";
 import {Inbox} from "./components/Menu/Inbox/Inbox.tsx";
 import Templates from "./components/Menu/Templates/Templates.tsx";
+import {ReactNode} from "react";
 
-const ProtectedRoute = ({ children } : any) => {
+interface ProtectedRouteProps {
+    children: ReactNode;
+}
+
+const ProtectedRoute = ({ children } : ProtectedRouteProps) => {
     const isAuthenticated = !!localStorage.getItem('authToken'); // Пример проверки авторизации
 
     if (!isAuthenticated) {
@@ -41,7 +46,7 @@ export const App = () => {
                             </ProtectedRoute>
                         }
                     >
-                        <Route path="/menu" element={<Menu />}></Route>
+                        <Route path="/projects" element={<Projects />}></Route>
                         <Route path="/profile" element={<Profile />}></Route>
                         <Route path="/teams" element={<Teams />}></Route>
                         <Route path="/inbox" element={<Inbox />}></Route>

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
     createProjectRequestType,
-    createProjectResponseType,
+    createProjectResponseType, getAllProjectsRequestsType,
     getAllProjectsResponseType,
     getProjectByIdResponseType,
     loginRequestType,
@@ -39,7 +39,7 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
-        getAllProjects: builder.query<getAllProjectsResponseType, void>({
+        getAllProjects: builder.query<getAllProjectsResponseType, { userId : string}>({
             query: (userId) => ({
                 url: `${baseUrl}/api/project/get/all?userId=${userId}`,
                 method: 'GET',

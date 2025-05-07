@@ -47,7 +47,7 @@ export const Auth = () => {
                     localStorage.setItem('authToken', jwtToken);
                     localStorage.setItem('userId', response.id);
 
-                    navigate('/menu');
+                    navigate('/projects');
                 } else {
                     console.log('Ошибка');
                 }
@@ -70,7 +70,7 @@ export const Auth = () => {
                     localStorage.setItem('authToken', jwtToken);
                     localStorage.setItem('userId', response.id);
 
-                    navigate('/menu');
+                    navigate('/projects');
                 } else {
                     console.log('Ошибка');
                 }

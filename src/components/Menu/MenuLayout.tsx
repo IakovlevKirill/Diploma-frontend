@@ -23,7 +23,7 @@ export const MenuLayout = () => {
                 <button
                     className="h-full px-[30px] gap-[20px] flex flex-row items-center bg-[#0D0E11] focus:outline-none border-0 cursor-pointer"
                     onClick={()=>{
-                        navigate('/menu');
+                        navigate('/projects');
                     }}>
                     <img
                         className="w-[26px] h-[26px] cursor-pointer"
@@ -47,6 +47,14 @@ export const MenuLayout = () => {
                             </div>
                         </div>
                         <div className="w-full flex flex-col h-[65%] gap-[15px] border-t-[1px] border-[#535558] pt-[50px]">
+                            <button
+                                onClick={()=>{
+                                    navigate('/projects')
+                                }}
+                                className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
+                                <img className="w-[24px] h-[24px]" src={user_group} alt=""/>
+                                <div className="text-[#FFF] font-[Inter] font-medium text-[16px]">Projects</div>
+                            </button>
                             <button
                                 onClick={()=>{
                                     navigate('/inbox')
