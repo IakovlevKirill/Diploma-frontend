@@ -1,13 +1,14 @@
-import {BaseQueryArg, createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {
     createProjectRequestType,
-    createProjectResponseType, getAllProjectsRequestsType,
+    createProjectResponseType,
     getAllProjectsResponseType,
     getProjectByIdResponseType,
     loginRequestType,
     loginResponseType,
     registerRequestType,
-    registerResponseType
+    registerResponseType,
+    getPinnedProjectsRequestType,
 } from "../store/types.ts";
 
 const host = import.meta.env.VITE_HOST
@@ -57,6 +58,19 @@ export const diplomaApi = createApi({
                 method: 'DELETE',
             })
         }),
+        pinProject: builder.mutation<void, getPinnedProjectsRequestType>({
+            query: (arg) => ({
+                url: `${baseUrl}/api/project/pin`,
+                method: 'POST',
+                body: arg
+            })
+        }),
+        getPinnedProject: builder.query<getAllProjectsResponseType, string>({
+            query: (userId) => ({
+                url: `${baseUrl}/api/project/get/pinned?userId=${userId}`,
+                method: 'GET',
+            })
+        }),
     }),
 });
 
@@ -67,5 +81,7 @@ export const {
     useCreateProjectMutation,
     useGetAllProjectsQuery,
     useGetProjectByIdQuery,
-    useDeleteProjectMutation
+    useDeleteProjectMutation,
+    usePinProjectMutation,
+    useGetPinnedProjectQuery
 } = diplomaApi;

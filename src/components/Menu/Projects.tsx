@@ -2,7 +2,12 @@ import React from 'react';
 import plus_icon from "../../../src/assets/images/Add_Plus.png"
 import delete_icon from "../../../src/assets/images/Trash_Full.png"
 import paperclip from "../../../src/assets/images/Paperclip_Attechment_Tilt.png"
-import {useCreateProjectMutation, useDeleteProjectMutation, useGetAllProjectsQuery} from "../../api/testApi.ts";
+import {
+    useCreateProjectMutation,
+    useDeleteProjectMutation,
+    useGetAllProjectsQuery, useGetPinnedProjectQuery,
+    usePinProjectMutation
+} from "../../api/testApi.ts";
 import {useNavigate} from "react-router-dom";
 
 export const Projects = () => {
@@ -10,11 +15,14 @@ export const Projects = () => {
     const navigate = useNavigate();
 
     const [createProject, { isLoading: isProjectCreationLoading }] = useCreateProjectMutation();
-    const current_user_userId = localStorage.getItem("userId")!;
-
-    const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery(current_user_userId);
-
+    const [pinProject, { isLoading : pinLoading}] = usePinProjectMutation()
     const [deleteProject, { isLoading : deleteLoading}] = useDeleteProjectMutation()
+
+    const current_user_userId = localStorage.getItem("userId")!;
+    const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery(current_user_userId);
+    const { data: pinnedProjectsData, isLoading: isPinnedProjectsLoading } = useGetPinnedProjectQuery(current_user_userId);
+
+    console.log(pinnedProjectsData)
 
     const onCreateProject = async () => {
         if (current_user_userId) {
@@ -22,7 +30,7 @@ export const Projects = () => {
                 const response = await createProject({
                     title: 'New project',
                     content: '',
-                    userId: current_user_userId
+                    userId: current_user_userId,
                 }).unwrap();
 
                 if (response.id) {
@@ -35,7 +43,7 @@ export const Projects = () => {
     };
 
 
-    if (isProjectCreationLoading || isAllProjectsLoading) {
+    if (isProjectCreationLoading || isAllProjectsLoading || deleteLoading) {
         return (
             <div className="flex flex-col font-[Inter] bg-[#131519] w-[84%] text-[#FFF] ">
                 <span className="p-[30px]">Loading...</span>
@@ -74,7 +82,7 @@ export const Projects = () => {
                 <div className="flex flex-col w-full gap-[16px] mt-[56px]">
                     <div className="text-[#FFF] font-[Inter] font-semibold text-[40px]">Pinned Projects</div>
                     <div className="flex flex-row w-full mt-[30px] flex-wrap" style={{ gap: "25px" }}>
-                        {projectsData?.projects.map((project) => (
+                        {pinnedProjectsData?.projects.map((project) => (
                             <div
                                 key={project.id}
                                 className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
@@ -85,10 +93,14 @@ export const Projects = () => {
                                         }}
                                         className="p-[25px] pr-[0px] w-[70%] flex flex-col text-left gap-[5px] bg-transparent cursor-pointer border-0 p-0">
                                         <span className="text-[#FFF] font-[Inter] font-regular text-[20px]">{project.title}</span>
-                                        <div className="text-[#FFF] font-[Inter] font-regular text-[12px]">Last updated - 27/04/2024</div>
+                                        <div className="text-[#FFF] font-[Inter] font-regular text-[12px]">Last updated - {new Date(project.updatedAt).toLocaleDateString('en-GB')}</div>
                                     </button>
                                     <div className="w-[30%] p-[25px] pl-[0px] flex flex-row items-start justify-end h-full gap-[14px]">
-                                        <button className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
+                                        <button
+                                            onClick={() => {
+                                                pinProject({projectId: project.id})
+                                            }}
+                                            className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
                                             <img className="w-[24px] h-[24px]" src={paperclip} alt=""/>
                                         </button>
                                         <button
@@ -122,10 +134,14 @@ export const Projects = () => {
                                         }}
                                         className="p-[25px] pr-[0px] w-[70%] flex flex-col text-left gap-[5px] bg-transparent cursor-pointer border-0 p-0">
                                         <span className="text-[#FFF] font-[Inter] font-regular text-[20px]">{project.title}</span>
-                                        <div className="text-[#FFF] font-[Inter] font-regular text-[12px]">Last updated - 27/04/2024</div>
+                                        <div className="text-[#FFF] font-[Inter] font-regular text-[12px]">Last updated - {new Date(project.updatedAt).toLocaleDateString('en-GB')}</div>
                                     </button>
                                     <div className="w-[30%] p-[25px] pl-[0px] flex flex-row items-start justify-end h-full gap-[14px]">
-                                        <button className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
+                                        <button
+                                            onClick={() => {
+                                                pinProject({projectId: project.id})
+                                            }}
+                                            className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
                                             <img className="w-[24px] h-[24px]" src={paperclip} alt=""/>
                                         </button>
                                         <button

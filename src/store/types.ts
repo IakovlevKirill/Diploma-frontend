@@ -16,11 +16,11 @@ export type CanvasObject = {
 };
 
 export type User = {
-    createdAt: string
     email: string
     id: string
     isVerified: false
     projects: null
+    createdAt: string
     updatedAt: string
     username: null
 }
@@ -29,6 +29,8 @@ export type Project = {
     id: string;
     title: string;
     content: string;
+    createdAt: string
+    updatedAt: string
     user: User
 }
 
@@ -47,13 +49,16 @@ export type loginRequestType = {
 export type createProjectRequestType = {
     title: string,
     content: string,
-    userId: string,
+    userId: string
 }
 
 export type getAllProjectsRequestsType = {
     userId: string,
 }
 
+export type getPinnedProjectsRequestType = {
+    userId: string,
+}
 // RESPONSES
 
 export type registerResponseType = {

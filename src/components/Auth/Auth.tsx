@@ -88,9 +88,8 @@ export const Auth = () => {
         onAuth(formValues);
     };
 
-    const LoginForm = () => {
-
-        return(
+    return (
+        <div className="h-screen w-screen items-center justify-center flex flex-col bg-[url('src/assets/images/bg.png')]">
             <form
                 hidden={authFuncType == 'register'}
                 onSubmit={handleSubmit}>
@@ -153,12 +152,6 @@ export const Auth = () => {
                     </div>
                 </div>
             </form>
-        )
-    }
-
-    const RegisterForm = () => {
-
-        return(
             <form
                 hidden={authFuncType == 'login'}
                 onSubmit={handleSubmit}>
@@ -237,13 +230,6 @@ export const Auth = () => {
                     </div>
                 </div>
             </form>
-        )
-    }
-
-    return (
-        <div className="h-screen w-screen items-center justify-center flex flex-col bg-[url('src/assets/images/bg.png')]">
-            <LoginForm></LoginForm>
-            <RegisterForm></RegisterForm>
         </div>
     );
 };
