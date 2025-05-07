@@ -56,6 +56,10 @@ export type getAllProjectsRequestsType = {
     userId: string,
 }
 
+export type pinProjectRequestType = {
+    projectId: string,
+}
+
 export type getPinnedProjectsRequestType = {
     userId: string,
 }

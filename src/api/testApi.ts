@@ -8,7 +8,7 @@ import {
     loginResponseType,
     registerRequestType,
     registerResponseType,
-    getPinnedProjectsRequestType,
+    pinProjectRequestType,
 } from "../store/types.ts";
 
 const host = import.meta.env.VITE_HOST
@@ -58,7 +58,7 @@ export const diplomaApi = createApi({
                 method: 'DELETE',
             })
         }),
-        pinProject: builder.mutation<void, getPinnedProjectsRequestType>({
+        pinProject: builder.mutation<void, pinProjectRequestType>({
             query: (arg) => ({
                 url: `${baseUrl}/api/project/pin`,
                 method: 'POST',

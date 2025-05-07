@@ -6,7 +6,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Auth} from "./components/Auth/Auth.tsx";
 import {PageNotFound} from "./components/PageNotFound.tsx";
 import {MenuLayout} from "./components/Menu/MenuLayout.tsx";
-import {Projects} from "./components/Menu/Projects.tsx";
+import {Projects} from "./components/Menu/Projects/Projects.tsx";
 import {Profile} from "./components/Menu/Profile/Profile.tsx";
 import {Teams} from "./components/Menu/Teams/Teams.tsx";
 import {Inbox} from "./components/Menu/Inbox/Inbox.tsx";

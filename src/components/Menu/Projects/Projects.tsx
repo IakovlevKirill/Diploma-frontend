@@ -1,13 +1,13 @@
 import React from 'react';
-import plus_icon from "../../../src/assets/images/Add_Plus.png"
-import delete_icon from "../../../src/assets/images/Trash_Full.png"
-import paperclip from "../../../src/assets/images/Paperclip_Attechment_Tilt.png"
+import plus_icon from "../../../assets/images/Add_Plus.png"
+import delete_icon from "../../../assets/images/Trash_Full.png"
+import paperclip from "../../../assets/images/Paperclip_Attechment_Tilt.png"
 import {
     useCreateProjectMutation,
     useDeleteProjectMutation,
     useGetAllProjectsQuery, useGetPinnedProjectQuery,
     usePinProjectMutation
-} from "../../api/testApi.ts";
+} from "../../../api/testApi.ts";
 import {useNavigate} from "react-router-dom";
 
 export const Projects = () => {

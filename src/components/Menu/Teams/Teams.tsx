@@ -12,7 +12,9 @@ export const Teams = () => {
 
     return (
         <div className="font-[Inter] text-[#FFF]">
-            <div className="p-[30px]">Teams</div>
+            <div className="p-[50px]">
+                <span className="font-[Inter] text-[#FFF] text-[40px]">Teams</span>
+            </div>
         </div>
     );
 };

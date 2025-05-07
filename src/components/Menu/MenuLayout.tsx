@@ -28,7 +28,7 @@ export const MenuLayout = () => {
                     <img
                         className="w-[26px] h-[26px] cursor-pointer"
                         src={logo} alt=""/>
-                    <span className="text-[#FFF] font-[Inter] font-bold text-[15px]">Nazvanie</span>
+                    <span className="text-[#FFF] font-[Inter] font-bold text-[15px]">WebNode</span>
                 </button>
             </div>
             <div className="w-[100vw] h-[95%] flex flex-row">
