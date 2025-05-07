@@ -2,7 +2,7 @@ import React from 'react';
 import plus_icon from "../../../src/assets/images/Add_Plus.png"
 import delete_icon from "../../../src/assets/images/Trash_Full.png"
 import paperclip from "../../../src/assets/images/Paperclip_Attechment_Tilt.png"
-import {useCreateProjectMutation, useGetAllProjectsQuery} from "../../api/testApi.ts";
+import {useCreateProjectMutation, useDeleteProjectMutation, useGetAllProjectsQuery} from "../../api/testApi.ts";
 import {useNavigate} from "react-router-dom";
 
 export const Projects = () => {
@@ -13,6 +13,8 @@ export const Projects = () => {
     const current_user_userId = localStorage.getItem("userId")!;
 
     const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery(current_user_userId);
+
+    const [deleteProject, { isLoading : deleteLoading}] = useDeleteProjectMutation()
 
     const onCreateProject = async () => {
         if (current_user_userId) {
@@ -31,6 +33,7 @@ export const Projects = () => {
             }
         }
     };
+
 
     if (isProjectCreationLoading || isAllProjectsLoading) {
         return (
@@ -70,29 +73,35 @@ export const Projects = () => {
                 </div>
                 <div className="flex flex-col w-full gap-[16px] mt-[56px]">
                     <div className="text-[#FFF] font-[Inter] font-semibold text-[40px]">Pinned Projects</div>
-                    <div className="flex flex-row w-full mt-[30px] gap-[25px] flex-wrap">
+                    <div className="flex flex-row w-full mt-[30px] flex-wrap" style={{ gap: "25px" }}>
                         {projectsData?.projects.map((project) => (
-                            <button
+                            <div
                                 key={project.id}
-                                onClick={() => {
-                                    navigate(`/workspace/${project.id}`)
-                                }}
-                                className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px] p-[25px] cursor-pointer border-[#515558] border-[1px] ">
+                                className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
                                 <div className="flex flex-row justify-between items-center">
-                                    <div className="flex flex-col text-left gap-[5px]">
+                                    <button
+                                        onClick={() => {
+                                            navigate(`/workspace/${project.id}`);
+                                        }}
+                                        className="p-[25px] pr-[0px] w-[70%] flex flex-col text-left gap-[5px] bg-transparent cursor-pointer border-0 p-0">
                                         <span className="text-[#FFF] font-[Inter] font-regular text-[20px]">{project.title}</span>
                                         <div className="text-[#FFF] font-[Inter] font-regular text-[12px]">Last updated - 27/04/2024</div>
-                                    </div>
-                                    <div className="flex flex-row items-center h-full gap-[24px]">
-                                        <button className="flex bg-[#171C20]  border-0 p-0 focus:outline-none cursor-pointer items-center justify-center">
+                                    </button>
+                                    <div className="w-[30%] p-[25px] pl-[0px] flex flex-row items-start justify-end h-full gap-[14px]">
+                                        <button className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
                                             <img className="w-[24px] h-[24px]" src={paperclip} alt=""/>
                                         </button>
-                                        <button className="flex bg-[#171C20] border-0 p-0 focus:outline-none cursor-pointer items-center justify-center">
+                                        <button
+                                            onClick={() => {
+                                                const id = project.id
+                                                deleteProject(id)
+                                            }}
+                                            className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
                                             <img className="w-[24px] h-[24px]" src={delete_icon} alt=""/>
                                         </button>
                                     </div>
                                 </div>
-                            </button>
+                            </div>
                         ))}
                     </div>
                     <div className="mt-[53px] w-full h-[1px] bg-[#4E5053]"></div>
@@ -103,27 +112,33 @@ export const Projects = () => {
                     <div className="text-[#FFF] font-[Inter] font-semibold text-[20px]">12/07/24</div>
                     <div className="flex flex-row w-full mt-[30px] gap-[25px] flex-wrap">
                         {projectsData?.projects.map((project) => (
-                            <button
+                            <div
                                 key={project.id}
-                                onClick={() => {
-                                    navigate(`/workspace/${project.id}`)
-                                }}
-                                className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px] p-[25px] cursor-pointer border-[#515558] border-[1px] ">
+                                className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
                                 <div className="flex flex-row justify-between items-center">
-                                    <div className="flex flex-col text-left gap-[5px]">
+                                    <button
+                                        onClick={() => {
+                                            navigate(`/workspace/${project.id}`);
+                                        }}
+                                        className="p-[25px] pr-[0px] w-[70%] flex flex-col text-left gap-[5px] bg-transparent cursor-pointer border-0 p-0">
                                         <span className="text-[#FFF] font-[Inter] font-regular text-[20px]">{project.title}</span>
                                         <div className="text-[#FFF] font-[Inter] font-regular text-[12px]">Last updated - 27/04/2024</div>
-                                    </div>
-                                    <div className="flex flex-row items-center h-full gap-[24px]">
-                                        <button className="flex bg-[#171C20]  border-0 p-0 focus:outline-none cursor-pointer items-center justify-center">
+                                    </button>
+                                    <div className="w-[30%] p-[25px] pl-[0px] flex flex-row items-start justify-end h-full gap-[14px]">
+                                        <button className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
                                             <img className="w-[24px] h-[24px]" src={paperclip} alt=""/>
                                         </button>
-                                        <button className="flex bg-[#171C20] border-0 p-0 focus:outline-none cursor-pointer items-center justify-center">
+                                        <button
+                                            onClick={() => {
+                                                const id = project.id
+                                                deleteProject(id)
+                                            }}
+                                            className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
                                             <img className="w-[24px] h-[24px]" src={delete_icon} alt=""/>
                                         </button>
                                     </div>
                                 </div>
-                            </button>
+                            </div>
                         ))}
                         <div className="w-full h-[10%]"></div>
                     </div>

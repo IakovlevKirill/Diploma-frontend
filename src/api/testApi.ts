@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {BaseQueryArg, createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {
     createProjectRequestType,
     createProjectResponseType, getAllProjectsRequestsType,
@@ -39,7 +39,7 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
-        getAllProjects: builder.query<getAllProjectsResponseType, { userId : string}>({
+        getAllProjects: builder.query<getAllProjectsResponseType, string>({
             query: (userId) => ({
                 url: `${baseUrl}/api/project/get/all?userId=${userId}`,
                 method: 'GET',
@@ -51,6 +51,12 @@ export const diplomaApi = createApi({
                 method: 'GET',
             })
         }),
+        deleteProject: builder.mutation<void, string>({
+            query: (projectId) => ({
+                url: `${baseUrl}/api/project/delete?projectId=${projectId}`,
+                method: 'DELETE',
+            })
+        }),
     }),
 });
 
@@ -60,5 +66,6 @@ export const {
     useLoginRequestMutation,
     useCreateProjectMutation,
     useGetAllProjectsQuery,
-    useGetProjectByIdQuery
+    useGetProjectByIdQuery,
+    useDeleteProjectMutation
 } = diplomaApi;
