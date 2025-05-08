@@ -1,19 +1,91 @@
 import React from 'react';
+import avatar from "../../../../src/assets/images/random_sender.png"
 
 export const Inbox = () => {
 
-    if (false) {
-        return (
-            <div className="flex flex-col font-[Inter] bg-[#131519] w-[84%] text-[#FFF] ">
-                <span className="p-[30px]">Loading...</span>
+    const NewMessage = () => {
+
+        return(
+            <div className="w-[calc(100%-30px)] items-center justify-between flex flex-row rounded-[10px] border-[#4C4D50] border-[1px] p-[15px]">
+                <div className="w-[50%] flex flex-row items-center justify-between">
+                    <div className="flex items-center flex-row gap-[10px]">
+                        <img src={avatar} alt=""/>
+                        <div className="flex flex-col">
+                            <div className="text-[#FFF] text-[16px] font-[Inter] font-semibold">User2</div>
+                            <div className="text-[#A8A8A8] text-[12px] font-[Inter] font-regular">Developer</div>
+                        </div>
+                    </div>
+                    <div className="text-[#C7C7C7] text-[24px] font-[Inter] font-regular">
+                        User 2 wants to apply for your team
+                    </div>
+                </div>
+                <div className="w-[50%] flex flex-row gap-[10px] justify-end">
+                    <button className="
+                                flex flex-row items-center gap-[8px]
+                                bg-gradient-to-b from-[#646D79] to-[#495059] text-[#FFF] font-[Inter]
+                                 font-medium text-[16px] px-[36.5px] py-[15.5px] rounded-[10px] outline-none border-[1px]
+                                  border-[#858B93] cursor-pointer">Decline
+                    </button>
+                    <button className="
+                                bg-gradient-to-b from-[#4CAF72] to-[#3E945F] text-[#FFF] font-[Inter]
+                                 font-medium text-[16px] px-[41.5px] py-[15.5px] rounded-[10px] outline-none border-[1px]
+                                  border-[#78C294] cursor-pointer">Accept
+                    </button>
+                </div>
+
             </div>
         )
     }
 
+    const ArchiveMessage = () => {
+
+        return(
+            <div className="w-[calc(100%-30px)] items-center justify-between flex flex-row rounded-[10px] border-[#4C4D50] border-[1px] p-[15px]">
+                <div className="w-[50%] flex flex-row items-center justify-between">
+                    <div className="flex items-center flex-row gap-[10px]">
+                        <img src={avatar} alt=""/>
+                        <div className="flex flex-col">
+                            <div className="text-[#FFF] text-[16px] font-[Inter] font-semibold">User2</div>
+                            <div className="text-[#A8A8A8] text-[12px] font-[Inter] font-regular">Developer</div>
+                        </div>
+                    </div>
+                    <div className="text-[#C7C7C7] text-[24px] font-[Inter] font-regular">
+                        User 2 wants to apply for your team
+                    </div>
+                </div>
+
+            </div>
+        )
+    }
+
+
+
     return (
-        <div className="font-[Inter] text-[#FFF]">
-            <div className="p-[50px]">
-                <span className="font-[Inter] text-[#FFF] text-[40px]">Inbox</span>
+        <div className="w-[84%] font-[Inter] text-[#FFF] overflow-y-scroll">
+            <div className="flex flex-col p-[50px] gap-[30px]">
+                <div className="flex flex-row justify-between">
+                    <div className="font-[Inter] text-[#FFF] text-[40px]">Inbox</div>
+                    <div className="flex flex-row gap-[5px] items-end justify-end">
+                        <div className="h-full font-[Inter] text-[#A1A1A1] font-semibold text-[24px]">тут доделать</div>
+                        <div className="h-full font-[Inter] text-[#FFF] font-semibold text-[32px]">7</div>
+                    </div>
+                </div>
+                <div className="flex flex-row gap-[13px]">
+                    <input type="checkbox"/>
+                    <label htmlFor="">Show only unread (7/165)</label>
+                </div>
+                <div className="font-[Inter] font-semibold text-[#FFF] text-[40px] ">New</div>
+                <div className="flex flex-col gap-[13px]">
+                    <NewMessage></NewMessage>
+                    <NewMessage></NewMessage>
+                    <NewMessage></NewMessage>
+                </div>
+                <div className="font-[Inter] font-semibold text-[#FFF] text-[40px] ">Archive</div>
+                <div className="flex flex-col gap-[30px]">
+                    <ArchiveMessage></ArchiveMessage>
+
+
+                </div>
             </div>
         </div>
     );

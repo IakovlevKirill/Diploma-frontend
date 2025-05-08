@@ -89,7 +89,7 @@ export const Auth = () => {
     };
 
     return (
-        <div className="h-screen w-screen items-center justify-center flex flex-col bg-[url('src/assets/images/bg.png')]">
+        <div className="h-screen w-screen items-center justify-center flex flex-col bg-gradient-to-t from-[#65CBE2] to-[#1D2237]">
             <form
                 hidden={authFuncType == 'register'}
                 onSubmit={handleSubmit}>
