@@ -1,9 +1,17 @@
 import React from 'react';
 import avatar_example from "../../../assets/images/avatar_example.png";
-import polygon_sidebar_open from "../../../assets/images/polygon_sidebar_open.png";
 import mail from "../../../assets/images/Mail.png";
+import { useNavigate } from 'react-router-dom';
 
 export const Profile = () => {
+
+    const navigate = useNavigate();
+
+    const OnLogout = () => {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userId');
+        navigate('/auth');
+    };
 
     return (
         <div className="w-[50%] font-[Inter] text-[#FFF]">
@@ -18,6 +26,13 @@ export const Profile = () => {
                                 <div className="text-[#A8A9AC] font-[Inter] font-regular text-[12px]">Maintainer</div>
                             </div>
                         </div>
+                        <button
+                            onClick={OnLogout}
+                            className="bg-gradient-to-b from-[#646D79] to-[#495059] text-[#FFF] font-[Inter]
+                                 font-medium text-[16px] px-[41.5px] py-[15.5px] rounded-[10px] outline-none border-[1px]
+                                  border-[#838992] cursor-pointer">
+                            Logout
+                        </button>
                     </div>
                 </div>
                 <div className="flex flex-row rounded-[10px] bg-[#161A1E] border-[1px] p-[30px] border-[#505356]">

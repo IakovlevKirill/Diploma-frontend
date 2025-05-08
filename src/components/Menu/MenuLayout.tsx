@@ -10,12 +10,6 @@ export const MenuLayout = () => {
 
     const navigate = useNavigate();
 
-    const OnLogout = () => {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userId');
-        navigate('/auth');
-    };
-
     const LayoutBar = () => {
         return(
             <div className="w-screen min-h-[50px] h-[5vh] bg-[#0D0E11] border-b-[1px] border-[#535558]">
