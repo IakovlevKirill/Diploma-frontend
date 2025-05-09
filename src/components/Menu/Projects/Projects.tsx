@@ -53,32 +53,28 @@ export const Projects = () => {
             <div className="flex w-[calc(100%-100px)] h-[calc(100%-100px)] p-[50px] overflow-y-scroll ">
                 <div className="w-[80%] flex flex-col">
                     <div className="flex flex-col w-full gap-[16px]">
-                        <div className="text-[#FFF] font-[Inter] font-semibold text-[40px]">Templates</div>
+                        <div className="text-[#FFF] font-[Inter-semibold]  text-[40px]">Templates</div>
                         <div className="flex flex-row gap-[25px]">
-
                             <button
-
-                                className="w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px] text-[#FFF] font-[Inter] font-semibold rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer">
+                                className="w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px] text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer">
                                 <div>Create new project</div>
                                 <img src={plus_icon} alt=""/>
                             </button>
-
                             <div className="w-[calc(50%-12.5px)] gap-[25px] flex flex-row justify-between">
                                 <div className="flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
-                                    <div className="text-[#FFF] font-[Inter] font-medium text-[16px] ">Template 1</div>
+                                    <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 1</div>
                                 </div>
                                 <div className="flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
-                                    <div className="text-[#FFF] font-[Inter] font-medium text-[16px] ">Template 2</div>
+                                    <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 2</div>
                                 </div>
                                 <div className="flex w-[calc(33.4%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
-                                    <div className="text-[#FFF] font-[Inter] font-medium text-[16px] ">Template 3</div>
+                                    <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 3</div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div className="flex flex-col w-full gap-[16px] mt-[56px]">
-                        <div className="text-[#FFF] font-[Inter] font-semibold text-[40px]">Pinned Projects</div>
+                        <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Pinned Projects</div>
                         <div className="flex flex-row w-full mt-[30px] flex-wrap" style={{ gap: "25px" }}>
                             {pinnedProjectsData?.projects.map((project) => (
                                 <div
@@ -90,8 +86,8 @@ export const Projects = () => {
                                                 navigate(`/workspace/${project.id}`);
                                             }}
                                             className="p-[25px] pr-[0px] w-[70%] flex flex-col text-left gap-[5px] bg-transparent cursor-pointer border-0 p-0">
-                                            <span className="text-[#FFF] font-[Inter] font-regular text-[20px]">{project.title}</span>
-                                            <div className="text-[#FFF] font-[Inter] font-regular text-[12px]">Last updated - {new Date(project.updatedAt).toLocaleDateString('en-GB')}</div>
+                                            <span className="text-[#FFF] font-[Inter-normal] text-[20px]">{project.title}</span>
+                                            <div className="text-[#FFF] font-[Inter-normal] text-[12px]">Last updated - {new Date(project.updatedAt).toLocaleDateString('en-GB')}</div>
                                         </button>
                                         <div className="w-[30%] p-[25px] pl-[0px] flex flex-row items-start justify-end h-full gap-[14px]">
                                             <button
@@ -117,8 +113,8 @@ export const Projects = () => {
                         <div className="mt-[53px] w-full h-[1px] bg-[#4E5053]"></div>
                     </div>
                     <div className="flex flex-col w-full gap-[16px] mt-[56px] ">
-                        <div className="text-[#FFF] font-[Inter] font-semibold text-[40px]">Latest Projects</div>
-                        <div className="text-[#FFF] font-[Inter] font-semibold text-[20px]">12/07/24</div>
+                        <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Latest Projects</div>
+                        <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">12/07/24</div>
                         <div className="flex flex-row w-full mt-[30px] gap-[25px] flex-wrap">
                             {projectsData?.projects.map((project) => (
                                 <div
@@ -130,8 +126,8 @@ export const Projects = () => {
                                                 navigate(`/workspace/${project.id}`);
                                             }}
                                             className="p-[25px] pr-[0px] w-[70%] flex flex-col text-left gap-[5px] bg-transparent cursor-pointer border-0 p-0">
-                                            <span className="text-[#FFF] font-[Inter] font-regular text-[20px]">{project.title}</span>
-                                            <div className="text-[#FFF] font-[Inter] font-regular text-[12px]">Last updated - {new Date(project.updatedAt).toLocaleDateString('en-GB')}</div>
+                                            <span className="text-[#FFF] font-[Inter-normal] text-[20px]">{project.title}</span>
+                                            <div className="text-[#FFF] font-[Inter-normal] text-[12px]">Last updated - {new Date(project.updatedAt).toLocaleDateString('en-GB')}</div>
                                         </button>
                                         <div className="w-[30%] p-[25px] pl-[0px] flex flex-row items-start justify-end h-full gap-[14px]">
                                             <button

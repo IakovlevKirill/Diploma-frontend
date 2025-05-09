@@ -48,7 +48,7 @@ export const WorkSpace = () => {
                 transition={{ delay: 0.1 }}
                 className="h-[95%] w-[100vw] flex items-center justify-center"
             >
-                <div className="font-[Inter] text-[#FFF] ">
+                <div className="font-[Inter-semibold] text-[#FFF] ">
                     WorkSpace пока что в разработке
                 </div>
             </motion.div>

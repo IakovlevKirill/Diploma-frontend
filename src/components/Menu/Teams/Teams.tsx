@@ -12,7 +12,7 @@ export const Teams = () => {
         >
             <div className="font-[Inter] text-[#FFF] ">
                 <div className="p-[50px]">
-                    <span className="font-[Inter] text-[#FFF] text-[40px]">Teams</span>
+                    <span className="font-[Inter-semibold] text-[#FFF] text-[40px]">Teams</span>
                 </div>
             </div>
         </motion.div>
