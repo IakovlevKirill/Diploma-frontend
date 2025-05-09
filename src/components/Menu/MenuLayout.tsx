@@ -3,6 +3,10 @@ import team_icon from "../../assets/images/team_icon.png"
 import logo from "../../assets/images/logo.png"
 import avatar_example from "../../assets/images/avatar_example.png"
 import user_group from "../../assets/images/Users_Group.png"
+import inbox from "../../assets/images/inbox_icon_white.png"
+import team from "../../assets/images/team_icon_white.png"
+import template from "../../assets/images/templates_icon_white.png"
+import project from "../../assets/images/project_icon_white.png"
 import polygon_sidebar_open from "../../assets/images/polygon_sidebar_open.png"
 import {Outlet, useNavigate} from "react-router-dom";
 
@@ -49,7 +53,7 @@ export const MenuLayout = () => {
                                 navigate('/projects')
                             }}
                             className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={user_group} alt=""/>
+                            <img className="w-[24px] h-[24px]" src={project} alt=""/>
                             <div className="text-[#FFF] font-[Inter] font-medium text-[16px]">Projects</div>
                         </button>
                         <button
@@ -57,7 +61,7 @@ export const MenuLayout = () => {
                                 navigate('/inbox')
                             }}
                             className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={mail} alt=""/>
+                            <img className="w-[24px] h-[24px]" src={inbox} alt=""/>
                             <div className="text-[#FFF] font-[Inter] font-medium text-[16px]">Inbox</div>
                         </button>
                         <button
@@ -65,7 +69,7 @@ export const MenuLayout = () => {
                                 navigate('/teams')
                             }}
                             className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={team_icon} alt=""/>
+                            <img className="w-[24px] h-[24px]" src={team} alt=""/>
                             <div className="text-[#FFF] font-[Inter] font-medium text-[16px]">Teams</div>
                         </button>
                         <button
@@ -73,7 +77,7 @@ export const MenuLayout = () => {
                                 navigate('/templates')
                             }}
                             className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={user_group} alt=""/>
+                            <img className="w-[24px] h-[24px]" src={template} alt=""/>
                             <div className="text-[#FFF] font-[Inter] font-medium text-[16px]">Templates</div>
                         </button>
                     </div>
