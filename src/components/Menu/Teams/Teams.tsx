@@ -1,12 +1,20 @@
 import React from 'react';
+import {motion} from "framer-motion";
 
 export const Teams = () => {
 
     return (
-        <div className="w-[84%] font-[Inter] text-[#FFF] ">
-            <div className="p-[50px]">
-                <span className="font-[Inter] text-[#FFF] text-[40px]">Teams</span>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="flex-1"
+        >
+            <div className="w-[84%] font-[Inter] text-[#FFF] ">
+                <div className="p-[50px]">
+                    <span className="font-[Inter] text-[#FFF] text-[40px]">Teams</span>
+                </div>
             </div>
-        </div>
+        </motion.div>
     );
 };

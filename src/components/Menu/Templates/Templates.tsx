@@ -1,6 +1,7 @@
 import React from 'react';
 import github from "../../../../src/assets/images/github.png"
 import edit_icon from '../../../../src/assets/images/Edit_Pencil_01.png'
+import {motion} from "framer-motion";
 
 export const Templates = () => {
 
@@ -45,20 +46,27 @@ export const Templates = () => {
     }
 
     return (
-        <div className="w-[84%] font-[Inter] flex flex-row text-[#FFF]">
-            <div className="p-[50px] w-[75%]">
-                <span className="font-[Inter] text-[#FFF] text-[40px]">Templates</span>
-                <div className="flex flex-wrap w-[100%] gap-[30px] mt-[56px]">
-                    <TemplateComponent></TemplateComponent>
-                    <TemplateComponent></TemplateComponent>
-                    <TemplateComponent></TemplateComponent>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="flex-1"
+        >
+            <div className="w-[84%] font-[Inter] flex flex-row text-[#FFF]">
+                <div className="p-[50px] w-[75%]">
+                    <span className="font-[Inter] text-[#FFF] text-[40px]">Templates</span>
+                    <div className="flex flex-wrap w-[100%] gap-[30px] mt-[56px]">
+                        <TemplateComponent></TemplateComponent>
+                        <TemplateComponent></TemplateComponent>
+                        <TemplateComponent></TemplateComponent>
+
+                    </div>
+                </div>
+                <div className="w-[25%]">
 
                 </div>
             </div>
-            <div className="w-[25%]">
-
-            </div>
-        </div>
+        </motion.div>
     );
 };
 

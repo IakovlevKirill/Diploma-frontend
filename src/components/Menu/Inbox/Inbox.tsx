@@ -1,5 +1,6 @@
 import React from 'react';
 import avatar from "../../../../src/assets/images/random_sender.png"
+import {motion} from "framer-motion";
 
 export const Inbox = () => {
 
@@ -61,32 +62,39 @@ export const Inbox = () => {
 
 
     return (
-        <div className="w-[84%] font-[Inter] text-[#FFF] overflow-y-scroll">
-            <div className="flex flex-col p-[50px] gap-[30px]">
-                <div className="flex flex-row justify-between">
-                    <div className="font-[Inter] text-[#FFF] text-[40px]">Inbox</div>
-                    <div className="flex flex-row gap-[5px] items-end justify-end">
-                        <div className="h-full font-[Inter] text-[#A1A1A1] font-semibold text-[24px]">тут доделать</div>
-                        <div className="h-full font-[Inter] text-[#FFF] font-semibold text-[32px]">7</div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="w-[84%]  overflow-y-scroll"
+        >
+            <div className="font-[Inter] text-[#FFF]">
+                <div className="flex flex-col p-[50px] gap-[30px]">
+                    <div className="flex flex-row justify-between">
+                        <div className="font-[Inter] text-[#FFF] text-[40px]">Inbox</div>
+                        <div className="flex flex-row gap-[5px] items-end justify-end">
+                            <div className="h-full font-[Inter] text-[#A1A1A1] font-semibold text-[24px]">тут доделать</div>
+                            <div className="h-full font-[Inter] text-[#FFF] font-semibold text-[32px]">7</div>
+                        </div>
+                    </div>
+                    <div className="flex flex-row gap-[13px]">
+                        <input type="checkbox"/>
+                        <label htmlFor="">Show only unread (7/165)</label>
+                    </div>
+                    <div className="font-[Inter] font-semibold text-[#FFF] text-[40px] ">New</div>
+                    <div className="flex flex-col gap-[13px]">
+                        <NewMessage></NewMessage>
+                        <NewMessage></NewMessage>
+                        <NewMessage></NewMessage>
+                    </div>
+                    <div className="font-[Inter] font-semibold text-[#FFF] text-[40px] ">Archive</div>
+                    <div className="flex flex-col gap-[30px]">
+                        <ArchiveMessage></ArchiveMessage>
+
+
                     </div>
                 </div>
-                <div className="flex flex-row gap-[13px]">
-                    <input type="checkbox"/>
-                    <label htmlFor="">Show only unread (7/165)</label>
-                </div>
-                <div className="font-[Inter] font-semibold text-[#FFF] text-[40px] ">New</div>
-                <div className="flex flex-col gap-[13px]">
-                    <NewMessage></NewMessage>
-                    <NewMessage></NewMessage>
-                    <NewMessage></NewMessage>
-                </div>
-                <div className="font-[Inter] font-semibold text-[#FFF] text-[40px] ">Archive</div>
-                <div className="flex flex-col gap-[30px]">
-                    <ArchiveMessage></ArchiveMessage>
-
-
-                </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
