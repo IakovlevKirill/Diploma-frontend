@@ -71,6 +71,13 @@ export const diplomaApi = createApi({
                 method: 'GET',
             })
         }),
+        changeUserPassword: builder.mutation<void, {userId: string, new_password: string, old_password: string}>({
+            query: arg => ({
+                url: `${baseUrl}/api/user/change/password`,
+                method: 'POST',
+                body: arg
+            })
+        }),
     }),
 });
 
@@ -83,5 +90,6 @@ export const {
     useGetProjectByIdQuery,
     useDeleteProjectMutation,
     usePinProjectMutation,
-    useGetPinnedProjectQuery
+    useGetPinnedProjectQuery,
+    useChangeUserPasswordMutation,
 } = diplomaApi;

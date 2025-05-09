@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {FormEvent, useState} from 'react';
 import avatar_example from "../../../assets/images/avatar_example.png";
 import mail from "../../../assets/images/Mail.png";
 import {useNavigate} from 'react-router-dom';
 import {motion} from "framer-motion";
+import {useChangeUserPasswordMutation} from "../../../api/testApi.ts";
 
 export const Profile = () => {
+
+    const [changePassword] = useChangeUserPasswordMutation()
 
     const navigate = useNavigate();
 
@@ -12,6 +15,50 @@ export const Profile = () => {
         localStorage.removeItem('authToken');
         localStorage.removeItem('userId');
         navigate('/auth');
+    };
+
+    const [formValues, setFormValues] = useState({
+        old_password: '',
+        new_password: '',
+        new_password_confirm: '',
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setFormValues(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const OnChangePassword = async (values: {
+        old_password: string,
+        new_password: string,
+    }) => {
+        const userId = localStorage.getItem('userId')
+        if (userId) {
+            try {
+                const response = await changePassword({
+                    userId: userId,
+                    old_password: values.old_password,
+                    new_password: values.new_password,
+                }).unwrap()
+                if (response) {
+                    console.log('success');
+                } else {
+                    console.log('error');
+                }
+            } catch (error) {
+                console.log('Произошла ошибка при регистрации');
+                console.error(error);
+            }
+
+        }
+    }
+
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        OnChangePassword(formValues);
     };
 
     return (
@@ -43,7 +90,9 @@ export const Profile = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="flex flex-row rounded-[10px] bg-[#161A1E] border-[1px] p-[30px] border-[#505356]">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="flex flex-row rounded-[10px] bg-[#161A1E] border-[1px] p-[30px] border-[#505356]">
                         <div className="flex flex-col w-[50%] ">
                             <div className="flex flex-col">
                                 <div className="text-[#FFF] font-[Inter-semibold] text-[16px] py-[14px]">Old password</div>
@@ -55,6 +104,8 @@ export const Profile = () => {
                                     <input
                                         name="old_password"
                                         type="text"
+                                        value={formValues.old_password}
+                                        onChange={handleInputChange}
                                         placeholder="old password"
                                         className="flex px-[12px] py-[8px] border-[1px] rounded-l-none  border-[#575f69] rounded-[10px]
                                      bg-[#1F2A37] text-[#FFF] font-[Inter-semibold] text-[20px] focus:outline-none">
@@ -71,6 +122,8 @@ export const Profile = () => {
                                     <input
                                         name="new_password"
                                         type="text"
+                                        value={formValues.new_password}
+                                        onChange={handleInputChange}
                                         placeholder="new password"
                                         className="flex px-[12px] py-[8px] border-[1px] rounded-l-none  border-[#575f69] rounded-[10px]
                                      bg-[#1F2A37] text-[#FFF] font-[Inter-semibold] text-[20px] focus:outline-none">
@@ -87,6 +140,8 @@ export const Profile = () => {
                                     <input
                                         name="new_password_confirm"
                                         type="text"
+                                        value={formValues.new_password_confirm}
+                                        onChange={handleInputChange}
                                         placeholder="new password"
                                         className="flex px-[12px] py-[8px] border-[1px] rounded-l-none  border-[#575f69] rounded-[10px]
                                      bg-[#1F2A37] text-[#FFF] font-[Inter-semibold] text-[20px] focus:outline-none">
@@ -96,14 +151,16 @@ export const Profile = () => {
                         </div>
                         <div className="flex flex-col w-[50%] items-end justify-end">
                             <div>
-                                <button className="
+                                <button
+                                    htmlType="submit"
+                                    className="
                                 bg-gradient-to-b from-[#4CAF72] to-[#3E945F] text-[#FFF]
                                  font-[Inter-medium] text-[16px] px-[41.5px] py-[15.5px] rounded-[10px] outline-none border-[1px]
                                   border-[#78C294] cursor-pointer">Save
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </motion.div>
