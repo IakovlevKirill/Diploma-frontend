@@ -57,16 +57,16 @@ export const Projects = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="w-[84%] overflow-y-scroll bg-[#131519]"
+            className="w-[84%] h-[95vh] overflow-y-scroll bg-[#131519]"
         >
             <div className="flex flex-row">
-                <div className="w-[83%] p-[50px]  flex flex-col">
+                <div className="w-[83%] p-[50px] flex flex-col">
                     <div className="flex flex-col w-full gap-[16px]">
                         <div className="text-[#FFF] font-[Inter] font-semibold text-[40px]">Templates</div>
                         <div className="flex flex-row gap-[25px]">
 
                             <button
-                                onClick={onCreateProject}
+
                                 className="w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px] text-[#FFF] font-[Inter] font-semibold rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer">
                                 <div>Create new project</div>
                                 <img src={plus_icon} alt=""/>
@@ -125,7 +125,6 @@ export const Projects = () => {
                         </div>
                         <div className="mt-[53px] w-full h-[1px] bg-[#4E5053]"></div>
                     </div>
-
                     <div className="flex flex-col w-full gap-[16px] mt-[56px] ">
                         <div className="text-[#FFF] font-[Inter] font-semibold text-[40px]">Latest Projects</div>
                         <div className="text-[#FFF] font-[Inter] font-semibold text-[20px]">12/07/24</div>
@@ -167,7 +166,16 @@ export const Projects = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-[17%]"></div>
+                <div className="w-[17%]">
+
+                </div>
+                {/*
+                <div className=" h-[95vh] flex flex-col bg-[#191C21] items-center  border-[#515558] border-l-[1px] px-[30px] p-[50px] w-[17%]">
+                    <div className="text-[#FFF] font-[Inter] font-bold text-[32px]">
+                        Create Project
+                    </div>
+                </div>
+                */}
             </div>
         </motion.div>
     );

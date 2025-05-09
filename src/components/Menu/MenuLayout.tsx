@@ -1,35 +1,15 @@
-import mail from "../../assets/images/mail_icon.png"
-import team_icon from "../../assets/images/team_icon.png"
-import logo from "../../assets/images/logo.png"
 import avatar_example from "../../assets/images/avatar_example.png"
-import user_group from "../../assets/images/Users_Group.png"
 import inbox from "../../assets/images/inbox_icon_white.png"
 import team from "../../assets/images/team_icon_white.png"
 import template from "../../assets/images/templates_icon_white.png"
 import project from "../../assets/images/project_icon_white.png"
 import polygon_sidebar_open from "../../assets/images/polygon_sidebar_open.png"
 import {Outlet, useNavigate} from "react-router-dom";
+import { LayoutBar } from "../LayoutBar"
 
 export const MenuLayout = () => {
 
     const navigate = useNavigate();
-
-    const LayoutBar = () => {
-        return(
-            <div className="w-screen min-h-[50px] h-[5vh] bg-[#0D0E11] border-b-[1px] border-[#535558]">
-                <button
-                    className="h-full px-[30px] gap-[20px] flex flex-row items-center bg-[#0D0E11] focus:outline-none border-0 cursor-pointer"
-                    onClick={()=>{
-                        navigate('/projects');
-                    }}>
-                    <img
-                        className="w-[26px] h-[26px] cursor-pointer"
-                        src={logo} alt=""/>
-                    <span className="text-[#FFF] font-[Inter] font-bold text-[15px]">WebNode</span>
-                </button>
-            </div>
-        )
-    }
 
     const LayoutSidebar = () => {
         return(
@@ -101,7 +81,7 @@ export const MenuLayout = () => {
     }
 
     return (
-        <div className="flex flex-col w-[100vw] h-[100vh]">
+        <div className="flex flex-col overflow-hidden w-[100vw] h-[100vh]">
             <LayoutBar></LayoutBar>
             <div className="w-[100vw] h-[95vh] flex flex-row">
                 <LayoutSidebar></LayoutSidebar>
