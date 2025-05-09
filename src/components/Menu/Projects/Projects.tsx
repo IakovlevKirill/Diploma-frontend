@@ -43,24 +43,15 @@ export const Projects = () => {
         }
     };
 
-
-    if (isProjectCreationLoading || isAllProjectsLoading || deleteLoading) {
-        return (
-            <div className="flex flex-col font-[Inter] bg-[#131519] w-[84%] text-[#FFF] ">
-                <span className="p-[30px]">Loading...</span>
-            </div>
-        )
-    }
-
     return (
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="w-[84%] h-[95vh] overflow-y-scroll bg-[#131519]"
+            className="flex w-full h-full"
         >
-            <div className="flex flex-row">
-                <div className="w-[83%] p-[50px] flex flex-col">
+            <div className="flex w-[calc(100%-100px)] h-[calc(100%-100px)] p-[50px] overflow-y-scroll ">
+                <div className="w-[80%] flex flex-col">
                     <div className="flex flex-col w-full gap-[16px]">
                         <div className="text-[#FFF] font-[Inter] font-semibold text-[40px]">Templates</div>
                         <div className="flex flex-row gap-[25px]">
@@ -166,16 +157,6 @@ export const Projects = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-[17%]">
-
-                </div>
-                {/*
-                <div className=" h-[95vh] flex flex-col bg-[#191C21] items-center  border-[#515558] border-l-[1px] px-[30px] p-[50px] w-[17%]">
-                    <div className="text-[#FFF] font-[Inter] font-bold text-[32px]">
-                        Create Project
-                    </div>
-                </div>
-                */}
             </div>
         </motion.div>
     );

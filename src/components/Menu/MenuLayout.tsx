@@ -13,7 +13,7 @@ export const MenuLayout = () => {
 
     const LayoutSidebar = () => {
         return(
-            <div className="flex flex-col h-[100%] items-center w-[calc(16%-1px)%] bg-[#191C21] border-r-[1px] border-[#535558]">
+            <div className="flex flex-col h-[100%] w-full items-center bg-[#191C21] border-r-[1px] border-[#535558]">
                 <div className="flex flex-col h-full">
                     <div className="flex flex-col w-full">
                         <div className="flex text-[#FFF] font-[Inter] font-regular text-[15px] pt-[30px] px-[30px]">Search projects</div>
@@ -84,8 +84,12 @@ export const MenuLayout = () => {
         <div className="flex flex-col overflow-hidden w-[100vw] h-[100vh]">
             <LayoutBar></LayoutBar>
             <div className="w-[100vw] h-[95vh] flex flex-row">
-                <LayoutSidebar></LayoutSidebar>
-                <Outlet></Outlet>
+                <div className="w-[16%] h-[95vh]">
+                    <LayoutSidebar></LayoutSidebar>
+                </div>
+                <div className="w-[calc(84%-1px)] h-[95vh]">
+                    <Outlet></Outlet>
+                </div>
             </div>
         </div>
     );

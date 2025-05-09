@@ -8,9 +8,9 @@ export const Teams = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="flex-1"
+            className="w-full"
         >
-            <div className="w-[84%] font-[Inter] text-[#FFF] ">
+            <div className="font-[Inter] text-[#FFF] ">
                 <div className="p-[50px]">
                     <span className="font-[Inter] text-[#FFF] text-[40px]">Teams</span>
                 </div>

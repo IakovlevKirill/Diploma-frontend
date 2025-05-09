@@ -66,7 +66,7 @@ export const Inbox = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="w-[84%]  overflow-y-scroll"
+            className="w-full overflow-y-scroll"
         >
             <div className="font-[Inter] text-[#FFF]">
                 <div className="flex flex-col p-[50px] gap-[30px]">

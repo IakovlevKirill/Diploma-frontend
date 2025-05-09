@@ -19,7 +19,7 @@ export const Profile = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="flex-1"
+            className="w-full"
         >
             <div className="w-[50%] font-[Inter] text-[#FFF]">
                 <div className="p-[50px] flex flex-col gap-[20px]">
