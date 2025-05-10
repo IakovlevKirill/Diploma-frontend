@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useLoginRequestMutation, useRegisterRequestMutation} from "../../api/testApi.ts";
 import React, {FormEvent, useState} from "react"; // Добавлен импорт useState и FormEvent
-import mail from "../../assets/images/Mail.png"
+import mail from "../../../src/assets/images/Mail.png"
 import {motion} from "framer-motion";
 
 export const Auth = () => {
