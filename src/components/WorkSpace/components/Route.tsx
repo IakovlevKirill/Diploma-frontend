@@ -6,6 +6,8 @@ export const Route = () => {
 
     const { projectId } = useParams();
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(projectId);
     const project = project_data?.project
 

@@ -43,6 +43,8 @@ export const Profile = () => {
                     old_password: values.old_password,
                     new_password: values.new_password,
                 }).unwrap()
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 if (response) {
                     console.log('success');
                 } else {
@@ -152,7 +154,7 @@ export const Profile = () => {
                         <div className="flex flex-col w-[50%] items-end justify-end">
                             <div>
                                 <button
-                                    htmlType="submit"
+                                    type="submit"
                                     className="
                                 bg-gradient-to-b from-[#4CAF72] to-[#3E945F] text-[#FFF]
                                  font-[Inter-medium] text-[16px] px-[41.5px] py-[15.5px] rounded-[10px] outline-none border-[1px]

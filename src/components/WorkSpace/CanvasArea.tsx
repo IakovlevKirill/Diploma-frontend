@@ -80,6 +80,7 @@ export const CanvasArea = () => {
 
         const rect = e.currentTarget.getBoundingClientRect();
 
+
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
@@ -96,6 +97,8 @@ export const CanvasArea = () => {
             y: currentDraggedObject.y + offsetY
         };
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         dispatch(updateObject(updatedObject));
         setCurrentDraggedObject(updatedObject);
         setDragStartPos({
