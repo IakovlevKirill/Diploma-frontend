@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useLoginRequestMutation, useRegisterRequestMutation} from "../../api/testApi.ts";
 import React, {FormEvent, useState} from "react"; // Добавлен импорт useState и FormEvent
-import mail from "../../../src/assets/images/Mail.png"
+import {images} from '../../assets/images/images'
 import {motion} from "framer-motion";
 
 export const Auth = () => {
@@ -118,7 +118,7 @@ export const Auth = () => {
                                 <div className="text-[#FFF] font-[Inter-semibold] text-[16px] py-[14px]">Email</div>
                                 <div className="flex flex-row">
                                     <div className="p-[12px] border-[#575F69] rounded-[10px] rounded-r-none border-r-0 border-[1px] bg-[#1F2A37] flex items-center justify-center cursor-pointer">
-                                        <img src={mail} alt=""/>
+                                        <img src={images.mail} alt=""/>
                                     </div>
                                     <input
                                         name="email"
@@ -135,7 +135,7 @@ export const Auth = () => {
                                 <div className="text-[#FFF] font-[Inter-semibold] text-[16px] py-[14px]">Password</div>
                                 <div className="flex flex-row">
                                     <div className="p-[12px] border-[#575F69] rounded-[10px] rounded-r-none border-r-0 border-[1px] bg-[#1F2A37] flex items-center justify-center cursor-pointer">
-                                        <img src={mail} alt=""/>
+                                        <img src={images.mail} alt=""/>
                                     </div>
                                     <input
                                         name="password"
@@ -180,7 +180,7 @@ export const Auth = () => {
                                 <div className="text-[#FFF] font-[Inter-semibold] text-[16px] py-[14px]">Email</div>
                                 <div className="flex flex-row">
                                     <div className="p-[12px] border-[#575F69] rounded-[10px] rounded-r-none border-r-0 border-[1px] bg-[#1F2A37] flex items-center justify-center cursor-pointer">
-                                        <img src={mail} alt=""/>
+                                        <img src={images.mail} alt=""/>
                                     </div>
                                     <input
                                         name="email"
@@ -196,7 +196,7 @@ export const Auth = () => {
                                 <div className="text-[#FFF] font-[Inter-semibold] text-[16px] py-[14px]">Password</div>
                                 <div className="flex flex-row">
                                     <div className="p-[12px] border-[#575F69] rounded-[10px] rounded-r-none border-r-0 border-[1px] bg-[#1F2A37] flex items-center justify-center cursor-pointer">
-                                        <img src={mail} alt=""/>
+                                        <img src={images.mail} alt=""/>
                                     </div>
                                     <input
                                         name="password"
@@ -213,7 +213,7 @@ export const Auth = () => {
                                 <div className="text-[#FFF] font-[Inter-semibold] text-[16px] py-[14px]">Confirm password</div>
                                 <div className="flex flex-row">
                                     <div className="p-[12px] border-[#575F69] rounded-[10px] rounded-r-none border-r-0 border-[1px] bg-[#1F2A37] flex items-center justify-center cursor-pointer">
-                                        <img src={mail} alt=""/>
+                                        <img src={images.mail} alt=""/>
                                     </div>
                                     <input
                                         name="password_confirmation"
