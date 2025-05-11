@@ -1,9 +1,4 @@
-import avatar_example from "../../assets/images/avatar_example.png"
-import inbox from "../../assets/images/inbox_icon_white.png"
-import team from "../../assets/images/team_icon_white.png"
-import template from "../../assets/images/templates_icon_white.png"
-import project from "../../assets/images/project_icon_white.png"
-import polygon_sidebar_open from "../../assets/images/polygon_sidebar_open.png"
+import {images} from "../../assets/images/images"
 import {Outlet, useNavigate} from "react-router-dom";
 import { LayoutBar } from "../LayoutBar"
 
@@ -33,7 +28,7 @@ export const MenuLayout = () => {
                                 navigate('/projects')
                             }}
                             className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={project} alt=""/>
+                            <img className="w-[24px] h-[24px]" src={images.project_icon_white} alt=""/>
                             <div className="text-[#FFF] font-[Inter-medium]  text-[16px]">Projects</div>
                         </button>
                         <button
@@ -41,7 +36,7 @@ export const MenuLayout = () => {
                                 navigate('/inbox')
                             }}
                             className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={inbox} alt=""/>
+                            <img className="w-[24px] h-[24px]" src={images.inbox_icon_white} alt=""/>
                             <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Inbox</div>
                         </button>
                         <button
@@ -49,7 +44,7 @@ export const MenuLayout = () => {
                                 navigate('/teams')
                             }}
                             className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={team} alt=""/>
+                            <img className="w-[24px] h-[24px]" src={images.team_icon_white} alt=""/>
                             <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Teams</div>
                         </button>
                         <button
@@ -57,7 +52,7 @@ export const MenuLayout = () => {
                                 navigate('/templates')
                             }}
                             className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={template} alt=""/>
+                            <img className="w-[24px] h-[24px]" src={images.templates_icon_white} alt=""/>
                             <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Templates</div>
                         </button>
                     </div>
@@ -68,13 +63,13 @@ export const MenuLayout = () => {
                     }}
                     className="cursor-pointer flex flex-row w-full justify-between items-center py-[18px] border-t-[1px] border-[#535558] bg-[#191C21] border-[0px] focus:outline-none">
                     <div className="flex flex-row gap-[14px] items-center pl-[25px] ">
-                        <img src={avatar_example} alt=""/>
+                        <img src={images.avatar_example} alt=""/>
                         <div className="flex flex-col">
                             <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">Steve Jobs</div>
                             <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">Maintainer</div>
                         </div>
                     </div>
-                    <img className="pr-[12px]" src={polygon_sidebar_open} alt=""/>
+                    <img className="pr-[12px]" src={images.polygon_sidebar_open} alt=""/>
                 </button>
             </div>
         )

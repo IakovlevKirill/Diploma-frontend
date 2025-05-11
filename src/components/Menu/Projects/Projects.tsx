@@ -1,7 +1,4 @@
-import React from 'react';
-import plus_icon from "../../../assets/images/Add_Plus.png"
-import delete_icon from "../../../assets/images/Trash_Full.png"
-import paperclip from "../../../assets/images/Paperclip_Attechment_Tilt.png"
+import {images} from "../../../assets/images/images"
 import {
     useCreateProjectMutation,
     useDeleteProjectMutation,
@@ -58,7 +55,7 @@ export const Projects = () => {
                             <button
                                 className="w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px] text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer">
                                 <div>Create new project</div>
-                                <img src={plus_icon} alt=""/>
+                                <img src={images.Add_Plus} alt=""/>
                             </button>
                             <div className="w-[calc(50%-12.5px)] gap-[25px] flex flex-row justify-between">
                                 <div className="flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
@@ -95,7 +92,7 @@ export const Projects = () => {
                                                     pinProject({projectId: project.id})
                                                 }}
                                                 className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
-                                                <img className="w-[24px] h-[24px]" src={paperclip} alt=""/>
+                                                <img className="w-[24px] h-[24px]" src={images.Paperclip_Attechment_Tilt} alt=""/>
                                             </button>
                                             <button
                                                 onClick={() => {
@@ -103,7 +100,7 @@ export const Projects = () => {
                                                     deleteProject(id)
                                                 }}
                                                 className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
-                                                <img className="w-[24px] h-[24px]" src={delete_icon} alt=""/>
+                                                <img className="w-[24px] h-[24px]" src={images.Trash_Full} alt=""/>
                                             </button>
                                         </div>
                                     </div>
@@ -135,7 +132,7 @@ export const Projects = () => {
                                                     pinProject({projectId: project.id})
                                                 }}
                                                 className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
-                                                <img className="w-[24px] h-[24px]" src={paperclip} alt=""/>
+                                                <img className="w-[24px] h-[24px]" src={images.Paperclip_Attechment_Tilt} alt=""/>
                                             </button>
                                             <button
                                                 onClick={() => {
@@ -143,7 +140,7 @@ export const Projects = () => {
                                                     deleteProject(id)
                                                 }}
                                                 className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
-                                                <img className="w-[24px] h-[24px]" src={delete_icon} alt=""/>
+                                                <img className="w-[24px] h-[24px]" src={images.Trash_Full} alt=""/>
                                             </button>
                                         </div>
                                     </div>

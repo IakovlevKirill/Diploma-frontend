@@ -1,6 +1,5 @@
 import React, {FormEvent, useState} from 'react';
-import avatar_example from "../../../assets/images/avatar_example.png";
-import mail from "../../../assets/images/Mail.png";
+import {images} from "../../../assets/images/images.ts";
 import {useNavigate} from 'react-router-dom';
 import {motion} from "framer-motion";
 import {useChangeUserPasswordMutation} from "../../../api/testApi.ts";
@@ -76,7 +75,7 @@ export const Profile = () => {
                     <div className=" rounded-[10px] bg-[#161A1E] border-[1px] p-[30px] border-[#505356]">
                         <div className="flex flex-row w-full justify-between items-center bg-[#161A1E] focus:outline-none">
                             <div className="flex flex-row gap-[30px] items-center ">
-                                <img className="w-[80px] h-[80px]" src={avatar_example} alt=""/>
+                                <img className="w-[80px] h-[80px]" src={images.avatar_example} alt=""/>
                                 <div className="flex flex-col">
                                     <div className="text-[#FFF] font-[Inter-medium] text-[24px]">Steve Jobs</div>
                                     <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">Maintainer</div>
@@ -101,7 +100,7 @@ export const Profile = () => {
                                 <div className="flex flex-row">
                                     <div className="p-[12px] border-[#575F69] rounded-[10px] rounded-r-none border-r-0 border-[1px]
                                  bg-[#1F2A37] flex items-center justify-center cursor-pointer">
-                                        <img src={mail} alt=""/>
+                                        <img src={images.mail} alt=""/>
                                     </div>
                                     <input
                                         name="old_password"
@@ -119,7 +118,7 @@ export const Profile = () => {
                                 <div className="flex flex-row">
                                     <div className="p-[12px] border-[#575F69] rounded-[10px] rounded-r-none border-r-0 border-[1px]
                                  bg-[#1F2A37] flex items-center justify-center cursor-pointer">
-                                        <img src={mail} alt=""/>
+                                        <img src={images.mail} alt=""/>
                                     </div>
                                     <input
                                         name="new_password"
@@ -137,7 +136,7 @@ export const Profile = () => {
                                 <div className="flex flex-row">
                                     <div className="p-[12px] border-[#575F69] rounded-[10px] rounded-r-none border-r-0 border-[1px]
                                  bg-[#1F2A37] flex items-center justify-center cursor-pointer">
-                                        <img src={mail} alt=""/>
+                                        <img src={images.mail} alt=""/>
                                     </div>
                                     <input
                                         name="new_password_confirm"

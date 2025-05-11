@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from "../../src/assets/images/logo.png"
+import {images} from '../assets/images/images'
 
 import {useNavigate} from "react-router-dom";
 
@@ -16,7 +16,7 @@ export const LayoutBar = () => {
                 }}>
                 <img
                     className="w-[26px] h-[26px] cursor-pointer"
-                    src={logo} alt=""/>
+                    src={images.logo} alt=""/>
                 <span className="text-[#FFF] font-[Inter-bold]  text-[15px]">WebNode</span>
             </button>
         </div>

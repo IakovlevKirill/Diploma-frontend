@@ -1,11 +1,4 @@
-import cell from "../../../assets/images/cell_toolbar.png"
-import cell_active from "../../../assets/images/cell_active_tollbar.png"
-import link from "../../../assets/images/link_toolbar.png"
-import link_active from "../../../assets/images/link_active_tollbar.png"
-import text_toolbar from "../../../assets/images/text_toolbar.png"
-import text_toolbar_active from "../../../assets/images/text_active_toolbar.png"
-import move_hand from "../../../assets/images/move_hand_toolbox.png"
-import move_hand_active from "../../../assets/images/move_hand_toolbox_active.png"
+import {images} from '../../../assets/images/images'
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
 import * as React from "react";
@@ -35,10 +28,10 @@ export const Toolbar = () => {
                     }}
                 >
                     {(currentTool === "default") && (
-                        <img className="w-full" src={move_hand_active} alt=""/>
+                        <img className="w-full" src={images.move_hand_toolbox_active} alt=""/>
                     )}
                     {(currentTool !== "default") && (
-                        <img className="w-full" src={move_hand} alt=""/>
+                        <img className="w-full" src={images.move_hand_toolbox} alt=""/>
                     )}
                 </button>
                 <button
@@ -52,10 +45,10 @@ export const Toolbar = () => {
                     }}
                 >
                     {(currentTool === "square") && (
-                        <img className="w-full" src={cell_active} alt=""/>
+                        <img className="w-full" src={images.cell_active_tollbar} alt=""/>
                     )}
                     {(currentTool !== "square") && (
-                        <img className="w-full" src={cell} alt=""/>
+                        <img className="w-full" src={images.cell_toolbar} alt=""/>
                     )}
                 </button>
                 {/*
