@@ -43,7 +43,7 @@ export const Inbox = () => {
             <div className="w-[calc(100%-30px)] items-center justify-between flex flex-row rounded-[10px] border-[#4C4D50] border-[1px] p-[15px]">
                 <div className="w-[50%] flex flex-row items-center justify-between">
                     <div className="flex items-center flex-row gap-[10px]">
-                        <img src={images.avatar} alt=""/>
+                        <img src={images.avatar_example} alt=""/>
                         <div className="flex flex-col">
                             <div className="text-[#FFF] text-[16px] font-[Inter-semibold]">User2</div>
                             <div className="text-[#A8A8A8] text-[12px] font-[Inter-normal]">Developer</div>
