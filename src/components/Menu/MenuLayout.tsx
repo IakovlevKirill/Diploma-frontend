@@ -1,15 +1,28 @@
 import {images} from "../../assets/images/images"
 import {Outlet, useNavigate} from "react-router-dom";
 import { LayoutBar } from "../LayoutBar"
-import {useState} from "react";
+import React, {ReactElement, ReactEventHandler, useState} from "react";
+import {useAppDispatch} from "../../app/hooks.ts";
 
 export const MenuLayout = () => {
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const url = window.location.href;
 
     const [currentPage, setCurrentPage] = useState<string>()
+
+    interface OnChangePageProps {
+        e: React.MouseEvent<HTMLButtonElement>
+        page: string
+    }
+
+    const OnChangePage = (props : OnChangePageProps) => {
+        props.e.stopPropagation()
+        setCurrentPage(props.page)
+        navigate(`/${props.page}`)
+    }
 
     const LayoutSidebar = () => {
         return(
@@ -30,12 +43,17 @@ export const MenuLayout = () => {
                     <div className="w-full flex flex-col gap-[15px] border-t-[1px] border-[#535558] pt-[50px] ">
                         <div className="flex w-[80%] animation_transform_sidebar_icon relative items-center flex-row justify-between ">
                             <button
-                                onClick={()=>{
-                                    navigate('/projects')
-                                }}
-                                className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
+                                onClick={(e) => OnChangePage({page: "projects", e})}
+                                className={`
+                                flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0
+                               
+                                `}
+                            >
                                 <img className="w-[24px] h-[24px]" src={images.project_icon_white} alt=""/>
-                                <div className="text-[#FFF] font-[Inter-medium]  text-[16px]">Projects</div>
+                                <div className=
+                                {`text-[#FFF] font-[Inter-medium]  text-[16px]
+                                ${currentPage == 'projects' ? 'text-[24px]' : '' }`}
+                                >Projects</div>
                             </button>
                             {/*
                             <div className="animation_transform_sidebar_active w-[12px] h-[12px] bg-[#00C0AA] rounded-[100%] z-1"></div>
@@ -43,35 +61,30 @@ export const MenuLayout = () => {
                         </div>
 
                         <button
-                            onClick={()=>{
-                                navigate('/inbox')
-                            }}
+                            onClick={(e) => OnChangePage({page: "inbox", e})}
                             className="animation_transform_sidebar_icon flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.inbox_icon_white} alt=""/>
-                            <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Inbox</div>
+                            <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
+                                ${currentPage == 'inbox' ? 'text-[24px]' : '' }`}>Inbox</div>
                         </button>
                         <button
-                            onClick={()=>{
-                                navigate('/teams')
-                            }}
+                            onClick={(e) => OnChangePage({page: "teams", e})}
                             className="animation_transform_sidebar_icon flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.team_icon_white} alt=""/>
-                            <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Teams</div>
+                            <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
+                                ${currentPage == 'teams' ? 'text-[24px]' : '' }`}>Teams</div>
                         </button>
                         <button
-                            onClick={()=>{
-                                navigate('/templates')
-                            }}
+                            onClick={(e) => OnChangePage({page: "templates", e})}
                             className="animation_transform_sidebar_icon flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.templates_icon_white} alt=""/>
-                            <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Templates</div>
+                            <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
+                                ${currentPage == 'templates' ? 'text-[24px]' : '' }`}>Templates</div>
                         </button>
                     </div>
                 </div>
                 <button
-                    onClick={()=>{
-                        navigate('/profile')
-                    }}
+                    onClick={(e) => OnChangePage({page: "profile", e})}
                     className="cursor-pointer flex flex-row w-full justify-between items-center py-[18px] border-t-[1px] border-[#535558] bg-[#191C21] border-[0px] focus:outline-none">
                     <div className="flex flex-row gap-[14px] items-center pl-[25px] ">
                         <img src={images.avatar_example} alt=""/>
