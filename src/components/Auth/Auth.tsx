@@ -47,6 +47,7 @@ export const Auth = () => {
 
                     localStorage.setItem('authToken', jwtToken);
                     localStorage.setItem('userId', response.id);
+                    localStorage.setItem('userEmail', values.email);
 
                     navigate('/projects');
                 } else {

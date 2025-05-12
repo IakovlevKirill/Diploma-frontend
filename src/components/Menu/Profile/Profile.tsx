@@ -8,11 +8,15 @@ export const Profile = () => {
 
     const [changePassword] = useChangeUserPasswordMutation()
 
+    const userName = localStorage.getItem("userEmail");
+    const firstLetter = userName?.charAt(0).toUpperCase()
+
     const navigate = useNavigate();
 
     const OnLogout = () => {
         localStorage.removeItem('authToken');
         localStorage.removeItem('userId');
+        localStorage.removeItem('userEmail');
         navigate('/auth');
     };
 
@@ -75,10 +79,12 @@ export const Profile = () => {
                     <div className=" rounded-[10px] bg-[#161A1E] border-[1px] p-[30px] border-[#505356]">
                         <div className="flex flex-row w-full justify-between items-center bg-[#161A1E] focus:outline-none">
                             <div className="flex flex-row gap-[30px] items-center ">
-                                <img className="w-[80px] h-[80px]" src={images.avatar_example} alt=""/>
+                                <div className="flex items-center justify-center w-[80px] h-[80px] bg-[#252B3B]  rounded-[100px]">
+                                    <span className="text-[#FFF] font-[Inter-medium]  text-[30px]">{firstLetter}</span>
+                                </div>
                                 <div className="flex flex-col">
-                                    <div className="text-[#FFF] font-[Inter-medium] text-[24px]">Steve Jobs</div>
-                                    <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">Maintainer</div>
+                                    <div className="text-[#FFF] font-[Inter-medium] text-[24px]">{userName}</div>
+                                    <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">user.role</div>
                                 </div>
                             </div>
                             <button

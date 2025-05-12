@@ -7,11 +7,9 @@ import {useAppDispatch} from "../../app/hooks.ts";
 export const MenuLayout = () => {
 
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
-    const url = window.location.href;
-
-    const userName = localStorage.getItem("userName");
+    const userName = localStorage.getItem("userEmail");
+    const firstLetter = userName?.charAt(0).toUpperCase()
 
     const [currentPage, setCurrentPage] = useState<string>()
 
@@ -89,13 +87,13 @@ export const MenuLayout = () => {
                 <button
                     onClick={(e) => OnChangePage({page: "profile", e})}
                     className="cursor-pointer flex flex-row w-full justify-between items-center py-[18px] border-t-[1px] border-[#535558] bg-[#191C21] border-[0px] focus:outline-none">
-                    <div className="flex flex-row gap-[14px] items-center pl-[25px] ">
-                        <div className="flex items-center justify-center w-[46px] h-[46px] bg-[black] rounded-[100px]">
-                            <span className="text-[#FFF] font-[Inter-medium]  text-[16px]">T</span>
+                    <div className="flex flex-row gap-[14px] items-center pl-[25px]">
+                        <div className="flex items-center justify-center w-[46px] h-[46px] bg-[#252B3B]  rounded-[100px]">
+                            <span className="text-[#FFF] font-[Inter-medium]  text-[16px]">{firstLetter}</span>
                         </div>
-                        <div className="flex flex-col">
-                            <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">{userName}</div>
-                            <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">Maintainer</div>
+                        <div className="flex flex-col gap-[4px]">
+                            <div className="text-[#FFF] font-[Inter-semibold] text-[16px]">{userName}</div>
+                            <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">user.role</div>
                         </div>
                     </div>
                     <img className="pr-[12px]" src={images.polygon_sidebar_open} alt=""/>
