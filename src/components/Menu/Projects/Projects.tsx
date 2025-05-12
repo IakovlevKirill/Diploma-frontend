@@ -56,7 +56,7 @@ export const Projects = () => {
                                 onClick={onCreateProject}
                                 className="animation_transform w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px] text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer">
                                 <div>Create new project</div>
-                                <img src={images.Add_Plus} alt=""/>
+                                <img className="" src={images.Add_Plus} alt=""/>
                             </button>
                             <div className="w-[calc(50%-12.5px)] gap-[25px] flex flex-row justify-between">
                                 <div className="animation_transform flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
@@ -77,7 +77,7 @@ export const Projects = () => {
                             {pinnedProjectsData?.projects.map((project) => (
                                 <div
                                     key={project.id}
-                                    className="animation_scale w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
+                                    className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
                                     <div className="flex flex-row justify-between items-center">
                                         <button
                                             onClick={() => {
@@ -92,16 +92,16 @@ export const Projects = () => {
                                                 onClick={() => {
                                                     pinProject({projectId: project.id})
                                                 }}
-                                                className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
-                                                <img className="w-[24px] h-[24px]" src={images.Paperclip_Attechment_Tilt} alt=""/>
+                                                className="flex bg-transparent border-0 focus:outline-none cursor-pointer">
+                                                <img className="w-[24px] h-[24px] p-[6px] hover:bg-[#FFFFFF13] hover:rounded-[5px]" src={images.Paperclip_Attechment_Tilt} alt=""/>
                                             </button>
                                             <button
                                                 onClick={() => {
                                                     const id = project.id
                                                     deleteProject(id)
                                                 }}
-                                                className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
-                                                <img className="w-[24px] h-[24px]" src={images.Trash_Full} alt=""/>
+                                                className="flex bg-transparent border-0 focus:outline-none cursor-pointer">
+                                                <img className="w-[24px] h-[24px] p-[6px] hover:bg-[#FFFFFF13] hover:rounded-[5px]" src={images.Trash_Full} alt=""/>
                                             </button>
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@ export const Projects = () => {
                             {projectsData?.projects.map((project) => (
                                 <div
                                     key={project.id}
-                                    className="animation_scale w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
+                                    className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
                                     <div className="flex flex-row justify-between items-center">
                                         <button
                                             onClick={() => {
@@ -132,16 +132,16 @@ export const Projects = () => {
                                                 onClick={() => {
                                                     pinProject({projectId: project.id})
                                                 }}
-                                                className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
-                                                <img className="w-[24px] h-[24px]" src={images.Paperclip_Attechment_Tilt} alt=""/>
+                                                className="flex bg-transparent border-0 focus:outline-none cursor-pointer">
+                                                <img className="w-[24px] h-[24px] p-[6px] hover:bg-[#FFFFFF13] hover:rounded-[5px]" src={images.Paperclip_Attechment_Tilt} alt=""/>
                                             </button>
                                             <button
                                                 onClick={() => {
                                                     const id = project.id
                                                     deleteProject(id)
                                                 }}
-                                                className="flex bg-transparent border-0 p-[10px] focus:outline-none cursor-pointer">
-                                                <img className="w-[24px] h-[24px]" src={images.Trash_Full} alt=""/>
+                                                className="flex bg-transparent border-0 focus:outline-none cursor-pointer">
+                                                <img className="w-[24px] h-[24px] p-[6px] hover:bg-[#FFFFFF13] hover:rounded-[5px]" src={images.Trash_Full} alt=""/>
                                             </button>
                                         </div>
                                     </div>

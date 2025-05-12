@@ -1,6 +1,6 @@
 .animation_transform:hover {
     transition: transform 0.2s linear;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
 }
 
 .animation_transform {

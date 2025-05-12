@@ -52,12 +52,9 @@ export const MenuLayout = () => {
                                 <img className="w-[24px] h-[24px]" src={images.project_icon_white} alt=""/>
                                 <div className=
                                 {`text-[#FFF] font-[Inter-medium]  text-[16px]
-                                ${currentPage == 'projects' ? 'text-[24px]' : '' }`}
+                                ${currentPage == 'projects' ? '' : '' }`}
                                 >Projects</div>
                             </button>
-                            {/*
-                            <div className="animation_transform_sidebar_active w-[12px] h-[12px] bg-[#00C0AA] rounded-[100%] z-1"></div>
-                            */}
                         </div>
 
                         <button
@@ -65,14 +62,14 @@ export const MenuLayout = () => {
                             className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.inbox_icon_white} alt=""/>
                             <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
-                                ${currentPage == 'inbox' ? 'text-[24px]' : '' }`}>Inbox</div>
+                                ${currentPage == 'inbox' ? '' : '' }`}>Inbox</div>
                         </button>
                         <button
                             onClick={(e) => OnChangePage({page: "teams", e})}
                             className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.team_icon_white} alt=""/>
                             <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
-                                ${currentPage == 'teams' ? 'text-[24px]' : '' }`}>Teams</div>
+                                ${currentPage == 'teams' ? '' : '' }`}>Teams</div>
 
                         </button>
                         <button
@@ -80,7 +77,7 @@ export const MenuLayout = () => {
                             className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.templates_icon_white} alt=""/>
                             <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
-                                ${currentPage == 'templates' ? 'text-[24px]' : '' }`}>Templates</div>
+                                ${currentPage == 'templates' ? '' : '' }`}>Templates</div>
                         </button>
                     </div>
                 </div>
