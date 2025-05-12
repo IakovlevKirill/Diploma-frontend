@@ -1,7 +1,7 @@
 import {images} from "../../assets/images/images"
 import {Outlet, useNavigate} from "react-router-dom";
 import { LayoutBar } from "../LayoutBar"
-import React, {ReactElement, ReactEventHandler, useState} from "react";
+import React, {useState} from "react";
 import {useAppDispatch} from "../../app/hooks.ts";
 
 export const MenuLayout = () => {
@@ -10,6 +10,8 @@ export const MenuLayout = () => {
     const dispatch = useAppDispatch();
 
     const url = window.location.href;
+
+    const userName = localStorage.getItem("userName");
 
     const [currentPage, setCurrentPage] = useState<string>()
 
@@ -41,7 +43,7 @@ export const MenuLayout = () => {
                         </div>
                     </div>
                     <div className="w-full flex flex-col gap-[15px] border-t-[1px] border-[#535558] pt-[50px] ">
-                        <div className="flex w-[80%]  relative items-center flex-row justify-between ">
+                        <div className="flex w-[80%] relative items-center flex-row justify-between ">
                             <button
                                 onClick={(e) => OnChangePage({page: "projects", e})}
                                 className={`
@@ -73,6 +75,7 @@ export const MenuLayout = () => {
                             <img className="w-[24px] h-[24px]" src={images.team_icon_white} alt=""/>
                             <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
                                 ${currentPage == 'teams' ? 'text-[24px]' : '' }`}>Teams</div>
+
                         </button>
                         <button
                             onClick={(e) => OnChangePage({page: "templates", e})}
@@ -87,9 +90,11 @@ export const MenuLayout = () => {
                     onClick={(e) => OnChangePage({page: "profile", e})}
                     className="cursor-pointer flex flex-row w-full justify-between items-center py-[18px] border-t-[1px] border-[#535558] bg-[#191C21] border-[0px] focus:outline-none">
                     <div className="flex flex-row gap-[14px] items-center pl-[25px] ">
-                        <img src={images.avatar_example} alt=""/>
+                        <div className="flex items-center justify-center w-[46px] h-[46px] bg-[black] rounded-[100px]">
+                            <span className="text-[#FFF] font-[Inter-medium]  text-[16px]">T</span>
+                        </div>
                         <div className="flex flex-col">
-                            <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">Steve Jobs</div>
+                            <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">{userName}</div>
                             <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">Maintainer</div>
                         </div>
                     </div>
