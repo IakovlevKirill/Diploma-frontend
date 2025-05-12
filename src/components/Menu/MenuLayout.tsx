@@ -1,17 +1,23 @@
 import {images} from "../../assets/images/images"
 import {Outlet, useNavigate} from "react-router-dom";
 import { LayoutBar } from "../LayoutBar"
-import React, {useState} from "react";
-import {useAppDispatch} from "../../app/hooks.ts";
+import {useState} from "react";
+import {useGetUserByIdQuery} from "../../api/testApi.ts";
 
 export const MenuLayout = () => {
 
+
     const navigate = useNavigate();
 
-    const userName = localStorage.getItem("userEmail");
-    const firstLetter = userName?.charAt(0).toUpperCase()
+    const userId = localStorage.getItem("userId");
 
     const [currentPage, setCurrentPage] = useState<string>()
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const {data: user_data, isLoading} = useGetUserByIdQuery(userId)
+
+    const firstLetter = user_data?.email?.charAt(0).toUpperCase()
 
     interface OnChangePageProps {
         e: React.MouseEvent<HTMLButtonElement>
@@ -89,13 +95,19 @@ export const MenuLayout = () => {
                             <span className="text-[#FFF] font-[Inter-medium]  text-[16px]">{firstLetter}</span>
                         </div>
                         <div className="flex flex-col gap-[4px]">
-                            <div className="text-[#FFF] font-[Inter-semibold] text-[16px]">{userName}</div>
-                            <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">user.role</div>
+                            <div className="text-[#FFF] font-[Inter-semibold] text-[16px]">{user_data?.email}</div>
+                            <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">{user_data?.role}</div>
                         </div>
                     </div>
                     <img className="pr-[12px]" src={images.polygon_sidebar_open} alt=""/>
                 </button>
             </div>
+        )
+    }
+
+    if (isLoading) {
+        return (
+            <div>Loading</div>
         )
     }
 

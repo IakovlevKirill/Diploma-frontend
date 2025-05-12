@@ -23,6 +23,7 @@ export type User = {
     createdAt: string
     updatedAt: string
     username: null
+    role: 'user' | 'admin'
 }
 
 export type Project = {

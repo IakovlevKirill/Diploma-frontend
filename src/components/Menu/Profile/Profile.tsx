@@ -2,16 +2,22 @@ import React, {FormEvent, useState} from 'react';
 import {images} from "../../../assets/images/images.ts";
 import {useNavigate} from 'react-router-dom';
 import {motion} from "framer-motion";
-import {useChangeUserPasswordMutation} from "../../../api/testApi.ts";
+import {useChangeUserPasswordMutation, useGetUserByIdQuery} from "../../../api/testApi.ts";
+
 
 export const Profile = () => {
 
     const [changePassword] = useChangeUserPasswordMutation()
 
-    const userName = localStorage.getItem("userEmail");
-    const firstLetter = userName?.charAt(0).toUpperCase()
+    const userId = localStorage.getItem("userId");
 
     const navigate = useNavigate();
+   
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const {data: user_data, isLoading} = useGetUserByIdQuery(userId)
+
+    const firstLetter = user_data?.email?.charAt(0).toUpperCase()
 
     const OnLogout = () => {
         localStorage.removeItem('authToken');
@@ -66,6 +72,12 @@ export const Profile = () => {
         OnChangePassword(formValues);
     };
 
+    if (isLoading) {
+        return (
+            <div>Loading</div>
+        )
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -83,8 +95,8 @@ export const Profile = () => {
                                     <span className="text-[#FFF] font-[Inter-medium]  text-[30px]">{firstLetter}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <div className="text-[#FFF] font-[Inter-medium] text-[24px]">{userName}</div>
-                                    <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">user.role</div>
+                                    <div className="text-[#FFF] font-[Inter-medium] text-[24px]">{user_data?.email}</div>
+                                    <div className="text-[#A8A9AC] font-[Inter-normal] text-[16px]">{user_data?.role}</div>
                                 </div>
                             </div>
                             <button

@@ -8,7 +8,7 @@ import {
     loginResponseType,
     registerRequestType,
     registerResponseType,
-    pinProjectRequestType,
+    pinProjectRequestType, User,
 } from "../store/types.ts";
 
 const host = import.meta.env.VITE_HOST
@@ -78,6 +78,12 @@ export const diplomaApi = createApi({
                 body: arg
             })
         }),
+        getUserById: builder.query<User, void>({
+            query: (userId) => ({
+                url: `${baseUrl}/api/user/get?userId=${userId}`,
+                method: 'GET',
+            })
+        }),
     }),
 });
 
@@ -92,4 +98,5 @@ export const {
     usePinProjectMutation,
     useGetPinnedProjectQuery,
     useChangeUserPasswordMutation,
+    useGetUserByIdQuery,
 } = diplomaApi;
