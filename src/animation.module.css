@@ -1,0 +1,26 @@
+.animation_transform:hover {
+    transition: transform 0.2s linear;
+    transform: translateY(-10px);
+}
+
+.animation_transform {
+    transition: transform 0.2s linear;
+}
+
+.animation_scale:hover {
+    transition: transform 0.2s linear;
+    transform: scale(1.03);
+}
+
+.animation_scale {
+    transition: transform 0.2s linear;
+}
+
+.animation_transform_sidebar_icon:hover {
+    transition: transform 0.2s linear;
+    transform: translateX(10px);
+}
+
+.animation_transform_sidebar_icon {
+    transition: transform 0.2s linear;
+}

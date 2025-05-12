@@ -53,18 +53,19 @@ export const Projects = () => {
                         <div className="text-[#FFF] font-[Inter-semibold]  text-[40px]">Templates</div>
                         <div className="flex flex-row gap-[25px]">
                             <button
-                                className="w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px] text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer">
+                                onClick={onCreateProject}
+                                className="animation_transform w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px] text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer">
                                 <div>Create new project</div>
                                 <img src={images.Add_Plus} alt=""/>
                             </button>
                             <div className="w-[calc(50%-12.5px)] gap-[25px] flex flex-row justify-between">
-                                <div className="flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
+                                <div className="animation_transform flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
                                     <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 1</div>
                                 </div>
-                                <div className="flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
+                                <div className="animation_transform flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
                                     <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 2</div>
                                 </div>
-                                <div className="flex w-[calc(33.4%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
+                                <div className="animation_transform flex w-[calc(33.4%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
                                     <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 3</div>
                                 </div>
                             </div>
@@ -76,7 +77,7 @@ export const Projects = () => {
                             {pinnedProjectsData?.projects.map((project) => (
                                 <div
                                     key={project.id}
-                                    className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
+                                    className="animation_scale w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
                                     <div className="flex flex-row justify-between items-center">
                                         <button
                                             onClick={() => {
@@ -116,7 +117,7 @@ export const Projects = () => {
                             {projectsData?.projects.map((project) => (
                                 <div
                                     key={project.id}
-                                    className="w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
+                                    className="animation_scale w-[calc(50%-12.5px)] bg-[#171C20] rounded-[10px]  border-[#515558] border-[1px] box-border">
                                     <div className="flex flex-row justify-between items-center">
                                         <button
                                             onClick={() => {

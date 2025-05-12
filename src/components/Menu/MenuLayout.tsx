@@ -1,41 +1,52 @@
 import {images} from "../../assets/images/images"
 import {Outlet, useNavigate} from "react-router-dom";
 import { LayoutBar } from "../LayoutBar"
+import {useState} from "react";
 
 export const MenuLayout = () => {
 
     const navigate = useNavigate();
 
+    const url = window.location.href;
+
+    const [currentPage, setCurrentPage] = useState<string>()
+
     const LayoutSidebar = () => {
         return(
-            <div className="flex flex-col h-[100%] w-full items-center bg-[#191C21] border-r-[1px] border-[#535558]">
+            <div className="flex flex-col h-[100%] w-full items-center bg-[#191C21] border-r-[1px] border-[#535558] overflow-hidden">
                 <div className="flex flex-col h-full">
                     <div className="flex flex-col w-full">
                         <div className="flex text-[#FFF] font-[Inter-normal]  text-[15px] pt-[30px] px-[30px]">Search projects</div>
                         <div className="flex w-full py-[16px] ">
                             <div className="flex flex-col w-full px-[30px]">
                                 <input
-                                    className="flex w-[100%] bg-[#1F2A37] border-[1px] border-[#575F69] rounded-[10px] text-center py-[12px] focus:outline-none font-[Inter-medium]  text-[16px]"
+                                    className="flex w-[100%] bg-[#1F2A37] text-[#FFF] border-[1px] border-[#575F69] rounded-[10px] text-center py-[12px] focus:outline-none font-[Inter-medium]  text-[16px]"
                                     type="text"
                                     placeholder="@Project"
                                 />
                             </div>
                         </div>
                     </div>
-                    <div className="w-full flex flex-col gap-[15px] border-t-[1px] border-[#535558] pt-[50px]">
-                        <button
-                            onClick={()=>{
-                                navigate('/projects')
-                            }}
-                            className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={images.project_icon_white} alt=""/>
-                            <div className="text-[#FFF] font-[Inter-medium]  text-[16px]">Projects</div>
-                        </button>
+                    <div className="w-full flex flex-col gap-[15px] border-t-[1px] border-[#535558] pt-[50px] ">
+                        <div className="flex w-[80%] animation_transform_sidebar_icon relative items-center flex-row justify-between ">
+                            <button
+                                onClick={()=>{
+                                    navigate('/projects')
+                                }}
+                                className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
+                                <img className="w-[24px] h-[24px]" src={images.project_icon_white} alt=""/>
+                                <div className="text-[#FFF] font-[Inter-medium]  text-[16px]">Projects</div>
+                            </button>
+                            {/*
+                            <div className="animation_transform_sidebar_active w-[12px] h-[12px] bg-[#00C0AA] rounded-[100%] z-1"></div>
+                            */}
+                        </div>
+
                         <button
                             onClick={()=>{
                                 navigate('/inbox')
                             }}
-                            className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
+                            className="animation_transform_sidebar_icon flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.inbox_icon_white} alt=""/>
                             <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Inbox</div>
                         </button>
@@ -43,7 +54,7 @@ export const MenuLayout = () => {
                             onClick={()=>{
                                 navigate('/teams')
                             }}
-                            className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
+                            className="animation_transform_sidebar_icon flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.team_icon_white} alt=""/>
                             <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Teams</div>
                         </button>
@@ -51,7 +62,7 @@ export const MenuLayout = () => {
                             onClick={()=>{
                                 navigate('/templates')
                             }}
-                            className="flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
+                            className="animation_transform_sidebar_icon flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
                             <img className="w-[24px] h-[24px]" src={images.templates_icon_white} alt=""/>
                             <div className="text-[#FFF] font-[Inter-medium] text-[16px]">Templates</div>
                         </button>

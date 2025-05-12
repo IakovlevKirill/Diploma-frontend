@@ -1,5 +1,6 @@
 @import "./fonts.module.css";
 @import "./normalize.css";
 @import "./scrollbar.module.css";
+@import "./animation.module.css";
 
 @tailwind utilities;
