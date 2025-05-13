@@ -54,7 +54,10 @@ export const Projects = () => {
                         <div className="flex flex-row gap-[25px]">
                             <button
                                 onClick={onCreateProject}
-                                className="animation_transform w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px] text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer">
+                                className={`animation_transform w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px]
+                                 text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer
+                                 ${isProjectCreationLoading ? 'opacity-75' : ''}
+                                 `}>
                                 <div>Create new project</div>
                                 <img className="" src={images.Add_Plus} alt=""/>
                             </button>
