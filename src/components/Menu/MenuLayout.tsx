@@ -105,23 +105,23 @@ export const MenuLayout = () => {
         )
     }
 
-    if (isLoading) {
-        return (
-            <div>Loading</div>
-        )
-    }
-
     return (
         <div className="flex flex-col overflow-hidden w-[100vw] h-[100vh]">
             <LayoutBar></LayoutBar>
-            <div className="w-[100vw] h-[95vh] flex flex-row">
-                <div className="w-[16%] h-[95vh]">
-                    <LayoutSidebar></LayoutSidebar>
+            {(isLoading) ? (
+                <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-[#FFF] font-[Inter-semibold] text-[16px]">Loading...</div>
                 </div>
-                <div className="w-[calc(84%-1px)] h-[95vh]">
-                    <Outlet></Outlet>
+            ) : (
+                <div className="w-[100vw] h-[95vh] flex flex-row">
+                    <div className="w-[16%] h-[95vh]">
+                        <LayoutSidebar></LayoutSidebar>
+                    </div>
+                    <div className="w-[calc(84%-1px)] h-[95vh]">
+                        <Outlet></Outlet>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
