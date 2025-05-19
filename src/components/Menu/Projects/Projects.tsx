@@ -26,7 +26,7 @@ export const Projects = () => {
         if (current_user_userId) {
             try {
                 const response = await createProject({
-                    title: 'New project',
+                    title: 'Untitled',
                     content: '',
                     userId: current_user_userId,
                 }).unwrap();

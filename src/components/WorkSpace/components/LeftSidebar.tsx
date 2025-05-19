@@ -17,18 +17,46 @@ export const LeftSidebar = () => {
     return (
         <div className="z-2 flex h-full w-[calc(15%)] bg-[#1C1F24] border-r-[1px] border-[#535558]">
             <div className="w-full h-full flex flex-col items-center">
-                <div className="h-[calc(15%-1px)] w-full flex items-center justify-center border-b-[1px] border-[#535558]">
-                    <button
-                        onClick={ ()=>{
-                            navigate('/projects')
-                        }}
-                        className="flex font-[Inter-medium] border-0 bg-[#FFFFFF] cursor-pointer hover:text-[#0d99ff] ">
-                        Menu
-                    </button>
+                <div className="w-[calc(100%-40px)] h-[calc(15%-41px)] p-[20px] flex flex-col items-start justify-center gap-[15px] border-b-[1px] border-[#535558]">
+                    <span className="select-none font-[Inter-semibold] text-[#FFF] text-[20px]">Untitled</span>
+                    <div className="flex flex-row flex-wrap gap-[10px]">
+                        <button
+                            onClick={()=>{
+                                navigate('/projects');
+                            }}
+                            className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
+                            bg-[#1c1f24]
+                            text-[#9C9C9C]
+                            hover:bg-[#D9D9D9]
+                            hover:text-[black]
+                            ">Menu
+                        </button>
+                        <button className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
+                            bg-[#1c1f24]
+                            text-[#9C9C9C]
+                            hover:bg-[#D9D9D9]
+                            hover:text-[black]
+                            ">Duplicate project
+                        </button>
+                        <button className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
+                            bg-[#1c1f24]
+                            text-[#9C9C9C]
+                            hover:bg-[#D9D9D9]
+                            hover:text-[black]
+                            ">Move to trash
+                        </button>
+                        <button className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
+                            bg-[#1c1f24]
+                            text-[#9C9C9C]
+                            hover:bg-[#D9D9D9]
+                            hover:text-[black]
+                            ">Export
+                        </button>
+                    </div>
                 </div>
                 <div className="w-[calc(100%-40px)] h-[85%] p-[20px] py-[0px] flex flex-col">
                     <div className="h-[8%] w-full flex items-center justify-start">
-                        <span className="flex font-[Inter-medium] text-[#FFF]">Layers</span>
+                        <span className="select-none flex font-[Inter-medium] text-[#FFF]">Layers</span>
                     </div>
                     <div className="h-[92%] w-full flex overflow-y-scroll ">
                         <div className="w-full h-full flex flex-col items-center gap-[10px]">
@@ -39,7 +67,7 @@ export const LeftSidebar = () => {
                                         dispatch(setCurrentTool("default"))
                                     }}
                                     key={node.id}
-                                    className={`w-[calc(100%-10px)] p-[5px] flex flex-row items-center justify-start gap-[15px] cursor-pointer text-center rounded-[4px]
+                                    className={`w-[calc(100%-10px)] p-[5px] flex flex-row items-center justify-start gap-[15px] select-none cursor-pointer text-center rounded-[4px]
                                     ${(currentSelectedNodeId == node.id) ? "bg-[#3575ff] " : "hover:bg-[#737578]"}
                                   `}>
                                     <img className="flex w-[20px]" src={images.node_icon_white} alt=""/>

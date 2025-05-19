@@ -1,12 +1,12 @@
 
 export type currentToolType = {
-    tool: 'default' | 'square' | 'link' | 'text'
+    tool: 'default' | 'node_creation' | 'link' | 'text'
 }
 
 export type CanvasNode = {
     id: string;
     name: string;
-    type: 'default' | 'square' | 'link' | 'text'
+    type: 'default' | 'node_creation' | 'link' | 'text'
     x: number;
     y: number;
     color: string;

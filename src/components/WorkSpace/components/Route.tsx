@@ -1,36 +1,33 @@
 import {useAppSelector} from "../../../app/hooks.ts";
 import {useParams} from "react-router-dom";
 import {useGetProjectByIdQuery} from "../../../api/testApi.ts";
+import React from "react";
 
 export const Route = () => {
 
     const { projectId } = useParams();
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(projectId);
     const project = project_data?.project
 
-    const currentSelectedObjectName = useAppSelector((state) => state.currentObject.object_name);
-
-    const current_branch = 'main' // потом брать из урла
+    const currentSelectedNodeName = useAppSelector((state) => state.currentObject.object_name);
 
     let currentRoute : string
 
-    if (currentSelectedObjectName == '') {
-        currentRoute = project?.title + ` / ` + current_branch
+    if (currentSelectedNodeName == '' && project) {
+        currentRoute = project?.title
     } else {
-        currentRoute = project?.title + ` / ` + current_branch + ` / ` + currentSelectedObjectName
+        currentRoute = project?.title + ` / ` + currentSelectedNodeName
     }
 
-    const handleRouteClick = (e: any) => {
+    const handleRouteClick = (e: React.MouseEvent) => {
         e.stopPropagation(); // Останавливаем всплытие события
     };
 
     return (
         <div onClick={handleRouteClick}
             className="absolute p-[1%] cursor-default left-[0%] top-[0%] z-100 flex flex-row">
-            <span className="font-[Inter]">{currentRoute}</span>
+            <span className="font-[Inter-medium]">{currentRoute}</span>
         </div>
     );
 };

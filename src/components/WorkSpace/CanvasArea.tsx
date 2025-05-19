@@ -13,8 +13,9 @@ export const CanvasArea = () => {
     const dispatch = useAppDispatch();
 
     const currentTool = useAppSelector((state) => state.currentTool.tool);
-    const currentSelectedObjectId = useAppSelector((state) => state.currentObject.object_id);
-    const objects_array = useAppSelector((state) => state.canvasObjects.objects);
+
+    const currentSelectedNodeId = useAppSelector((state) => state.currentObject.object_id);
+    const node_array = useAppSelector((state) => state.canvasObjects.objects);
     const objects_count = useAppSelector((state) => state.objectCount.objectCount);
 
     // Состояния для перемещения объекта
@@ -29,7 +30,7 @@ export const CanvasArea = () => {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        const newObject: CanvasNode = {
+        const newNode: CanvasNode = {
             id: Math.random().toString(36).substring(2, 9),
             name: `node ` + objects_count,
             type: currentTool,
@@ -40,11 +41,11 @@ export const CanvasArea = () => {
             y: y,
         };
 
-        dispatch(addObject(newObject))
+        dispatch(addObject(newNode))
         dispatch(incrementObjectCount())
     };
 
-    const handleObjectClick = (e: React.MouseEvent, obj: CanvasNode) => {
+    const handleNodeClick = (e: React.MouseEvent, obj: CanvasNode) => {
         e.stopPropagation();
         dispatch(setCurrentObject({
             id: obj.id,
@@ -116,7 +117,7 @@ export const CanvasArea = () => {
         <div className="z-1 relative flex h-full w-[85%]">
             <div className={`w-full h-full flex-1 relative overflow-hidden
                 ${currentTool === "default" ? "cursor-default" : ""}
-                ${currentTool === "square" ? "cursor-crosshair" : ""}
+                ${currentTool === "node_creation" ? "cursor-crosshair" : ""}
                 ${currentTool === "link" ? "cursor-crosshair" : ""}
                 ${currentTool === "text" ? "cursor-text" : ""}
             `}
@@ -129,28 +130,28 @@ export const CanvasArea = () => {
                 <Toolbar/>
 
                 <div className="absolute bg-[#F5F5F5] z-1 w-[10000px] h-[5000px]">
-                    {objects_array.map((obj) => (
+                    {node_array.map((node) => (
                         <div
-                            key={obj.id}
-                            onClick={(e) => handleObjectClick(e, obj)}
-                            onMouseDown={(e) => handleMouseDown(e, obj)}
+                            key={node.id}
+                            onClick={(e) => handleNodeClick(e, node)}
+                            onMouseDown={(e) => handleMouseDown(e, node)}
                             className={`absolute z-99 border-2 border-[#F5F5F5]
-                            ${(obj.type === "square" && !isDragging)
+                            ${(node.type === "square" && !isDragging)
                                 ? "rounded-[0px] hover:border-[2px] cursor-pointer"
                                 : ""
                             }
-                            ${(obj.type === "square" && currentSelectedObjectId === obj.id)
+                            ${(node.type === "square" && currentSelectedNodeId === node.id)
                                 ? "border-[2px] border-[#0d99ff]!"
                                 : ""
                             }
-                            ${isDragging && currentDraggedObject?.id === obj.id ? "cursor-grabbing" : "cursor-grab"}
+                            ${isDragging && currentDraggedObject?.id === node.id ? "cursor-grabbing" : "cursor-grab"}
                         `}
                             style={{
-                                left: `${obj.x}px`,
-                                top: `${obj.y}px`,
-                                width: `${obj.width}px`,
-                                height: `${obj.height}px`,
-                                backgroundColor: obj.color
+                                left: `${node.x}px`,
+                                top: `${node.y}px`,
+                                width: `${node.width}px`,
+                                height: `${node.height}px`,
+                                backgroundColor: node.color
                             }}
                         />
                     ))}

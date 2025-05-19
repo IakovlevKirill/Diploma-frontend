@@ -22,7 +22,7 @@ export const WorkSpace = () => {
                     dispatch(setCurrentTool("default"));
                     break;
                 case "2":
-                    dispatch(setCurrentTool("square"));
+                    dispatch(setCurrentTool("node_creation"));
                     break;
                 default:
                     break;

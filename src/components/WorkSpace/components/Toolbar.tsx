@@ -15,8 +15,8 @@ export const Toolbar = () => {
 
     return (
         <div onClick={handleToolbarClick}
-            className="absolute z-100 left-[45.5%] top-[2%]">
-            <div className="cursor-default gap-[10px] px-[10px] py-[5px] flex items-center bg-[#FFFFFF] rounded-[10px] border-[1px] border-[#EBEBEB] shadow-[0px_5px_16px_0px_rgba(0,_0,_0,_0.1)]">
+            className="absolute z-3 left-[45.5%] top-[2%]">
+            <div className="select-none cursor-default gap-[10px] px-[10px] py-[5px] flex items-center bg-[#FFFFFF] rounded-[10px] border-[1px] border-[#EBEBEB] shadow-[0px_5px_16px_0px_rgba(0,_0,_0,_0.1)]">
                 <button
                     className={`bg-[white] flex items-center justify-center border-[1px] border-[white] w-[35px] h-[35px] rounded-[8px]
                     hover:bg-[#F2F2F2] focus:outline-[0]
@@ -37,17 +37,17 @@ export const Toolbar = () => {
                 <button
                     className={`bg-[white] flex items-center justify-center border-[1px] border-[white] w-[35px] h-[35px] rounded-[8px]
                     hover:bg-[#F2F2F2] focus:outline-[0]
-                    ${currentTool === "square" ? "bg-[#3575FF]! border-[1px] " : ""}
+                    ${currentTool === "node_creation" ? "bg-[#3575FF]! border-[1px] " : ""}
                     `}
                     onClick={() => {
-                        dispatch(setCurrentTool("square"))
+                        dispatch(setCurrentTool("node_creation"))
                         console.log(currentTool)
                     }}
                 >
-                    {(currentTool === "square") && (
+                    {(currentTool === "node_creation") && (
                         <img className="w-full" src={images.cell_active_tollbar} alt=""/>
                     )}
-                    {(currentTool !== "square") && (
+                    {(currentTool !== "node_creation") && (
                         <img className="w-full" src={images.cell_toolbar} alt=""/>
                     )}
                 </button>
