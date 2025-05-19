@@ -3,7 +3,7 @@ export type currentToolType = {
     tool: 'default' | 'square' | 'link' | 'text'
 }
 
-export type CanvasObject = {
+export type CanvasNode = {
     id: string;
     name: string;
     type: 'default' | 'square' | 'link' | 'text'

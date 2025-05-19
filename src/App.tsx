@@ -27,6 +27,13 @@ const ProtectedRoute = ({ children } : ProtectedRouteProps) => {
     return children;
 };
 
+document.addEventListener(
+    "wheel",
+    function touchHandler(e) {
+        if (e.ctrlKey) {
+            e.preventDefault();
+        }
+    }, { passive: false } );
 
 export const App = () => {
 

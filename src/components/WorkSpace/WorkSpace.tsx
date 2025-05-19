@@ -1,6 +1,5 @@
 import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
-import { RightSidebar } from "./components/RightSidebar.tsx";
 import { useAppDispatch } from "../../app/hooks.ts";
 import React, { useEffect } from "react";
 import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
@@ -9,6 +8,7 @@ import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
 
 export const WorkSpace = () => {
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export const WorkSpace = () => {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [dispatch]); // Добавил dispatch в зависимости useEffect
+    }, [dispatch]);
 
     interface NodeGateWayProps {
         type: string;
@@ -103,9 +103,12 @@ export const WorkSpace = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="h-[95%] w-[100vw] flex items-center justify-center"
+                className="h-[95%] w-[100vw] flex flex-row items-center justify-center"
             >
-                <div className="font-[Inter-medium] text-[#FFF]">WorkSpace пока что в разработке</div>
+                {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
+                <LeftSidebar></LeftSidebar>
+                {/*z-1 relative flex h-full w-[85%]*/}
+                <CanvasArea></CanvasArea>
             </motion.div>
 
         </div>
