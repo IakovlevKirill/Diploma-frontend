@@ -4,10 +4,14 @@ import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
 import {useNavigate} from "react-router-dom";
 import {images} from "../../../assets/images/images"
 import React, {useEffect, useRef, useState} from "react";
-import {useChangeProjectTitleMutation} from "../../../api/testApi.ts";
+import {
+    useChangeProjectTitleMutation,
+    useDuplicateProjectMutation
+} from "../../../api/testApi.ts";
 
 interface LeftSidebarProps {
     projectTitle: string;
+    userId: string;
 }
 
 export const LeftSidebar = ( props: LeftSidebarProps) => {
@@ -23,6 +27,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
     const currentProjectId = useAppSelector((state) => state.currentProject.currentProjectId);
 
     const [changeProjectTitle] = useChangeProjectTitleMutation()
+    const [duplicateProject] = useDuplicateProjectMutation()
 
     const [isChangeTitleInputActive, setIsChangeTitleInputActive] = useState(true);
     const [title, setTitle] = useState<string>(props.projectTitle);
@@ -108,6 +113,19 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                             ">Menu
                         </button>
                         <button
+                            onClick={ async ()=>{
+                                const response = await duplicateProject({
+                                    userId: props.userId,
+                                    newTitle: title + ' ' + 'Copy'
+                                }).unwrap();
+
+                                if (response) {
+                                    setTitle(title + ' ' + 'Copy')
+                                    const newUrl = `/workspace/${response.id}`
+                                    navigate(newUrl)
+                                    window.open(newUrl, '_blank')
+                                }
+                            }}
                             className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
                             bg-[#1c1f24]
                             text-[#9C9C9C]

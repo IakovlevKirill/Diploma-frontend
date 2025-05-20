@@ -19,6 +19,8 @@ export const WorkSpace = () => {
 
     const { projectId } = useParams();
 
+    const userId = localStorage.getItem("userId");
+
     const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(String(projectId));
     const project = project_data?.project
 
@@ -129,7 +131,7 @@ export const WorkSpace = () => {
                 className="h-[95%] w-[100vw] flex flex-row items-center justify-center"
             >
                 {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
-                <LeftSidebar projectTitle={String(project?.title)}></LeftSidebar>
+                <LeftSidebar projectTitle={String(project?.title)} userId={String(userId)}></LeftSidebar>
                 {/*z-1 relative flex h-full w-[85%]*/}
                 <CanvasArea></CanvasArea>
             </motion.div>

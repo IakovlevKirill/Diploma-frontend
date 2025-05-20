@@ -91,6 +91,13 @@ export const diplomaApi = createApi({
                 body: arg
             })
         }),
+        duplicateProject: builder.mutation<createProjectResponseType, { userId: string, newTitle: string }>({
+            query: arg => ({
+                url: `${baseUrl}/api/project/duplicate`,
+                method: 'POST',
+                body: arg,
+            })
+        }),
     }),
 });
 
@@ -107,4 +114,5 @@ export const {
     useChangeUserPasswordMutation,
     useGetUserByIdQuery,
     useChangeProjectTitleMutation,
+    useDuplicateProjectMutation,
 } = diplomaApi;
