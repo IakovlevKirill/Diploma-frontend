@@ -45,51 +45,56 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
         <div className="z-2 flex h-full w-[calc(20%)] bg-[#1C1F24] border-r-[1px] border-[#535558]">
             <div className="w-full h-full flex flex-col items-center">
                 <div className="w-[calc(100%-40px)] h-[calc(15%-41px)] p-[20px] flex flex-col items-start justify-center gap-[15px] border-b-[1px] border-[#535558]">
-                    <button
-                        hidden={!isChangeTitleInputActive}
-                        onClick={() => {
-                            setIsChangeTitleInputActive(!isChangeTitleInputActive);
-                        }}
-                        className="w-full text-start select-none font-[Inter-semibold] text-[#FFF] text-[20px] p-[4px] rounded-[8px]
+                    <div className="w-full ">
+                        <button
+                            hidden={!isChangeTitleInputActive}
+                            onClick={() => {
+                                setIsChangeTitleInputActive(!isChangeTitleInputActive);
+                            }}
+                            className="w-[calc(100%)] text-[20px] p-[4px] rounded-[8px] text-start select-none font-[Inter-semibold] text-[#FFF]
                     border-[1px]
                     border-[#1C1F24]
                     bg-[#1C1F24]
-                    hover:bg-[#5b5d61]"
-                    >
-                        {title}
-                    </button>
-                    <input
-                        ref={inputRef}
-                        hidden={isChangeTitleInputActive}
-                        id="title-input"
-                        defaultValue={title}
-                        onBlur={(e) => {
-                            const newTitle = e.target.value;
-                            changeProjectTitle({
-                                projectId: currentProjectId,
-                                projectTitle: newTitle,
-                            });
-                            setTitle(newTitle)
-                            setIsChangeTitleInputActive(!isChangeTitleInputActive);
-                        }}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                // @ts-expect-error
-                                const newTitle = e?.target?.value;
+                    hover:bg-[#5b5d61]
+                    hover:border-[#5b5d61]
+                    "
+                        >
+                            {title}
+                        </button>
+                        <input
+                            ref={inputRef}
+                            hidden={isChangeTitleInputActive}
+                            id="title-input"
+                            placeholder="Enter title"
+                            defaultValue={title}
+                            onBlur={(e) => {
+                                const newTitle = e.target.value;
                                 changeProjectTitle({
                                     projectId: currentProjectId,
                                     projectTitle: newTitle,
                                 });
                                 setTitle(newTitle)
                                 setIsChangeTitleInputActive(!isChangeTitleInputActive);
-                            }
-                        }}
-                        type="text"
-                        className="
-                         w-full select-none font-[Inter-semibold] text-[#FFF] bg-[#1C1F24] border-[1px] text-[20px] p-[4px] rounded-[8px]
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-expect-error
+                                    const newTitle = e?.target?.value;
+                                    changeProjectTitle({
+                                        projectId: currentProjectId,
+                                        projectTitle: newTitle,
+                                    });
+                                    setTitle(newTitle)
+                                    setIsChangeTitleInputActive(!isChangeTitleInputActive);
+                                }
+                            }}
+                            type="text"
+                            className="
+                         w-[calc(100%-10px)] text-[20px] p-[4px] rounded-[8px] select-none font-[Inter-semibold] text-[#FFF] bg-[#1C1F24] border-[1px]
                          focus:outline-none"
-                    />
+                        />
+                    </div>
                     <div className="flex flex-row flex-wrap gap-[10px]">
                         <button
                             onClick={()=>{
