@@ -50,7 +50,6 @@ export const WorkSpace = () => {
     useEffect(() => {
         if (projectId) {
             dispatch(setCurrentProjectId(projectId))
-            dispatch(setCurrentProjectTitle(String(project?.title)));
         }
     }, [dispatch, projectId, project_data]);
 
@@ -130,7 +129,7 @@ export const WorkSpace = () => {
                 className="h-[95%] w-[100vw] flex flex-row items-center justify-center"
             >
                 {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
-                <LeftSidebar></LeftSidebar>
+                <LeftSidebar projectTitle={String(project?.title)}></LeftSidebar>
                 {/*z-1 relative flex h-full w-[85%]*/}
                 <CanvasArea></CanvasArea>
             </motion.div>

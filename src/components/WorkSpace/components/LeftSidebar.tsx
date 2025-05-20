@@ -5,24 +5,40 @@ import {useNavigate} from "react-router-dom";
 import {images} from "../../../assets/images/images"
 import React, {useEffect, useRef, useState} from "react";
 import {useChangeProjectTitleMutation} from "../../../api/testApi.ts";
-import {setCurrentProjectTitle} from "../../../app/slices/currentProjectSlice.ts";
 
-export const LeftSidebar = () => {
+interface LeftSidebarProps {
+    projectTitle: string;
+}
 
+export const LeftSidebar = ( props: LeftSidebarProps) => {
+
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate();
 
     const node_array = useAppSelector((state) => state.canvasObjects.objects);
     const currentSelectedNodeId = useAppSelector((state) => state.currentObject.object_id);
 
-    const currentProjectId = useAppSelector((state) => state.currentProject.currentProjectId);
-    const currentProjectTitle = useAppSelector((state) => state.currentProject.currentProjectTitle);
+    const inputRef = useRef(null);
 
-    const [changeProjectTitle, {isLoading: isProjectTitleChangeLoading}] = useChangeProjectTitleMutation()
+    const currentProjectId = useAppSelector((state) => state.currentProject.currentProjectId);
+
+    const [changeProjectTitle] = useChangeProjectTitleMutation()
 
     const [isChangeTitleInputActive, setIsChangeTitleInputActive] = useState(true);
+    const [title, setTitle] = useState<string>(props.projectTitle);
 
-    const dispatch = useAppDispatch()
+    useEffect(() => {
+        if (!isChangeTitleInputActive && inputRef.current) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            inputRef.current.focus();
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            inputRef.current.select();
+        }
+    }, [isChangeTitleInputActive]);
 
-    const navigate = useNavigate();
+
 
 
     return (
@@ -40,31 +56,32 @@ export const LeftSidebar = () => {
                     bg-[#1C1F24]
                     hover:bg-[#5b5d61]"
                     >
-                        {currentProjectTitle}
+                        {title}
                     </button>
                     <input
-                        hidden={isChangeTitleInputActive || !currentProjectTitle}
+                        ref={inputRef}
+                        hidden={isChangeTitleInputActive}
                         id="title-input"
-                        defaultValue={currentProjectTitle || ""}
+                        defaultValue={title}
                         onBlur={(e) => {
-                            console.log(currentProjectTitle);
                             const newTitle = e.target.value;
                             changeProjectTitle({
                                 projectId: currentProjectId,
                                 projectTitle: newTitle,
                             });
-                            dispatch(setCurrentProjectTitle(newTitle));
+                            setTitle(newTitle)
                             setIsChangeTitleInputActive(!isChangeTitleInputActive);
                         }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                                // @ts-ignore
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                // @ts-expect-error
                                 const newTitle = e?.target?.value;
                                 changeProjectTitle({
                                     projectId: currentProjectId,
                                     projectTitle: newTitle,
                                 });
-                                dispatch(setCurrentProjectTitle(newTitle))
+                                setTitle(newTitle)
                                 setIsChangeTitleInputActive(!isChangeTitleInputActive);
                             }
                         }}
