@@ -6,10 +6,21 @@ import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
 import { setCurrentObject } from "../../app/slices/currentCanvasObjectSlice.ts";
 import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
+import {
+    setCurrentProjectId,
+    setCurrentProjectTitle,
+} from "../../app/slices/currentProjectSlice.ts";
+import {useParams} from "react-router-dom";
+import {useGetProjectByIdQuery} from "../../api/testApi.ts";
 
 export const WorkSpace = () => {
 
     const dispatch = useAppDispatch();
+
+    const { projectId } = useParams();
+
+    const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(String(projectId));
+    const project = project_data?.project
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,6 +46,13 @@ export const WorkSpace = () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [dispatch]);
+
+    useEffect(() => {
+        if (projectId) {
+            dispatch(setCurrentProjectId(projectId))
+            dispatch(setCurrentProjectTitle(String(project?.title)));
+        }
+    }, [dispatch, projectId, project_data]);
 
     interface NodeGateWayProps {
         type: string;
@@ -93,6 +111,12 @@ export const WorkSpace = () => {
                     </div>
                 </div>
             </div>
+        )
+    }
+
+    if (isProjectLoading) {
+        return (
+            <div>Loading</div>
         )
     }
 

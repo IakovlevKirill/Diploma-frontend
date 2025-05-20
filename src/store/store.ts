@@ -4,6 +4,7 @@ import {currentToolSlice} from "../app/slices/currentToolSlice.ts";
 import {currentCanvasObjectSlice} from "../app/slices/currentCanvasObjectSlice.ts";
 import {canvasObjectsSlice} from "../app/slices/CanvasObjectsSlice.ts";
 import {objectCountSlice} from "../app/slices/objectCountSlice.ts";
+import {currentProjectSlice} from "../app/slices/currentProjectSlice.ts";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         currentObject: currentCanvasObjectSlice.reducer,
         canvasObjects: canvasObjectsSlice.reducer,
         objectCount: objectCountSlice.reducer,
+        currentProject: currentProjectSlice.reducer,
 
     },
     middleware: (getDefaultMiddleware) =>

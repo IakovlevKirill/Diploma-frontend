@@ -8,7 +8,7 @@ import {
     loginResponseType,
     registerRequestType,
     registerResponseType,
-    pinProjectRequestType, User,
+    pinProjectRequestType, User, Project,
 } from "../store/types.ts";
 
 const host = import.meta.env.VITE_HOST
@@ -46,7 +46,7 @@ export const diplomaApi = createApi({
                 method: 'GET',
             })
         }),
-        getProjectById: builder.query<getProjectByIdResponseType, void>({
+        getProjectById: builder.query<{project: Project}, string>({
             query: (projectId) => ({
                 url: `${baseUrl}/api/project/get?projectId=${projectId}`,
                 method: 'GET',
@@ -84,6 +84,13 @@ export const diplomaApi = createApi({
                 method: 'GET',
             })
         }),
+        changeProjectTitle: builder.mutation<void, {projectId: string, projectTitle: string}>({
+            query: arg => ({
+                url: `${baseUrl}/api/project/change/title`,
+                method: 'POST',
+                body: arg
+            })
+        }),
     }),
 });
 
@@ -99,4 +106,5 @@ export const {
     useGetPinnedProjectQuery,
     useChangeUserPasswordMutation,
     useGetUserByIdQuery,
+    useChangeProjectTitleMutation,
 } = diplomaApi;

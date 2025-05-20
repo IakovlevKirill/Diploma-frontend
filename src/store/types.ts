@@ -48,8 +48,6 @@ export type loginRequestType = {
 }
 
 export type createProjectRequestType = {
-    title: string,
-    content: string,
     userId: string
 }
 
