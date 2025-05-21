@@ -20,6 +20,20 @@ export const Projects = () => {
     const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery(current_user_userId);
     const { data: pinnedProjectsData, isLoading: isPinnedProjectsLoading } = useGetPinnedProjectQuery(current_user_userId);
 
+    const getLatestUpdateDate = (data) => {
+        if (!data?.projects || data.projects.length === 0) return null;
+
+        // Создаем массив дат updatedAt
+        const updatedDates = data.projects.map(project => new Date(project.updatedAt));
+
+        // Находим самую позднюю дату
+        const latestDate = new Date(Math.max(...updatedDates.map(date => date.getTime())));
+
+        return latestDate.toISOString();
+    };
+
+    const latestUpdate = getLatestUpdateDate(projectsData);
+
     const onCreateProject = async () => {
         if (current_user_userId) {
             try {
@@ -141,7 +155,7 @@ export const Projects = () => {
                     </div>
                     <div className="flex flex-col w-full gap-[16px] mt-[56px] ">
                         <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Latest Projects</div>
-                        <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">12/07/24</div>
+                        <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">{new Date(latestUpdate).toLocaleDateString('en-GB')}</div>
                         <div className="flex flex-row w-full mt-[30px] gap-[25px] flex-wrap">
                             {projectsData?.projects.map((project) => (
                                 <ProjectComponent
