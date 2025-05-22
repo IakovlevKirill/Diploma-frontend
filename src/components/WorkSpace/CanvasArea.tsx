@@ -136,11 +136,11 @@ export const CanvasArea = () => {
                             onClick={(e) => handleNodeClick(e, node)}
                             onMouseDown={(e) => handleMouseDown(e, node)}
                             className={`absolute z-99 border-2 border-[#F5F5F5]
-                            ${(node.type === "square" && !isDragging)
+                            ${(node.type === "node_creation" && !isDragging)
                                 ? "rounded-[0px] hover:border-[2px] cursor-pointer"
                                 : ""
                             }
-                            ${(node.type === "square" && currentSelectedNodeId === node.id)
+                            ${(node.type === "node_creation" && currentSelectedNodeId === node.id)
                                 ? "border-[2px] border-[#0d99ff]!"
                                 : ""
                             }
