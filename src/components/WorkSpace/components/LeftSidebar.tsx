@@ -100,7 +100,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                          focus:outline-none"
                         />
                     </div>
-                    <div className="flex flex-row flex-wrap gap-[10px]">
+                    <div className="flex flex-row select-none flex-wrap gap-[10px]">
                         <button
                             onClick={()=>{
                                 navigate('/projects');

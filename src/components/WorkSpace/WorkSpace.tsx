@@ -136,7 +136,6 @@ export const WorkSpace = () => {
                 {/*z-1 relative flex h-full w-[85%]*/}
                 <CanvasArea></CanvasArea>
             </motion.div>
-
         </div>
     );
 };
