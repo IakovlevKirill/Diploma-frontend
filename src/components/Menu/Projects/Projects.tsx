@@ -20,7 +20,7 @@ export const Projects = () => {
     const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery(current_user_userId);
     const { data: pinnedProjectsData, isLoading: isPinnedProjectsLoading } = useGetPinnedProjectQuery(current_user_userId);
 
-    const getLatestUpdateDate = (data) => {
+    const getLatestUpdateDate = (data: typeof projectsData) => {
         if (!data?.projects || data.projects.length === 0) return null;
 
         // Создаем массив дат updatedAt
@@ -155,7 +155,7 @@ export const Projects = () => {
                     </div>
                     <div className="flex flex-col w-full gap-[16px] mt-[56px] ">
                         <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Latest Projects</div>
-                        <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">{new Date(latestUpdate).toLocaleDateString('en-GB')}</div>
+                        <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">{new Date(String(latestUpdate)).toLocaleDateString('en-GB')}</div>
                         <div className="flex flex-row w-full mt-[30px] gap-[25px] flex-wrap">
                             {projectsData?.projects.map((project) => (
                                 <ProjectComponent
