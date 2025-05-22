@@ -2,8 +2,11 @@ import React from 'react';
 import github from "../../../../src/assets/images/github.png"
 import edit_icon from '../../../../src/assets/images/Edit_Pencil_01.png'
 import {motion} from "framer-motion";
+import {useDocumentTitle} from "../../../app/hooks.ts";
 
 export const Templates = () => {
+
+    useDocumentTitle(`Templates - WebNode`);
 
     const TemplateComponent = () => {
         return(

@@ -3,8 +3,11 @@ import {useLoginRequestMutation, useRegisterRequestMutation} from "../../api/tes
 import React, {FormEvent, useState} from "react"; // Добавлен импорт useState и FormEvent
 import {images} from '../../assets/images/images'
 import {motion} from "framer-motion";
+import {useDocumentTitle} from "../../app/hooks.ts";
 
 export const Auth = () => {
+
+    useDocumentTitle(`Auth - WebNode`);
 
     const navigate = useNavigate();
 

@@ -3,13 +3,15 @@ import {Outlet, useNavigate} from "react-router-dom";
 import { LayoutBar } from "../LayoutBar"
 import {useState} from "react";
 import {useGetUserByIdQuery} from "../../api/testApi.ts";
+import {useDocumentTitle} from "../../app/hooks.ts";
 
 export const MenuLayout = () => {
-
 
     const navigate = useNavigate();
 
     const userId = localStorage.getItem("userId");
+
+    useDocumentTitle(`Home - WebNode`);
 
     const [currentPage, setCurrentPage] = useState<string>()
 

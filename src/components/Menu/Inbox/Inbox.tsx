@@ -1,7 +1,10 @@
 import {images} from "../../../assets/images/images"
 import {motion} from "framer-motion";
+import {useDocumentTitle} from "../../../app/hooks.ts";
 
 export const Inbox = () => {
+
+    useDocumentTitle(`Inbox - WebNode`);
 
     const NewMessage = () => {
 

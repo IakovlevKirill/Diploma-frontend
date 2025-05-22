@@ -1,6 +1,6 @@
 import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
-import { useAppDispatch } from "../../app/hooks.ts";
+import {useAppDispatch, useDocumentTitle} from "../../app/hooks.ts";
 import React, { useEffect } from "react";
 import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
 import { setCurrentObject } from "../../app/slices/currentCanvasObjectSlice.ts";
@@ -8,7 +8,6 @@ import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
 import {
     setCurrentProjectId,
-    setCurrentProjectTitle,
 } from "../../app/slices/currentProjectSlice.ts";
 import {useParams} from "react-router-dom";
 import {useGetProjectByIdQuery} from "../../api/testApi.ts";
@@ -23,6 +22,8 @@ export const WorkSpace = () => {
 
     const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(String(projectId));
     const project = project_data?.project
+
+    useDocumentTitle(`${project?.title} - WebNode`);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {

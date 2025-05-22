@@ -1,6 +1,9 @@
 import {motion} from "framer-motion";
+import {useDocumentTitle} from "../../../app/hooks.ts";
 
 export const Teams = () => {
+
+    useDocumentTitle(`Teams - WebNode`);
 
     return (
         <motion.div

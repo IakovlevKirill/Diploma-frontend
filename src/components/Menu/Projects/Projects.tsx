@@ -7,8 +7,11 @@ import {
 } from "../../../api/testApi.ts";
 import {useNavigate} from "react-router-dom";
 import {motion} from "framer-motion";
+import {useDocumentTitle} from "../../../app/hooks.ts";
 
 export const Projects = () => {
+
+    useDocumentTitle(`Projects - WebNode`);
 
     const navigate = useNavigate();
 
