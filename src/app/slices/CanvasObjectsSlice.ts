@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CanvasObject } from "../../store/types.ts";
+import { CanvasNode } from "../../store/types.ts";
 
-interface CanvasObjectsState {
-    objects: CanvasObject[];
+interface CanvasNodesState {
+    objects: CanvasNode[];
 }
 
-const initialState: CanvasObjectsState = {
+const initialState: CanvasNodesState = {
     objects: [],
 };
 
@@ -13,10 +13,10 @@ export const canvasObjectsSlice = createSlice({
     name: 'canvasObjects',
     initialState,
     reducers: {
-        addObject: (state, action: PayloadAction<CanvasObject>) => {
+        addObject: (state, action: PayloadAction<CanvasNode>) => {
             state.objects.push(action.payload);
         },
-        updateObject: (state, action: PayloadAction<{id: string; changes: Partial<CanvasObject>}>) => {
+        updateObject: (state, action: PayloadAction<{id: string; changes: Partial<CanvasNode>}>) => {
             const index = state.objects.findIndex(obj => obj.id === action.payload.id);
             if (index !== -1) {
                 state.objects[index] = { ...state.objects[index], ...action.payload.changes };
