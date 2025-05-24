@@ -65,6 +65,13 @@ export const diplomaApi = createApi({
                 body: arg
             })
         }),
+        unpinProject: builder.mutation<void, pinProjectRequestType>({
+            query: (arg) => ({
+                url: `${baseUrl}/api/project/unpin`,
+                method: 'POST',
+                body: arg
+            })
+        }),
         getPinnedProject: builder.query<getAllProjectsResponseType, string>({
             query: (userId) => ({
                 url: `${baseUrl}/api/project/get/pinned?userId=${userId}`,
@@ -115,4 +122,5 @@ export const {
     useGetUserByIdQuery,
     useChangeProjectTitleMutation,
     useDuplicateProjectMutation,
+    useUnpinProjectMutation,
 } = diplomaApi;

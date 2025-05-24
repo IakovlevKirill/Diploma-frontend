@@ -8,6 +8,7 @@ import {
     useChangeProjectTitleMutation,
     useDuplicateProjectMutation
 } from "../../../api/testApi.ts";
+import {store} from "../../../store/store.ts";
 
 interface LeftSidebarProps {
     projectTitle: string;
@@ -103,6 +104,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                     <div className="flex flex-row select-none flex-wrap gap-[10px]">
                         <button
                             onClick={()=>{
+                                console.log('Before navigate back', store.getState()); // добавьте это
                                 navigate('/projects');
                             }}
                             className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
@@ -120,8 +122,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                                 }).unwrap();
 
                                 if (response) {
-                                    setTitle(title + ' ' + 'Copy')
-                                    const newUrl = `/workspace/${response.id}`
+                                    const newUrl = `/workspace/${response.project.id}`
                                     navigate(newUrl)
                                     window.open(newUrl, '_blank')
                                 }

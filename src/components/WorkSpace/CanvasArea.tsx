@@ -15,6 +15,7 @@ import {
 import { motion } from "framer-motion";
 
 export const CanvasArea = () => {
+
     const dispatch = useAppDispatch();
     const currentTool = useAppSelector((state) => state.currentTool.tool);
     const currentSelectedNodeId = useAppSelector((state) => state.currentObject.object_id);

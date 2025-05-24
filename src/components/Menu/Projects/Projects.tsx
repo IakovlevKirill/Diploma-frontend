@@ -2,26 +2,62 @@ import {images} from "../../../assets/images/images"
 import {
     useCreateProjectMutation,
     useDeleteProjectMutation,
-    useGetAllProjectsQuery, useGetPinnedProjectQuery,
-    usePinProjectMutation
+    useGetAllProjectsQuery,
+    useGetPinnedProjectQuery,
+    usePinProjectMutation,
+    useUnpinProjectMutation
 } from "../../../api/testApi.ts";
 import {useNavigate} from "react-router-dom";
 import {motion} from "framer-motion";
-import {useDocumentTitle} from "../../../app/hooks.ts";
+import {useAppDispatch, useAppSelector, useDocumentTitle} from "../../../app/hooks.ts";
+import {useEffect} from "react";
+
+import {
+    addProject,
+    setProjects,
+    deleteProject,
+} from "../../../app/slices/ProjectsSlice.ts";
+import {
+    addPinnedProject,
+    setPinnedProjects,
+    deletePinnedProject,
+    unpinPinnedProject
+} from "../../../app/slices/PinnedProjectsSlice.ts";
+
+import {Project} from "../../../store/types.ts";
+import {store} from "../../../store/store.ts";
 
 export const Projects = () => {
 
     useDocumentTitle(`Projects - WebNode`);
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const [createProject, { isLoading: isProjectCreationLoading }] = useCreateProjectMutation();
     const [pinProject, { isLoading : pinLoading}] = usePinProjectMutation()
-    const [deleteProject, { isLoading : deleteLoading}] = useDeleteProjectMutation()
+    const [unpinProject, { isLoading : unpinLoading}] = useUnpinProjectMutation()
+    const [deleteProjectRequest, { isLoading : deleteLoading}] = useDeleteProjectMutation()
 
     const current_user_userId = localStorage.getItem("userId")!;
+
     const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery(current_user_userId);
     const { data: pinnedProjectsData, isLoading: isPinnedProjectsLoading } = useGetPinnedProjectQuery(current_user_userId);
+
+    useEffect(() => {
+        if (projectsData) {
+            dispatch(setProjects(projectsData.projects));
+        }
+    }, [projectsData, dispatch]);
+
+    useEffect(() => {
+        if (pinnedProjectsData) {
+            dispatch(setPinnedProjects(pinnedProjectsData.projects));
+        }
+    }, [pinnedProjectsData, dispatch]);
+
+    const projects_array = useAppSelector((state) => state.Projects.projects);
+    const pinned_projects_array = useAppSelector((state) => state.PinnedProjects.projects);
 
     const getLatestUpdateDate = (data: typeof projectsData) => {
         if (!data?.projects || data.projects.length === 0) return null;
@@ -44,8 +80,12 @@ export const Projects = () => {
                     userId: current_user_userId,
                 }).unwrap();
 
-                if (response.id) {
-                    navigate(`/workspace/${response.id}`);
+                if (response.project) {
+                    const project = response.project
+                    console.log('Before dispatch', store.getState()); // добавьте это
+                    dispatch(addProject(project));
+                    console.log('After dispatch', store.getState()); // добавьте это
+                    navigate(`/workspace/${response.project.id}`);
                 }
             } catch (error) {
                 console.error('Project creation failed:', error);
@@ -54,6 +94,7 @@ export const Projects = () => {
     };
 
     interface ProjectComponentProps {
+        project: Project;
         key: string;
         id: string
         title: string
@@ -82,7 +123,15 @@ export const Projects = () => {
                                          flex flex-row items-start justify-end">
                         <button
                             onClick={() => {
-                                pinProject({projectId: props.id})
+                                console.log(props.project)
+                                if (props.project.isPinned == true) {
+                                    dispatch(unpinPinnedProject(props.project));
+                                    unpinProject({projectId: props.id})
+                                }
+                                if (props.project.isPinned == false) {
+                                    dispatch(addPinnedProject(props.project));
+                                    pinProject({projectId: props.id})
+                                }
                             }}
                             className="flex items-center justify-center bg-transparent border-0 focus:outline-none cursor-pointer h-[36px] w-[36px] px-[0] py-[0]">
                             <img className="w-[24px] h-[24px] p-[6px] hover:bg-[#FFFFFF13] hover:rounded-[5px]" src={images.Paperclip_Attechment_Tilt} alt=""/>
@@ -96,8 +145,10 @@ export const Projects = () => {
                         </button>
                         <button
                             onClick={() => {
-                                const id = props.id
-                                deleteProject(id)
+                                dispatch(deletePinnedProject(props.project))
+                                dispatch(deleteProject(props.project))
+                                deleteProjectRequest(props.project.id)
+
                             }}
                             className="flex items-center justify-center bg-transparent border-0 focus:outline-none cursor-pointer h-[36px] w-[36px] px-[0] py-[0]">
                             <img className="w-[24px] h-[24px] p-[6px] hover:bg-[#FFFFFF13] hover:rounded-[5px]" src={images.Trash_Full} alt=""/>
@@ -145,8 +196,9 @@ export const Projects = () => {
                     <div className="flex flex-col w-full gap-[16px] mt-[56px]">
                         <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Pinned Projects</div>
                         <div className="flex flex-row w-full mt-[30px] flex-wrap" style={{ gap: "25px" }}>
-                            {pinnedProjectsData?.projects.map((project) => (
+                            {pinned_projects_array?.map((project) => (
                                 <ProjectComponent
+                                    project={project}
                                     key={project.id}
                                     id={project.id}
                                     title={project.title}
@@ -160,8 +212,9 @@ export const Projects = () => {
                         <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Latest Projects</div>
                         <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">{new Date(String(latestUpdate)).toLocaleDateString('en-GB')}</div>
                         <div className="flex flex-row w-full mt-[30px] gap-[25px] flex-wrap">
-                            {projectsData?.projects.map((project) => (
+                            {projects_array?.map((project) => (
                                 <ProjectComponent
+                                    project={project}
                                     key={project.id}
                                     id={project.id}
                                     title={project.title}

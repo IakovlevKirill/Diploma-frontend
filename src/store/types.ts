@@ -33,6 +33,7 @@ export type Project = {
     createdAt: string
     updatedAt: string
     user: User
+    isPinned: boolean
 }
 
 // REQUESTS
@@ -75,7 +76,7 @@ export type loginResponseType = {
 }
 
 export type createProjectResponseType = {
-    id: string,
+    project: Project
 }
 
 export type getAllProjectsResponseType = {
