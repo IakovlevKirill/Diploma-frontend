@@ -1,6 +1,6 @@
 import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
-import {useAppDispatch, useDocumentTitle} from "../../app/hooks.ts";
+import {useAppDispatch, useAppSelector, useDocumentTitle} from "../../app/hooks.ts";
 import { MutatingDots } from 'react-loader-spinner';
 import React, { useEffect } from "react";
 import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
@@ -11,11 +11,15 @@ import {
     setCurrentProjectId,
 } from "../../app/slices/Project/currentProjectSlice.ts";
 import {useParams} from "react-router-dom";
-import {useGetNodesByProjectIdQuery, useGetProjectByIdQuery} from "../../api/testApi.ts";
-import {setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
+import {useDeleteNodeMutation, useGetNodesByProjectIdQuery, useGetProjectByIdQuery} from "../../api/testApi.ts";
+import {deleteNode, setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 
 export const WorkSpace = () => {
+
+    const [deleteNodeQuery, { isLoading: isDeleteNodeLoading }] = useDeleteNodeMutation();
+
+    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
 
     const dispatch = useAppDispatch();
 
@@ -40,7 +44,6 @@ export const WorkSpace = () => {
     }, [project_nodes, dispatch]);
 
     const project = project_data?.project
-    console.log(project_nodes)
 
     useDocumentTitle(`${project?.title} - WebNode`);
 
@@ -57,6 +60,10 @@ export const WorkSpace = () => {
                 case "2":
                     dispatch(setCurrentTool("node_creation"));
                     break;
+                case "Delete":
+                    deleteNodeQuery(currentSelectedNodeId)
+                    dispatch(deleteNode(currentSelectedNodeId))
+                    break;
                 default:
                     break;
             }
@@ -67,7 +74,7 @@ export const WorkSpace = () => {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [dispatch]);
+    }, [currentSelectedNodeId, deleteNodeQuery, dispatch]);
 
     interface NodeGateWayProps {
         type: string;

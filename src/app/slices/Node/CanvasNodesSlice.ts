@@ -16,6 +16,9 @@ export const NodesSlice = createSlice({
         addNode: (state, action: PayloadAction<CanvasNode>) => {
             state.nodes.push(action.payload);
         },
+        deleteNode: (state, action: PayloadAction<string>) => {
+            state.nodes = state.nodes.filter(node => node.id !== action.payload);
+        },
         setNodes: (state, action: PayloadAction<CanvasNode[]>) => {
             state.nodes = action.payload;
         },
@@ -35,6 +38,7 @@ export const {
     addNode,
     setNodes,
     changeColor,
+    deleteNode,
     clearCanvas
 } = NodesSlice.actions;
 

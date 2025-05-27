@@ -129,6 +129,12 @@ export const diplomaApi = createApi({
                 method: 'GET',
             })
         }),
+        deleteNode: builder.mutation<void, string>({
+            query: (nodeId) => ({
+                url: `${baseUrl}/api/project/node/delete?nodeId=${nodeId}`,
+                method: 'DELETE',
+            })
+        }),
     }),
 });
 
@@ -148,5 +154,6 @@ export const {
     useDuplicateProjectMutation,
     useUnpinProjectMutation,
     useCreateNodeMutation,
+    useDeleteNodeMutation,
     useGetNodesByProjectIdQuery,
 } = diplomaApi;

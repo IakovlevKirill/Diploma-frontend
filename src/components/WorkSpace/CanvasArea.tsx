@@ -15,6 +15,7 @@ import {
 import { motion } from "framer-motion";
 import {
     useCreateNodeMutation,
+    useDeleteNodeMutation
 } from "../../api/testApi.ts";
 import {useParams} from "react-router-dom";
 
@@ -105,8 +106,6 @@ export const CanvasArea = () => {
 
     const handleCanvasClick = (e: React.MouseEvent) => {
         if (currentTool == 'default') return;
-
-        console.log('chlen');
 
         if (contextMenu.visible) {
             setContextMenu({ ...contextMenu, visible: false });
