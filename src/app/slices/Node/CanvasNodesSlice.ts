@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CanvasNode } from "../../../store/types.ts";
 
-interface CanvasNodesState {
+interface NodesState {
     nodes: CanvasNode[];
 }
 
-const initialState: CanvasNodesState = {
+const initialState: NodesState = {
     nodes: [],
 };
 
-export const canvasNodesSlice = createSlice({
+export const NodesSlice = createSlice({
     name: 'canvasNodes',
     initialState,
     reducers: {
@@ -36,6 +36,6 @@ export const {
     setNodes,
     changeColor,
     clearCanvas
-} = canvasNodesSlice.actions;
+} = NodesSlice.actions;
 
-export default canvasNodesSlice.reducer;
+export default NodesSlice.reducer;

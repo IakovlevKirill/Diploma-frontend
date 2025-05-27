@@ -2,10 +2,10 @@ import { Toolbar } from "./components/Toolbar.tsx";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
 import {Route} from "./components/Route.tsx";
-import {setCurrentObject} from "../../app/slices/Node/currentCanvasObjectSlice.ts";
+import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {addNode} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
-import {incrementObjectCount} from "../../app/slices/Node/objectCountSlice.ts";
+import {incrementNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 import * as React from "react";
 import {
     useEffect,
@@ -26,9 +26,9 @@ export const CanvasArea = () => {
 
     const dispatch = useAppDispatch();
     const currentTool = useAppSelector((state) => state.currentTool.tool);
-    const currentSelectedNodeId = useAppSelector((state) => state.currentObject.object_id);
-    const node_array = useAppSelector((state) => state.canvasObjects.nodes);
-    const objects_count = useAppSelector((state) => state.objectCount.objectCount);
+    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
+    const node_array = useAppSelector((state) => state.nodes.nodes);
+    const objects_count = useAppSelector((state) => state.nodeCount.nodeCount);
 
     // Состояния для перемещения объекта
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -95,7 +95,7 @@ export const CanvasArea = () => {
 
     const handleNodeClick = (e: React.MouseEvent, obj: CanvasNode) => {
         e.stopPropagation();
-        dispatch(setCurrentObject({
+        dispatch(setCurrentNode({
             id: obj.id,
             name: obj.name,
             color: obj.color,
@@ -138,7 +138,7 @@ export const CanvasArea = () => {
         })
 
         dispatch(addNode(newNode));
-        dispatch(incrementObjectCount());
+        dispatch(incrementNodeCount());
     };
 
     // Обработчик контекстного меню

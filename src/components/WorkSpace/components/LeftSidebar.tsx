@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
-import {setCurrentObject} from "../../../app/slices/Node/currentCanvasObjectSlice.ts";
+import {setCurrentNode} from "../../../app/slices/Node/CurrentNodeSlice.ts";
 import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
 import {useNavigate} from "react-router-dom";
 import {images} from "../../../assets/images/images"
@@ -20,8 +20,8 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
-    const node_array = useAppSelector((state) => state.canvasObjects.nodes);
-    const currentSelectedNodeId = useAppSelector((state) => state.currentObject.object_id);
+    const node_array = useAppSelector((state) => state.nodes.nodes);
+    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
 
     const inputRef = useRef(null);
 
@@ -159,7 +159,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                             {node_array.map((node) => (
                                 <div
                                     onClick={() => {
-                                        dispatch(setCurrentObject({color: node.color, id: node.id, name: node.name}));
+                                        dispatch(setCurrentNode({color: node.color, id: node.id, name: node.name}));
                                         dispatch(setCurrentTool("default"))
                                     }}
                                     key={node.id}

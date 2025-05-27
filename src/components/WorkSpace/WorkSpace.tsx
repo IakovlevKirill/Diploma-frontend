@@ -4,7 +4,7 @@ import {useAppDispatch, useDocumentTitle} from "../../app/hooks.ts";
 import { MutatingDots } from 'react-loader-spinner';
 import React, { useEffect } from "react";
 import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
-import { setCurrentObject } from "../../app/slices/Node/currentCanvasObjectSlice.ts";
+import { setCurrentNode } from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
 import {
@@ -13,6 +13,7 @@ import {
 import {useParams} from "react-router-dom";
 import {useGetNodesByProjectIdQuery, useGetProjectByIdQuery} from "../../api/testApi.ts";
 import {setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
+import {setNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 
 export const WorkSpace = () => {
 
@@ -34,6 +35,7 @@ export const WorkSpace = () => {
     useEffect(() => {
         if (project_nodes) {
             dispatch(setNodes(project_nodes));
+            dispatch(setNodeCount(project_nodes.length));
         }
     }, [project_nodes, dispatch]);
 
@@ -47,7 +49,7 @@ export const WorkSpace = () => {
             switch (e.key) {
                 case "Escape":
                     dispatch(setCurrentTool("default"));
-                    dispatch(setCurrentObject({ id: '', name: '', color: '' }));
+                    dispatch(setCurrentNode({ id: '', name: '', color: '' }));
                     break;
                 case "1":
                     dispatch(setCurrentTool("default"));
@@ -131,7 +133,7 @@ export const WorkSpace = () => {
     return (
         <div className="flex flex-col h-screen w-screen overflow-hidden">
             <LayoutBar></LayoutBar>
-            {(isProjectLoading) && (
+            {(isProjectLoading || isNodesLoading) && (
                 <div className="flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF] w-full h-full">
                     <MutatingDots
                         visible={true}
@@ -146,7 +148,7 @@ export const WorkSpace = () => {
                     />
                 </div>
             )}
-            {(!isProjectLoading) && (
+            {(!(isProjectLoading || isNodesLoading)) && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

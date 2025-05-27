@@ -3,7 +3,7 @@ import {useAppSelector} from "../../../app/hooks.ts";
 export const Route = () => {
 
     const currentProjectId = useAppSelector((state) => state.currentProject.currentProjectId);
-    const currentSelectedNodeName = useAppSelector((state) => state.currentObject.object_name);
+    const currentSelectedNodeName = useAppSelector((state) => state.currentNode.node_name);
 
 
     const handleRouteClick = (e: React.MouseEvent) => {
