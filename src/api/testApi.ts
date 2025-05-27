@@ -8,7 +8,7 @@ import {
     loginResponseType,
     registerRequestType,
     registerResponseType,
-    pinProjectRequestType, User, Project,
+    pinProjectRequestType, User, Project, CanvasNode,
 } from "../store/types.ts";
 
 const host = import.meta.env.VITE_HOST
@@ -105,6 +105,30 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
+
+        /// NODES
+
+        createNode: builder.mutation<{created_node_id :string}, {
+            name: string,
+            projectId: string,
+            position: { x: number; y: number },
+            size: { width: number; height: number ; },
+            parent: string,
+            children: string[],
+            color: string,
+        }>({
+            query: arg => ({
+                url: `${baseUrl}/api/project/node/create`,
+                method: 'POST',
+                body: arg,
+            })
+        }),
+        getNodesByProjectId: builder.query<CanvasNode[], string>({
+            query: (projectId) => ({
+                url: `${baseUrl}/api/project/nodes/get?projectId=${projectId}`,
+                method: 'GET',
+            })
+        }),
     }),
 });
 
@@ -123,4 +147,6 @@ export const {
     useChangeProjectTitleMutation,
     useDuplicateProjectMutation,
     useUnpinProjectMutation,
+    useCreateNodeMutation,
+    useGetNodesByProjectIdQuery,
 } = diplomaApi;

@@ -6,34 +6,30 @@ export type currentToolType = {
 export type CanvasNode = {
     id: string;
     name: string;
-    type: 'default' | 'node_creation' | 'link' | 'text'
-    x: number;
-    y: number;
+    position: {x: number, y: number};
+    size: {width: number, height: number};
+    parent: string;
+    children: string[];
     color: string;
-    width: number;
-    height: number;
-    //     text?: string;
 };
 
 export type User = {
-    email: string
     id: string
+    email: string
+    username: null
+    role: string
     isVerified: false
-    projects: null
     createdAt: string
     updatedAt: string
-    username: null
-    role: 'user' | 'admin'
 }
 
 export type Project = {
     id: string;
     title: string;
-    content: string;
+    isPinned: boolean
     createdAt: string
     updatedAt: string
-    user: User
-    isPinned: boolean
+    content: string;
 }
 
 // REQUESTS

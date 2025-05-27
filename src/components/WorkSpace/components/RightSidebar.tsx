@@ -1,7 +1,7 @@
 import { Panel } from "./Panel.tsx";
 import { HexColorPicker } from "react-colorful";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
-import { changeColor } from "../../../app/slices/CanvasObjectsSlice.ts";
+import { changeColor } from "../../../app/slices/Node/CanvasNodesSlice.ts";
 import { useEffect, useState } from "react";
 
 export const RightSidebar = () => {

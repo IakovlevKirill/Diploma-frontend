@@ -16,13 +16,13 @@ import {
     addProject,
     setProjects,
     deleteProject,
-} from "../../../app/slices/ProjectsSlice.ts";
+} from "../../../app/slices/Project/ProjectsSlice.ts";
 import {
     addPinnedProject,
     setPinnedProjects,
     deletePinnedProject,
     unpinPinnedProject
-} from "../../../app/slices/PinnedProjectsSlice.ts";
+} from "../../../app/slices/Project/PinnedProjectsSlice.ts";
 
 import {Project} from "../../../store/types.ts";
 import {store} from "../../../store/store.ts";

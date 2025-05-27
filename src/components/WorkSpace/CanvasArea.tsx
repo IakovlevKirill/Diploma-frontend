@@ -2,10 +2,10 @@ import { Toolbar } from "./components/Toolbar.tsx";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
 import {Route} from "./components/Route.tsx";
-import {setCurrentObject} from "../../app/slices/currentCanvasObjectSlice.ts";
-import {addObject} from "../../app/slices/CanvasObjectsSlice.ts";
+import {setCurrentObject} from "../../app/slices/Node/currentCanvasObjectSlice.ts";
+import {addNode} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
-import {incrementObjectCount} from "../../app/slices/objectCountSlice.ts";
+import {incrementObjectCount} from "../../app/slices/Node/objectCountSlice.ts";
 import * as React from "react";
 import {
     useEffect,
@@ -13,13 +13,21 @@ import {
     useState
 } from "react";
 import { motion } from "framer-motion";
+import {
+    useCreateNodeMutation,
+} from "../../api/testApi.ts";
+import {useParams} from "react-router-dom";
 
 export const CanvasArea = () => {
+
+    const projectId = useParams()
+
+    const [createNode, { isLoading: isCreateNodeLoading }] = useCreateNodeMutation();
 
     const dispatch = useAppDispatch();
     const currentTool = useAppSelector((state) => state.currentTool.tool);
     const currentSelectedNodeId = useAppSelector((state) => state.currentObject.object_id);
-    const node_array = useAppSelector((state) => state.canvasObjects.objects);
+    const node_array = useAppSelector((state) => state.canvasObjects.nodes);
     const objects_count = useAppSelector((state) => state.objectCount.objectCount);
 
     // Состояния для перемещения объекта
@@ -97,6 +105,9 @@ export const CanvasArea = () => {
 
     const handleCanvasClick = (e: React.MouseEvent) => {
         if (currentTool == 'default') return;
+
+        console.log('chlen');
+
         if (contextMenu.visible) {
             setContextMenu({ ...contextMenu, visible: false });
             return;
@@ -109,15 +120,24 @@ export const CanvasArea = () => {
         const newNode: CanvasNode = {
             id: Math.random().toString(36).substring(2, 9),
             name: `node ` + objects_count,
-            type: currentTool,
             color: '#D9D9D9',
-            width: 120,
-            height: 80,
-            x: x,
-            y: y,
+            size: {width: 120, height: 80},
+            position: {x: x, y: y},
+            parent: '',
+            children: []
         };
 
-        dispatch(addObject(newNode));
+        createNode({
+            name: `node` + objects_count,
+            projectId: String(projectId.projectId),
+            position: {x: x, y: y},
+            size: {width: 120, height: 80},
+            parent: 'chlen',
+            children: [],
+            color: '#D9D9D9',
+        })
+
+        dispatch(addNode(newNode));
         dispatch(incrementObjectCount());
     };
 
@@ -187,28 +207,28 @@ export const CanvasArea = () => {
                     scale: scale,
                 }}
             >
-                {node_array.map((node) => (
+                {node_array.map((node: CanvasNode) => (
                     <div
                         key={node.id}
                         onClick={(e) => handleNodeClick(e, node)}
                         onMouseDown={(e) => handleMouseDown(e)}
                         className={`
                             absolute z-99 border-2 border-[#F5F5F5]
-                            ${(node.type === "node_creation" && !isDragging)
+                            ${(!isDragging)
                             ? "rounded-[0px] hover:border-[2px] cursor-pointer"
                             : ""
                         }
-                            ${(node.type === "node_creation" && currentSelectedNodeId === node.id)
+                            ${(currentSelectedNodeId === node.id)
                             ? "border-[2px] border-[#0d99ff]!"
                             : ""
                         }
                             ${isDragging && currentDraggedObject?.id === node.id ? "cursor-grabbing" : "cursor-grab"}
                         `}
                         style={{
-                            left: `${node.x}px`,
-                            top: `${node.y}px`,
-                            width: `${node.width}px`,
-                            height: `${node.height}px`,
+                            left: `${node.position.x}px`,
+                            top: `${node.position.y}px`,
+                            width: `${node.size.width}px`,
+                            height: `${node.size.height}px`,
                             backgroundColor: node.color
                         }}
                     />

@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
-import {setCurrentObject} from "../../../app/slices/currentCanvasObjectSlice.ts";
+import {setCurrentObject} from "../../../app/slices/Node/currentCanvasObjectSlice.ts";
 import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
 import {useNavigate} from "react-router-dom";
 import {images} from "../../../assets/images/images"
@@ -20,7 +20,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
-    const node_array = useAppSelector((state) => state.canvasObjects.objects);
+    const node_array = useAppSelector((state) => state.canvasObjects.nodes);
     const currentSelectedNodeId = useAppSelector((state) => state.currentObject.object_id);
 
     const inputRef = useRef(null);

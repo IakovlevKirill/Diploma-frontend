@@ -2,7 +2,7 @@ import {
     createSlice,
     PayloadAction
 } from '@reduxjs/toolkit';
-import {    Project} from "../../store/types.ts";
+import {    Project} from "../../../store/types.ts";
 
 interface ProjectsSliceState {
     projects: Project[]

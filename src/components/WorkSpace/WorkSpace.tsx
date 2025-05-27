@@ -1,16 +1,18 @@
 import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
 import {useAppDispatch, useDocumentTitle} from "../../app/hooks.ts";
+import { MutatingDots } from 'react-loader-spinner';
 import React, { useEffect } from "react";
 import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
-import { setCurrentObject } from "../../app/slices/currentCanvasObjectSlice.ts";
+import { setCurrentObject } from "../../app/slices/Node/currentCanvasObjectSlice.ts";
 import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
 import {
     setCurrentProjectId,
-} from "../../app/slices/currentProjectSlice.ts";
+} from "../../app/slices/Project/currentProjectSlice.ts";
 import {useParams} from "react-router-dom";
-import {useGetProjectByIdQuery} from "../../api/testApi.ts";
+import {useGetNodesByProjectIdQuery, useGetProjectByIdQuery} from "../../api/testApi.ts";
+import {setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
 
 export const WorkSpace = () => {
 
@@ -21,7 +23,22 @@ export const WorkSpace = () => {
     const userId = localStorage.getItem("userId");
 
     const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(String(projectId));
+    const { data: project_nodes, isLoading: isNodesLoading } = useGetNodesByProjectIdQuery(String(projectId));
+
+    useEffect(() => {
+        if (projectId) {
+            dispatch(setCurrentProjectId(projectId))
+        }
+    }, [dispatch, projectId, project_data]);
+
+    useEffect(() => {
+        if (project_nodes) {
+            dispatch(setNodes(project_nodes));
+        }
+    }, [project_nodes, dispatch]);
+
     const project = project_data?.project
+    console.log(project_nodes)
 
     useDocumentTitle(`${project?.title} - WebNode`);
 
@@ -49,12 +66,6 @@ export const WorkSpace = () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [dispatch]);
-
-    useEffect(() => {
-        if (projectId) {
-            dispatch(setCurrentProjectId(projectId))
-        }
-    }, [dispatch, projectId, project_data]);
 
     interface NodeGateWayProps {
         type: string;
@@ -116,26 +127,38 @@ export const WorkSpace = () => {
         )
     }
 
-    if (isProjectLoading) {
-        return (
-            <div>Loading</div>
-        )
-    }
 
     return (
         <div className="flex flex-col h-screen w-screen overflow-hidden">
             <LayoutBar></LayoutBar>
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.1 }}
-                className="h-[95%] w-[100vw] flex flex-row items-center justify-center"
-            >
-                {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
-                <LeftSidebar projectTitle={String(project?.title)} userId={String(userId)}></LeftSidebar>
-                {/*z-1 relative flex h-full w-[85%]*/}
-                <CanvasArea></CanvasArea>
-            </motion.div>
+            {(isProjectLoading) && (
+                <div className="flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF] w-full h-full">
+                    <MutatingDots
+                        visible={true}
+                        height="100"
+                        width="100"
+                        color="#FFF"
+                        secondaryColor="#FFF"
+                        radius="12.5"
+                        ariaLabel="mutating-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                </div>
+            )}
+            {(!isProjectLoading) && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.1 }}
+                    className="h-[95%] w-[100vw] flex flex-row items-center justify-center"
+                >
+                    {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
+                    <LeftSidebar projectTitle={String(project?.title)} userId={String(userId)}></LeftSidebar>
+                    {/*z-1 relative flex h-full w-[85%]*/}
+                    <CanvasArea></CanvasArea>
+                </motion.div>
+            )}
         </div>
     );
 };

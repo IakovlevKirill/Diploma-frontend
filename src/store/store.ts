@@ -1,19 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {diplomaApi} from '../api/testApi';
 import {currentToolSlice} from "../app/slices/currentToolSlice.ts";
-import {currentCanvasObjectSlice} from "../app/slices/currentCanvasObjectSlice.ts";
-import {canvasObjectsSlice} from "../app/slices/CanvasObjectsSlice.ts";
-import {objectCountSlice} from "../app/slices/objectCountSlice.ts";
-import {currentProjectSlice} from "../app/slices/currentProjectSlice.ts";
-import {PinnedProjectsSlice} from "../app/slices/PinnedProjectsSlice.ts";
-import {ProjectsSlice} from "../app/slices/ProjectsSlice.ts";
+import {currentCanvasObjectSlice} from "../app/slices/Node/currentCanvasObjectSlice.ts";
+import {canvasNodesSlice} from "../app/slices/Node/CanvasNodesSlice.ts";
+import {objectCountSlice} from "../app/slices/Node/objectCountSlice.ts";
+import {currentProjectSlice} from "../app/slices/Project/currentProjectSlice.ts";
+import {PinnedProjectsSlice} from "../app/slices/Project/PinnedProjectsSlice.ts";
+import {ProjectsSlice} from "../app/slices/Project/ProjectsSlice.ts";
 
 export const store = configureStore({
     reducer: {
         [diplomaApi.reducerPath]: diplomaApi.reducer,
         currentTool: currentToolSlice.reducer,
         currentObject: currentCanvasObjectSlice.reducer,
-        canvasObjects: canvasObjectsSlice.reducer,
+        canvasObjects: canvasNodesSlice.reducer,
         objectCount: objectCountSlice.reducer,
         currentProject: currentProjectSlice.reducer,
         Projects: ProjectsSlice.reducer,
