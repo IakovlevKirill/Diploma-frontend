@@ -7,9 +7,7 @@ import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
 import { setCurrentNode } from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
-import {
-    setCurrentProjectId,
-} from "../../app/slices/Project/currentProjectSlice.ts";
+import {setCurrentProjectId,} from "../../app/slices/Project/currentProjectSlice.ts";
 import {useParams} from "react-router-dom";
 import {useDeleteNodeMutation, useGetNodesByProjectIdQuery, useGetProjectByIdQuery} from "../../api/testApi.ts";
 import {deleteNode, setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
@@ -17,7 +15,7 @@ import {setNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 
 export const WorkSpace = () => {
 
-    const [deleteNodeQuery, { isLoading: isDeleteNodeLoading }] = useDeleteNodeMutation();
+    const [deleteNodeQuery] = useDeleteNodeMutation();
 
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
 
