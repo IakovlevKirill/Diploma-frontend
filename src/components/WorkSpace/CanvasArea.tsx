@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
 import {Route} from "./components/Route.tsx";
 import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
-import {addNode} from "../../app/slices/Node/CanvasNodesSlice.ts";
+import {addNode, updateNodePosition} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
 import {incrementNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 import * as React from "react";
@@ -14,7 +14,8 @@ import {
 } from "react";
 import { motion } from "framer-motion";
 import {
-    useCreateNodeMutation
+    useCreateNodeMutation,
+    useUpdateNodeMutation
 } from "../../api/testApi.ts";
 import {useNavigate, useParams} from "react-router-dom";
 
@@ -23,6 +24,7 @@ export const CanvasArea = () => {
     const projectId = useParams()
 
     const [createNode] = useCreateNodeMutation();
+    const [updateNode] = useUpdateNodeMutation();
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -32,12 +34,17 @@ export const CanvasArea = () => {
     const objects_count = useAppSelector((state) => state.nodeCount.nodeCount);
 
     // Состояния для перемещения объекта
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [scale, setScale] = useState(1);
+
     const [isDragging, setIsDragging] = useState(false);
-    const [currentDraggedObject, setCurrentDraggedObject] = useState<CanvasNode | null>(null);
+    const [currentDraggedNode, setCurrentDraggedNode] = useState<CanvasNode | null>(null);
+    const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
+
     // Состояние пкм менюшки
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 });
+
+    // Состояния для перемещения по холсту
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [scale, setScale] = useState(1);
 
     const canvasRef = useRef<HTMLDivElement>(null);
     const isPanning = useRef(false);
@@ -192,17 +199,66 @@ export const CanvasArea = () => {
     };
     */}
 
+    // Обработчики для drag and drop
+
+    const handleDragStart = (e: React.MouseEvent, node: CanvasNode) => {
+        setCurrentDraggedNode(node);
+        e.stopPropagation();
+        setIsDragging(true);
+        setDragStartPos({
+            x: e.clientX - position.x - node.position.x * scale,
+            y: e.clientY - position.y - node.position.y * scale
+        });
+    };
+
+    const handleDrag = (e: React.MouseEvent) => {
+
+        if (!isDragging || !currentDraggedNode) return;
+
+        const newX = (e.clientX - position.x - dragStartPos.x) / scale;
+        const newY = (e.clientY - position.y - dragStartPos.y) / scale;
+
+        dispatch(updateNodePosition({id: currentDraggedNode.id, x: newX, y: newY}));
+    };
+
+    const handleDragEnd = () => {
+        if (!currentDraggedNode) return;
+
+        // Получаем актуальные данные из хранилища
+        const currentNode = node_array.find(n => n.id === currentDraggedNode.id);
+        if (!currentNode) return;
+
+        const newNodeCoordinates = {
+            id: String(currentNode.id),
+            x: Number(currentNode.position.x),
+            y: Number(currentNode.position.y),
+        };
+
+        updateNode(newNodeCoordinates)
+            .unwrap()
+            .catch((error) => console.error("Update failed:", error));
+
+        setIsDragging(false);
+        setCurrentDraggedNode(null);
+    };
+
     const Node = (props: {key: string; node: CanvasNode;}) => {
         return (
             <div
                 onDoubleClick={()=>{navigate(`${currentSelectedNodeId}`)}} // дабл клик -> проваливаемся на уровень ниже
                 onClick={(e) => handleNodeClick(e, props.node)} // лкм на ноду
-
+                onMouseDown={(e) => {
+                    if (currentTool === 'default') {
+                        handleDragStart(e, props.node);
+                    }
+                }}
+                onMouseMove={handleDrag}
+                onMouseUp={handleDragEnd}
+                onMouseLeave={handleDragEnd}
                 className={`absolute z-99 border-2 border-[#F5F5F5] 
                             ${(currentSelectedNodeId === props.node.id) ? "border-[2px] border-[#0d99ff]!": ""}
                             
-                            ${(!isDragging)? "rounded-[0px] hover:border-[2px] cursor-pointer" : ""}
-                            ${isDragging && currentDraggedObject?.id === props.node.id ? "cursor-grabbing" : "cursor-grab"}
+                            ${isDragging ? "rounded-[0px] hover:border-[2px] cursor-pointer" : "cursor-pointer"}
                             
                         `}
                 style={{

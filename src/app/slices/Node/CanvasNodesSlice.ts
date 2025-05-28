@@ -31,6 +31,14 @@ export const NodesSlice = createSlice({
         clearCanvas: (state) => {
             state.nodes = [];
         },
+        updateNodePosition: (state, action: PayloadAction<{id: string; x: number; y: number}>) => {
+            const { id, x, y } = action.payload;
+            const node = state.nodes.find(node => node.id === id);
+            if (node) {
+                node.position.x = x;
+                node.position.y = y;
+            }
+        }
     },
 });
 
@@ -39,6 +47,7 @@ export const {
     setNodes,
     changeColor,
     deleteNode,
+    updateNodePosition,
     clearCanvas
 } = NodesSlice.actions;
 

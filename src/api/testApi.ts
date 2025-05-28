@@ -135,6 +135,13 @@ export const diplomaApi = createApi({
                 method: 'DELETE',
             })
         }),
+        updateNode: builder.mutation<void, {id: string, x: number, y: number}>({
+            query: (arg) => ({
+                url: `${baseUrl}/api/project/node/update`,
+                method: 'POST',
+                body: arg,
+            })
+        }),
     }),
 });
 
@@ -156,4 +163,5 @@ export const {
     useCreateNodeMutation,
     useDeleteNodeMutation,
     useGetNodesByProjectIdQuery,
+    useUpdateNodeMutation,
 } = diplomaApi;
