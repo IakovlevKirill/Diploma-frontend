@@ -19,7 +19,7 @@ import {
     useUpdateNodeMutation
 } from "../../api/testApi.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import {ColorRing} from "react-loader-spinner";
+import {ClipLoader} from "react-spinners";
 
 export const CanvasArea = () => {
 
@@ -407,14 +407,9 @@ export const CanvasArea = () => {
     const TreeUpdateIndicator = () => {
         return(
             <div className="absolute left-[30px] bottom-[30px] z-100 flex flex-row items-center gap-[10px]">
-                <ColorRing
-                    visible={true}
-                    height="25"
-                    width="25"
-                    ariaLabel="color-ring-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="color-ring-wrapper"
-                    colors={['#3575ff', '#3575ff', '#3575ff', '#3575ff', '#3575ff']}
+                <ClipLoader
+                    size={20}
+                    color={'#3575ff'}
                 />
             </div>
         )
@@ -442,6 +437,7 @@ export const CanvasArea = () => {
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>
             )}
+            <TreeUpdateIndicator></TreeUpdateIndicator>
 
             <motion.div
                 className="absolute bg-[#F5F5F5] z-1 w-[1000px] h-[1000px] origin-center"

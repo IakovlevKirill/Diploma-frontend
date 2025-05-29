@@ -1,7 +1,7 @@
 import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
 import {useAppDispatch, useAppSelector, useDocumentTitle} from "../../app/hooks.ts";
-import { MutatingDots } from 'react-loader-spinner';
+import {BarLoader, ClipLoader, RingLoader} from "react-spinners";
 import React, { useEffect } from "react";
 import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
 import { setCurrentNode } from "../../app/slices/Node/CurrentNodeSlice.ts";
@@ -140,16 +140,9 @@ export const WorkSpace = () => {
             <LayoutBar></LayoutBar>
             {(isProjectLoading || isNodesLoading) && (
                 <div className="flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF] w-full h-full">
-                    <MutatingDots
-                        visible={true}
-                        height="100"
-                        width="100"
-                        color="#FFF"
-                        secondaryColor="#FFF"
-                        radius="12.5"
-                        ariaLabel="mutating-dots-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
+                    <RingLoader
+                        color={'#ffffff'}
+                        speedMultiplier={1}
                     />
                 </div>
             )}
