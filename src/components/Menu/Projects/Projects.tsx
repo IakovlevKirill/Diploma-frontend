@@ -76,6 +76,7 @@ export const Projects = () => {
     const onCreateProject = async () => {
         if (current_user_userId) {
             try {
+                navigate(`/workspace`);
                 const response = await createProject({
                     userId: current_user_userId,
                 }).unwrap();

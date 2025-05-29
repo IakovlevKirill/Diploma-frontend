@@ -12,6 +12,7 @@ import {Teams} from "./components/Menu/Teams/Teams.tsx";
 import {Inbox} from "./components/Menu/Inbox/Inbox.tsx";
 import Templates from "./components/Menu/Templates/Templates.tsx";
 import {ReactNode} from "react";
+import {WorkSpaceLoading} from "./components/WorkSpace/WorkSpaceLoading.tsx";
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -61,6 +62,7 @@ export const App = () => {
 
                     </Route>
 
+                    <Route path="/workspace" element={<WorkSpaceLoading/>}/>
                     <Route path="/workspace/:projectId" element={<WorkSpace/>}/>
 
                     <Route path="*" element={<PageNotFound />} />
