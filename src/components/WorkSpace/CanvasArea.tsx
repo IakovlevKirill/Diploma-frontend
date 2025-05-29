@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
 import {Route} from "./components/Route.tsx";
 import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
-import {addNode, updateNodePosition} from "../../app/slices/Node/CanvasNodesSlice.ts";
+import {addNode, deleteNode, updateNodePosition} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
 import {incrementNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 import * as React from "react";
@@ -15,16 +15,19 @@ import {
 import { motion } from "framer-motion";
 import {
     useCreateNodeMutation,
+    useDeleteNodeMutation,
     useUpdateNodeMutation
 } from "../../api/testApi.ts";
 import {useNavigate, useParams} from "react-router-dom";
+import {ColorRing} from "react-loader-spinner";
 
 export const CanvasArea = () => {
 
     const projectId = useParams()
 
-    const [createNode] = useCreateNodeMutation();
-    const [updateNode] = useUpdateNodeMutation();
+    const [createNode, { isLoading : isCreateLoading}] = useCreateNodeMutation();
+    const [updateNode, { isLoading : isUpdateLoading}] = useUpdateNodeMutation();
+    const [deleteNodeQuery, { isLoading : isDeleteLoading}] = useDeleteNodeMutation();
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -40,7 +43,8 @@ export const CanvasArea = () => {
     const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
 
     // Состояние пкм менюшки
-    const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 });
+    const [contextMenuCanvas, setContextMenuCanvas] = useState({ visible: false, x: 0, y: 0 });
+    const [contextMenuNode, setContextMenuNode] = useState({ visible: false, x: 0, y: 0 });
 
     // Состояния для перемещения по холсту
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -90,8 +94,8 @@ export const CanvasArea = () => {
     const handleCanvasClick = (e: React.MouseEvent) => {
         if (currentTool == 'default') return;
 
-        if (contextMenu.visible) {
-            setContextMenu({ ...contextMenu, visible: false });
+        if (contextMenuCanvas.visible) {
+            setContextMenuCanvas({ ...contextMenuCanvas, visible: false });
             return;
         }
 
@@ -124,37 +128,81 @@ export const CanvasArea = () => {
     };
 
     // Обработчик контекстного меню
-    const handleContextMenu = (e: React.MouseEvent) => {
+    const handleContextMenu = (e: React.MouseEvent, menu_type: "canvas" | "node", node?: CanvasNode) => {
         e.preventDefault();
+        e.stopPropagation();
         if (e.ctrlKey) { // чтобы не открывалось при зажатом ctrl
             return
         }
-        if (contextMenu.visible) {
-            setContextMenu({
-                visible: false,
-                x: e.clientX,
-                y: e.clientY
-            });
-        } else if (!contextMenu.visible) {
-            setContextMenu({
-                visible: true,
-                x: e.clientX,
-                y: e.clientY
-            });
+        if (menu_type === 'canvas')  {
+            if (contextMenuCanvas.visible) {
+                setContextMenuCanvas({
+                    visible: false,
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            } else if (!contextMenuCanvas.visible && !contextMenuNode.visible) {
+                setContextMenuCanvas({
+                    visible: true,
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            } else if (contextMenuNode.visible) {
+                setContextMenuNode({
+                    visible: false,
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            }
+        } else if (menu_type === 'node') {
+            if (contextMenuNode.visible) {
+                setContextMenuNode({
+                    visible: false,
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            } else if (!contextMenuNode.visible && !contextMenuCanvas.visible && node) {
+                dispatch(setCurrentNode({id: node.id, name: node.name, color: node.color}))
+                setContextMenuNode({
+                    visible: true,
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            } else if (contextMenuCanvas.visible) {
+                setContextMenuCanvas({
+                    visible: false,
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            }
         }
     };
 
+
+
     // Закрытие контекстного меню при клике вне его
     useEffect(() => {
-        const handleClickOutside = () => {
-            if (contextMenu.visible) {
-                setContextMenu({ ...contextMenu, visible: false });
+        const handleClickCanvasOutside = () => {
+            if (contextMenuCanvas.visible) {
+                setContextMenuCanvas({ ...contextMenuCanvas, visible: false });
             }
         };
 
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
-    }, [contextMenu]);
+        document.addEventListener('click', handleClickCanvasOutside);
+        return () => document.removeEventListener('click', handleClickCanvasOutside);
+    }, [contextMenuCanvas]);
+
+    // Закрытие контекстного меню при клике вне его
+    useEffect(() => {
+        const handleClickNodeOutside = () => {
+            if (contextMenuNode.visible) {
+                setContextMenuNode({ ...contextMenuNode, visible: false });
+            }
+        };
+
+        document.addEventListener('click', handleClickNodeOutside);
+        return () => document.removeEventListener('click', handleClickNodeOutside);
+    }, [contextMenuNode]);
 
     // Добавляем обработчики для колесика мыши(для зума)
     useEffect(() => {
@@ -246,7 +294,12 @@ export const CanvasArea = () => {
         return (
             <div
                 onDoubleClick={()=>{navigate(`${currentSelectedNodeId}`)}} // дабл клик -> проваливаемся на уровень ниже
-                onClick={(e) => handleNodeClick(e, props.node)} // лкм на ноду
+                onContextMenu={(e) => {
+                    handleContextMenu(e, 'node', props.node)
+                }}
+                onClick={(e) => {
+                    handleNodeClick(e, props.node)
+                }} // лкм на ноду
                 onMouseDown={(e) => {
                     if (currentTool === 'default') {
                         handleDragStart(e, props.node);
@@ -272,14 +325,14 @@ export const CanvasArea = () => {
         )
     }
 
-    const ContextMenu = () => {
+    const ContextMenuCanvas = () => {
         return (
             <>
-                {(contextMenu.visible) && (
+                {(contextMenuCanvas.visible) && (
                     <div className="min-w-[200px] fixed flex flex-col p-[10px] gap-[5px] bg-[#1e1e1e] rounded-[8px] z-50 shadow-[0px_5px_16px_0px_rgba(0,_0,_0,_0.1)] select-none"
                          style={{
-                             left: `${contextMenu.x}px`,
-                             top: `${contextMenu.y}px`,
+                             left: `${contextMenuCanvas.x}px`,
+                             top: `${contextMenuCanvas.y}px`,
                          }}
                          onClick={(e) => e.stopPropagation()}
                     >
@@ -316,6 +369,57 @@ export const CanvasArea = () => {
         )
     }
 
+    const ContextMenuNode = () => {
+        return (
+            <>
+                {(contextMenuNode.visible) && (
+                    <div className="min-w-[200px] fixed flex flex-col p-[10px] gap-[5px] bg-[#1e1e1e] rounded-[8px] z-50 shadow-[0px_5px_16px_0px_rgba(0,_0,_0,_0.1)] select-none"
+                         style={{
+                             left: `${contextMenuNode.x}px`,
+                             top: `${contextMenuNode.y}px`,
+                         }}
+                         onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={() => {
+                                deleteNodeQuery(currentSelectedNodeId)
+                                dispatch(deleteNode(currentSelectedNodeId))
+                                setContextMenuNode({
+                                    visible: false,
+                                    x: 0,
+                                    y: 0,
+                                })
+                            }}
+                            className="
+                            bg-[#1e1e1e] w-[full] text-start border-0 font-[Inter-medium] text-[#FFF] text-[12px] p-[6px] rounded-[4px]
+                            hover:bg-[#3575ff]
+                        ">
+                            Delete
+                        </button>
+                        <div className="w-full h-[1px] bg-[#505356]"></div>
+                    </div>
+                )}
+            </>
+        )
+    }
+
+
+    const TreeUpdateIndicator = () => {
+        return(
+            <div className="absolute left-[30px] bottom-[30px] z-100 flex flex-row items-center gap-[10px]">
+                <ColorRing
+                    visible={true}
+                    height="25"
+                    width="25"
+                    ariaLabel="color-ring-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="color-ring-wrapper"
+                    colors={['#3575ff', '#3575ff', '#3575ff', '#3575ff', '#3575ff']}
+                />
+            </div>
+        )
+    }
+
     return (
         <div className={`z-1 relative flex h-full w-[85%] bg-[#F5F5F5] flex-1 overflow-hidden
                 ${currentTool === "default" ? "cursor-default" : ""}
@@ -328,12 +432,16 @@ export const CanvasArea = () => {
              onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}
              onMouseLeave={handleMouseUp}
-             onContextMenu={handleContextMenu} // пкм по холсту или ноде
+             onContextMenu={(e) => handleContextMenu(e, 'canvas')} // пкм по холсту или ноде
             // onWheel={handleWheel} пока что выключил потому что работает не корректно
         >
             <Route />
             <Toolbar />
-            <ContextMenu></ContextMenu>
+            <ContextMenuCanvas></ContextMenuCanvas>
+            <ContextMenuNode></ContextMenuNode>
+            {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
+                <TreeUpdateIndicator></TreeUpdateIndicator>
+            )}
 
             <motion.div
                 className="absolute bg-[#F5F5F5] z-1 w-[1000px] h-[1000px] origin-center"
