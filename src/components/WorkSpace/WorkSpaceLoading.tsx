@@ -1,9 +1,6 @@
 import React from 'react';
 import {LayoutBar} from "../LayoutBar.tsx";
 import {RingLoader} from "react-spinners";
-import {motion} from "framer-motion";
-import {LeftSidebar} from "./components/LeftSidebar.tsx";
-import {CanvasArea} from "./CanvasArea.tsx";
 
 export const WorkSpaceLoading = () => {
     return (

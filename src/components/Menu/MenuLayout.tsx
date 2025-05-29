@@ -1,9 +1,10 @@
 import {images} from "../../assets/images/images"
 import {Outlet, useNavigate} from "react-router-dom";
 import { LayoutBar } from "../LayoutBar"
-import {useState} from "react";
+import React, {useState} from "react";
 import {useGetUserByIdQuery} from "../../api/testApi.ts";
 import {useDocumentTitle} from "../../app/hooks.ts";
+import {RingLoader} from "react-spinners";
 
 export const MenuLayout = () => {
 
@@ -49,22 +50,20 @@ export const MenuLayout = () => {
                         </div>
                     </div>
                     <div className="w-full flex flex-col gap-[15px] border-t-[1px] border-[#535558] pt-[50px] ">
-                        <div className="flex w-[80%] relative items-center flex-row justify-between ">
-                            <button
-                                onClick={(e) => OnChangePage({page: "projects", e})}
-                                className={`
-                                flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0
-                               
-                                `}
-                            >
-                                <img className="w-[24px] h-[24px]" src={images.project_icon_white} alt=""/>
-                                <div className=
-                                {`text-[#FFF] font-[Inter-medium]  text-[16px]
-                                ${currentPage == 'projects' ? '' : '' }`}
-                                >Projects</div>
-                            </button>
-                        </div>
-
+                        <button
+                            onClick={(e) => OnChangePage({page: "projects", e})}
+                            className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
+                            <img className="w-[24px] h-[24px]" src={images.project_icon_white} alt=""/>
+                            <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
+                                ${currentPage == 'projects' ? '' : '' }`}>Projects</div>
+                        </button>
+                        <button
+                            onClick={(e) => OnChangePage({page: "templates", e})}
+                            className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
+                            <img className="w-[24px] h-[24px]" src={images.templates_icon_white} alt=""/>
+                            <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
+                                ${currentPage == 'templates' ? '' : '' }`}>Templates</div>
+                        </button>
                         <button
                             onClick={(e) => OnChangePage({page: "inbox", e})}
                             className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
@@ -79,13 +78,6 @@ export const MenuLayout = () => {
                             <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
                                 ${currentPage == 'teams' ? '' : '' }`}>Teams</div>
 
-                        </button>
-                        <button
-                            onClick={(e) => OnChangePage({page: "templates", e})}
-                            className=" flex flex-row items-center gap-[15px] px-[30px] cursor-pointer bg-[#191C21] border-0">
-                            <img className="w-[24px] h-[24px]" src={images.templates_icon_white} alt=""/>
-                            <div className={`text-[#FFF] font-[Inter-medium]  text-[16px]
-                                ${currentPage == 'templates' ? '' : '' }`}>Templates</div>
                         </button>
                     </div>
                 </div>
@@ -111,8 +103,11 @@ export const MenuLayout = () => {
         <div className="flex flex-col overflow-hidden w-[100vw] h-[100vh]">
             <LayoutBar></LayoutBar>
             {(isLoading) ? (
-                <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-[#FFF] font-[Inter-semibold] text-[16px]">Loading...</div>
+                <div className="flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF] w-full h-full">
+                    <RingLoader
+                        color={'#ffffff'}
+                        speedMultiplier={1}
+                    />
                 </div>
             ) : (
                 <div className="w-[100vw] h-[95vh] flex flex-row">

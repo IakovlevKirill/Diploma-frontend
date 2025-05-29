@@ -7,7 +7,6 @@ export const Inbox = () => {
     useDocumentTitle(`Inbox - WebNode`);
 
     const NewMessage = () => {
-
         return(
             <div className="w-[calc(100%-30px)] items-center justify-between flex flex-row rounded-[10px] border-[#4C4D50] border-[1px] p-[15px]">
                 <div className="w-[50%] flex flex-row items-center justify-between">
@@ -41,7 +40,6 @@ export const Inbox = () => {
     }
 
     const ArchiveMessage = () => {
-
         return(
             <div className="w-[calc(100%-30px)] items-center justify-between flex flex-row rounded-[10px] border-[#4C4D50] border-[1px] p-[15px]">
                 <div className="w-[50%] flex flex-row items-center justify-between">
@@ -61,17 +59,20 @@ export const Inbox = () => {
         )
     }
 
-
-
     return (
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="w-full overflow-y-scroll"
+            className="w-full overflow-y-scroll h-full select-none"
         >
-            <div className="font-[Inter] text-[#FFF]">
-                <div className="flex flex-col p-[50px] gap-[30px]">
+            <div className="font-[Inter] text-[#FFF] h-full">
+                <div className="flex flex-col p-[50px] h-[calc(100%-100px)] gap-[30px]">
+                    <div className="font-[Inter-semibold] text-[#FFF] text-[40px]">Inbox</div>
+                    <div className="w-full h-full flex items-center justify-center font-[Inter-medium]">
+                        The mail section is currently not functioning
+                    </div>
+                    {/*
                     <div className="flex flex-row justify-between">
                         <div className="font-[Inter-semibold] text-[#FFF] text-[40px]">Inbox</div>
                         <div className="flex flex-row gap-[5px] items-end justify-end">
@@ -92,9 +93,8 @@ export const Inbox = () => {
                     <div className="font-[Inter-semibold] text-[#FFF] text-[40px] ">Archive</div>
                     <div className="flex flex-col gap-[30px]">
                         <ArchiveMessage></ArchiveMessage>
-
-
                     </div>
+                    */}
                 </div>
             </div>
         </motion.div>
