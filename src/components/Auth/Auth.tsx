@@ -150,10 +150,11 @@ export const Auth = () => {
                                         setAuthFuncType("register");
                                     }} className="text-[#6BFFA4] font-[Inter-semibold] text-[16px] cursor-pointer">Register</a>
                                 </div>
-                                <button
-                                    className={`bg-gradient-to-b from-[#4CAF72] to-[#3E945F] text-[#FFF] font-[Inter-medium] text-[14px] px-[25px] py-[10px] rounded-[10px] outline-none border-[1px] border-[#76BF92] cursor-pointer flex items-center justify-center ${
-                                        isRegisterLoading || isLoginLoading ? 'opacity-75' : ''
-                                    }`}
+                                <button className="
+                                bg-gradient-to-b
+                                from-[#4CAF72]
+                                to-[#3E945F]
+                                text-[#FFF] font-[Inter-medium] text-[14px] px-[25px] w-[40px] rounded-[10px] outline-none border-[1px] border-[#76BF92] cursor-pointer flex items-center justify-center"
                                     disabled={isRegisterLoading || isLoginLoading}
                                 >
                                     {isRegisterLoading || isLoginLoading ? (
@@ -234,7 +235,11 @@ export const Auth = () => {
                                     }} className="text-[#6BFFA4] font-[Inter-semibold] text-[16px] cursor-pointer">Login</a>
                                 </div>
                                 <button
-                                    className="bg-gradient-to-b from-[#4CAF72] to-[#3E945F] text-[#FFF] font-[Inter-medium] text-[14px] px-[25px] py-[10px] rounded-[10px] outline-none border-[1px] border-[#76BF92] cursor-pointer flex items-center justify-center"
+                                    className="
+                                    bg-gradient-to-b
+                                    from-[#4CAF72]
+                                    to-[#3E945F]
+                                    text-[#FFF] font-[Inter-medium] text-[14px] px-[25px] w-[40px] rounded-[10px] outline-none border-[1px] border-[#76BF92] cursor-pointer flex items-center justify-center"
                                     disabled={isRegisterLoading || isLoginLoading}
                                 >
                                     {isRegisterLoading || isLoginLoading ? (
