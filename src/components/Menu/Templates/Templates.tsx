@@ -55,20 +55,16 @@ export const Templates = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="w-full"
+            className="w-[calc(100%-100px)] p-[50px]"
         >
             <div className="flex flex-row text-[#FFF]">
-                <div className="p-[50px] w-[75%]">
+                <div className="">
                     <span className="font-[Inter-semibold] text-[#FFF] text-[40px]">Templates</span>
                     <div className="flex flex-wrap w-[100%] gap-[30px] mt-[56px]">
                         <TemplateComponent></TemplateComponent>
                         <TemplateComponent></TemplateComponent>
                         <TemplateComponent></TemplateComponent>
-
                     </div>
-                </div>
-                <div className="w-[25%]">
-
                 </div>
             </div>
         </motion.div>

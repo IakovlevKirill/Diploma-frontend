@@ -7,12 +7,14 @@ import {currentProjectSlice} from "../app/slices/Project/currentProjectSlice.ts"
 import {PinnedProjectsSlice} from "../app/slices/Project/PinnedProjectsSlice.ts";
 import {ProjectsSlice} from "../app/slices/Project/ProjectsSlice.ts";
 import {CurrentNodeSlice} from "../app/slices/Node/CurrentNodeSlice.ts";
+import {CurrentUserIdSlice} from "../app/slices/CurrentUserIdSlice.ts";
 
 export const store = configureStore({
     reducer: {
         [diplomaApi.reducerPath]: diplomaApi.reducer,
 
         currentTool: currentToolSlice.reducer,
+        userId: CurrentUserIdSlice.reducer,
 
         /// PROJECTS
 

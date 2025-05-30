@@ -10,7 +10,7 @@ import {
 import {useNavigate} from "react-router-dom";
 import {motion} from "framer-motion";
 import {useAppDispatch, useAppSelector, useDocumentTitle} from "../../../app/hooks.ts";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 
 import {
     addProject,
@@ -34,12 +34,12 @@ export const Projects = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const [createProject, { isLoading: isProjectCreationLoading }] = useCreateProjectMutation();
-    const [pinProject, { isLoading : pinLoading}] = usePinProjectMutation()
-    const [unpinProject, { isLoading : unpinLoading}] = useUnpinProjectMutation()
-    const [deleteProjectRequest, { isLoading : deleteLoading}] = useDeleteProjectMutation()
+    const [createProject] = useCreateProjectMutation();
+    const [pinProject] = usePinProjectMutation()
+    const [unpinProject] = useUnpinProjectMutation()
+    const [deleteProjectRequest] = useDeleteProjectMutation()
 
-    const current_user_userId = localStorage.getItem("userId")!;
+    const current_user_userId = useAppSelector((state) => state.userId.userId);
 
     const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery(current_user_userId);
     const { data: pinnedProjectsData, isLoading: isPinnedProjectsLoading } = useGetPinnedProjectQuery(current_user_userId);
@@ -87,6 +87,9 @@ export const Projects = () => {
                     dispatch(addProject(project));
                     console.log('After dispatch', store.getState()); // добавьте это
                     navigate(`/workspace/${response.project.id}`);
+                } else {
+                    navigate(`/projects`);
+                    console.log('error creating project')
                 }
             } catch (error) {
                 console.error('Project creation failed:', error);
@@ -161,72 +164,76 @@ export const Projects = () => {
     }
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="flex w-full h-full"
-        >
-            <div className="flex w-[calc(100%-100px)] h-[calc(100%-100px)] p-[50px] overflow-y-scroll ">
-                <div className="w-[80%] flex flex-col">
-                    <div className="flex flex-col w-full gap-[16px]">
-                        <div className="text-[#FFF] font-[Inter-semibold]  text-[40px]">Templates</div>
-                        <div className="flex flex-row gap-[25px]">
-                            <button
-                                onClick={onCreateProject}
-                                className={`animation_transform w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px]
-                                 text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer
-                                 ${isProjectCreationLoading ? 'opacity-75' : ''}
-                                 `}>
-                                <div>Create new project</div>
-                                <img className="" src={images.Add_Plus} alt=""/>
-                            </button>
-                            <div className="w-[calc(50%-12.5px)] gap-[25px] flex flex-row justify-between">
-                                <div className="animation_transform flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
-                                    <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 1</div>
+        <div>
+            {!(isAllProjectsLoading || isPinnedProjectsLoading) && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.1 }}
+                    className="flex w-full h-full"
+                >
+                    <div className="flex w-[calc(100%-100px)] h-[calc(100%-100px)] p-[50px] overflow-y-scroll ">
+                        <div className="w-[100%] flex flex-col">
+                            <div className="flex flex-col w-full gap-[16px]">
+                                <div className="text-[#FFF] font-[Inter-semibold]  text-[40px]">Templates</div>
+                                <div className="flex flex-row gap-[25px]">
+                                    <button
+                                        onClick={onCreateProject}
+                                        className="
+                                        w-[calc(50%-12.5px)] flex items-center justify-between px-[25px] text-[24px]
+                                      text-[#FFF] font-[Inter-semibold] rounded-[10px] bg-[#333E42] border-[1px] border-[#666E71] cursor-pointer"
+                                    >
+                                        <div>Create new project</div>
+                                        <img className="" src={images.Add_Plus} alt=""/>
+                                    </button>
+                                    <div className="w-[calc(50%-12.5px)] gap-[25px] flex flex-row justify-between">
+                                        <div className="animation_transform flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
+                                            <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 1</div>
+                                        </div>
+                                        <div className="animation_transform flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
+                                            <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 2</div>
+                                        </div>
+                                        <div className="animation_transform flex w-[calc(33.4%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
+                                            <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 3</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="animation_transform flex w-[calc(33.3%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
-                                    <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 2</div>
+                            </div>
+                            <div className="flex flex-col w-full gap-[16px] mt-[56px]">
+                                <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Pinned Projects</div>
+                                <div className="flex flex-row w-full mt-[30px] flex-wrap" style={{ gap: "25px" }}>
+                                    {pinned_projects_array?.map((project) => (
+                                        <ProjectComponent
+                                            project={project}
+                                            key={project.id}
+                                            id={project.id}
+                                            title={project.title}
+                                            updatedAt={project.updatedAt}
+                                        ></ProjectComponent>
+                                    ))}
                                 </div>
-                                <div className="animation_transform flex w-[calc(33.4%-12.5px)] py-[35px] bg-[#1F2428] rounded-[10px] cursor-pointer items-center justify-center border-[#575B5E] border-[1px]">
-                                    <div className="text-[#FFF] font-[Inter-medium] text-[16px] ">Template 3</div>
+                                <div className="mt-[53px] w-full h-[1px] bg-[#4E5053]"></div>
+                            </div>
+                            <div className="flex flex-col w-full gap-[16px] mt-[56px] ">
+                                <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Latest Projects</div>
+                                <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">{new Date(String(latestUpdate)).toLocaleDateString('en-GB')}</div>
+                                <div className="flex flex-row w-full mt-[30px] gap-[25px] flex-wrap">
+                                    {projects_array?.map((project) => (
+                                        <ProjectComponent
+                                            project={project}
+                                            key={project.id}
+                                            id={project.id}
+                                            title={project.title}
+                                            updatedAt={project.updatedAt}
+                                        ></ProjectComponent>
+                                    ))}
+                                    <div className="w-full h-[10%]"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col w-full gap-[16px] mt-[56px]">
-                        <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Pinned Projects</div>
-                        <div className="flex flex-row w-full mt-[30px] flex-wrap" style={{ gap: "25px" }}>
-                            {pinned_projects_array?.map((project) => (
-                                <ProjectComponent
-                                    project={project}
-                                    key={project.id}
-                                    id={project.id}
-                                    title={project.title}
-                                    updatedAt={project.updatedAt}
-                                ></ProjectComponent>
-                            ))}
-                        </div>
-                        <div className="mt-[53px] w-full h-[1px] bg-[#4E5053]"></div>
-                    </div>
-                    <div className="flex flex-col w-full gap-[16px] mt-[56px] ">
-                        <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Latest Projects</div>
-                        <div className="text-[#FFF] font-[Inter-semibold] text-[20px]">{new Date(String(latestUpdate)).toLocaleDateString('en-GB')}</div>
-                        <div className="flex flex-row w-full mt-[30px] gap-[25px] flex-wrap">
-                            {projects_array?.map((project) => (
-                                <ProjectComponent
-                                    project={project}
-                                    key={project.id}
-                                    id={project.id}
-                                    title={project.title}
-                                    updatedAt={project.updatedAt}
-                                ></ProjectComponent>
-                            ))}
-                            <div className="w-full h-[10%]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </motion.div>
+                </motion.div>
+            )}
+        </div>
     );
 };

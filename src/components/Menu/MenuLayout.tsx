@@ -1,16 +1,23 @@
 import {images} from "../../assets/images/images"
 import {Outlet, useNavigate} from "react-router-dom";
 import { LayoutBar } from "../LayoutBar"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useGetUserByIdQuery} from "../../api/testApi.ts";
 import {useDocumentTitle} from "../../app/hooks.ts";
 import {RingLoader} from "react-spinners";
+import {useDispatch} from "react-redux";
+import {setUserId} from "../../app/slices/CurrentUserIdSlice.ts";
 
 export const MenuLayout = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const userId = localStorage.getItem("userId");
+
+    useEffect(() => {
+        dispatch(setUserId(userId));
+    }, [userId]);
 
     useDocumentTitle(`Home - WebNode`);
 

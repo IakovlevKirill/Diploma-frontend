@@ -85,7 +85,7 @@ export const diplomaApi = createApi({
                 body: arg
             })
         }),
-        getUserById: builder.query<User, void>({
+        getUserById: builder.query<User, string>({
             query: (userId) => ({
                 url: `${baseUrl}/api/user/get?userId=${userId}`,
                 method: 'GET',

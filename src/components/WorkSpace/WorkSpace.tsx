@@ -1,7 +1,7 @@
 import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
 import {useAppDispatch, useAppSelector, useDocumentTitle} from "../../app/hooks.ts";
-import {BarLoader, ClipLoader, RingLoader} from "react-spinners";
+import {RingLoader} from "react-spinners";
 import React, { useEffect } from "react";
 import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
 import { setCurrentNode } from "../../app/slices/Node/CurrentNodeSlice.ts";
@@ -9,7 +9,11 @@ import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
 import {setCurrentProjectId,} from "../../app/slices/Project/currentProjectSlice.ts";
 import {useParams} from "react-router-dom";
-import {useDeleteNodeMutation, useGetNodesByProjectIdQuery, useGetProjectByIdQuery} from "../../api/testApi.ts";
+import {
+    useDeleteNodeMutation,
+    useGetNodesByProjectIdQuery,
+    useGetProjectByIdQuery,
+} from "../../api/testApi.ts";
 import {deleteNode, setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 
@@ -23,10 +27,10 @@ export const WorkSpace = () => {
 
     const { projectId } = useParams();
 
-    const userId = localStorage.getItem("userId");
+    const current_user_userId = useAppSelector((state) => state.userId.userId);
 
-    const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(String(projectId));
-    const { data: project_nodes, isLoading: isNodesLoading } = useGetNodesByProjectIdQuery(String(projectId));
+    const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(current_user_userId);
+    const { data: project_nodes, isLoading: isNodesLoading } = useGetNodesByProjectIdQuery(current_user_userId);
 
     useEffect(() => {
         if (projectId) {
@@ -154,7 +158,7 @@ export const WorkSpace = () => {
                     className="h-[95%] w-[100vw] flex flex-row items-center justify-center"
                 >
                     {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
-                    <LeftSidebar projectTitle={String(project?.title)} userId={String(userId)}></LeftSidebar>
+                    <LeftSidebar projectTitle={String(project?.title)} userId={current_user_userId}></LeftSidebar>
                     {/*z-1 relative flex h-full w-[85%]*/}
                     <CanvasArea></CanvasArea>
                 </motion.div>

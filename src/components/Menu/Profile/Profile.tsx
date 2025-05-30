@@ -3,20 +3,18 @@ import {images} from "../../../assets/images/images.ts";
 import {useNavigate} from 'react-router-dom';
 import {motion} from "framer-motion";
 import {useChangeUserPasswordMutation, useGetUserByIdQuery} from "../../../api/testApi.ts";
-import {useDocumentTitle} from "../../../app/hooks.ts";
+import {useAppSelector, useDocumentTitle} from "../../../app/hooks.ts";
 
 
 export const Profile = () => {
 
     const [changePassword] = useChangeUserPasswordMutation()
 
-    const userId = localStorage.getItem("userId");
+    const current_user_userId = useAppSelector((state) => state.userId.userId);
 
     const navigate = useNavigate();
-   
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const {data: user_data, isLoading} = useGetUserByIdQuery(userId)
+
+    const {data: user_data, isLoading} = useGetUserByIdQuery(current_user_userId)
 
     useDocumentTitle(`${user_data?.email} Profile - WebNode`);
 
