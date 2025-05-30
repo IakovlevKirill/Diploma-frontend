@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import {setCurrentNode} from "../../../app/slices/Node/CurrentNodeSlice.ts";
-import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
+import {setCurrentTool} from "../../../app/slices/WorkSpace/currentToolSlice.ts";
 import {useNavigate} from "react-router-dom";
 import {images} from "../../../assets/images/images"
 import React, {useEffect, useRef, useState} from "react";
@@ -122,7 +122,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                                 }).unwrap();
 
                                 if (response) {
-                                    const newUrl = `/workspace/${response.project.id}`
+                                    const newUrl = `/workspace/project/${response.project.id}`
                                     navigate(newUrl)
                                     window.open(newUrl, '_blank')
                                 }

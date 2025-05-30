@@ -4,7 +4,7 @@ import {CanvasNode} from "../../store/types.ts";
 import {Route} from "./components/Route.tsx";
 import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {addNode, deleteNode, updateNodePosition} from "../../app/slices/Node/CanvasNodesSlice.ts";
-import {setCurrentTool} from "../../app/slices/currentToolSlice.ts";
+import {setCurrentTool} from "../../app/slices/WorkSpace/currentToolSlice.ts";
 import {incrementNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 import * as React from "react";
 import {
@@ -451,7 +451,6 @@ export const CanvasArea = () => {
                     <Node node={node} key={node.id}></Node>
                 ))}
             </motion.div>
-
         </div>
     );
 };

@@ -3,18 +3,18 @@ import {images} from "../../../assets/images/images.ts";
 import {useNavigate} from 'react-router-dom';
 import {motion} from "framer-motion";
 import {useChangeUserPasswordMutation, useGetUserByIdQuery} from "../../../api/testApi.ts";
-import {useAppSelector, useDocumentTitle} from "../../../app/hooks.ts";
+import {useDocumentTitle} from "../../../app/hooks.ts";
 
 
 export const Profile = () => {
 
     const [changePassword] = useChangeUserPasswordMutation()
 
-    const current_user_userId = useAppSelector((state) => state.userId.userId);
+    const userId = String(localStorage.getItem("userId"))
 
     const navigate = useNavigate();
 
-    const {data: user_data, isLoading} = useGetUserByIdQuery(current_user_userId)
+    const {data: user_data, isLoading} = useGetUserByIdQuery(userId)
 
     useDocumentTitle(`${user_data?.email} Profile - WebNode`);
 

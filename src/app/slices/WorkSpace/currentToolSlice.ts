@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { currentToolType } from "../../store/types.ts"
+import { currentToolType } from "../../../store/types.ts"
 
 const initialState: currentToolType = {
     tool: 'default',
@@ -15,6 +15,8 @@ export const currentToolSlice = createSlice({
     },
 });
 
-export const { setCurrentTool } = currentToolSlice.actions;
+export const {
+    setCurrentTool
+} = currentToolSlice.actions;
 
 export default currentToolSlice.reducer;

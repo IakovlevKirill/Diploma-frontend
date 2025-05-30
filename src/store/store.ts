@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {diplomaApi} from '../api/testApi';
-import {currentToolSlice} from "../app/slices/currentToolSlice.ts";
+import {currentToolSlice} from "../app/slices/WorkSpace/currentToolSlice.ts";
 import {NodesSlice} from "../app/slices/Node/CanvasNodesSlice.ts";
 import {NodeCountSlice} from "../app/slices/Node/NodeCountSlice.ts";
 import {currentProjectSlice} from "../app/slices/Project/currentProjectSlice.ts";
@@ -8,6 +8,7 @@ import {PinnedProjectsSlice} from "../app/slices/Project/PinnedProjectsSlice.ts"
 import {ProjectsSlice} from "../app/slices/Project/ProjectsSlice.ts";
 import {CurrentNodeSlice} from "../app/slices/Node/CurrentNodeSlice.ts";
 import {CurrentUserIdSlice} from "../app/slices/CurrentUserIdSlice.ts";
+import {CurrentProjectIdSlice} from "../app/slices/WorkSpace/CurrentProjectIdSlice.ts";
 
 export const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
 
         currentTool: currentToolSlice.reducer,
         userId: CurrentUserIdSlice.reducer,
+        projectId: CurrentProjectIdSlice.reducer,
 
         /// PROJECTS
 

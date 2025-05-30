@@ -3,7 +3,6 @@ import {
     createProjectRequestType,
     createProjectResponseType,
     getAllProjectsResponseType,
-    getProjectByIdResponseType,
     loginRequestType,
     loginResponseType,
     registerRequestType,
@@ -19,6 +18,9 @@ export const diplomaApi = createApi({
     reducerPath: 'diplomaApi',
     baseQuery: fetchBaseQuery({baseUrl}),
     endpoints: (builder) => ({
+
+        /// USER
+
         registerRequest: builder.mutation<registerResponseType, registerRequestType>({
             query: arg => ({
                 url: `${baseUrl}/api/auth/register`,
@@ -33,6 +35,23 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
+
+        changeUserPassword: builder.mutation<void, {userId: string, new_password: string, old_password: string}>({
+            query: arg => ({
+                url: `${baseUrl}/api/user/change/password`,
+                method: 'POST',
+                body: arg
+            })
+        }),
+        getUserById: builder.query<User, string>({
+            query: (userId) => ({
+                url: `${baseUrl}/api/user/get?userId=${userId}`,
+                method: 'GET',
+            })
+        }),
+
+        /// PROJECTS
+
         createProject: builder.mutation<createProjectResponseType, createProjectRequestType>({
             query: arg => ({
                 url: `${baseUrl}/api/project/create`,
@@ -78,19 +97,7 @@ export const diplomaApi = createApi({
                 method: 'GET',
             })
         }),
-        changeUserPassword: builder.mutation<void, {userId: string, new_password: string, old_password: string}>({
-            query: arg => ({
-                url: `${baseUrl}/api/user/change/password`,
-                method: 'POST',
-                body: arg
-            })
-        }),
-        getUserById: builder.query<User, string>({
-            query: (userId) => ({
-                url: `${baseUrl}/api/user/get?userId=${userId}`,
-                method: 'GET',
-            })
-        }),
+
         changeProjectTitle: builder.mutation<void, {projectId: string, projectTitle: string}>({
             query: arg => ({
                 url: `${baseUrl}/api/project/change/title`,
@@ -142,6 +149,7 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
+
     }),
 });
 

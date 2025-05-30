@@ -63,7 +63,7 @@ export const App = () => {
                     </Route>
 
                     <Route path="/workspace" element={<WorkSpaceLoading/>}/>
-                    <Route path="/workspace/:projectId" element={<WorkSpace/>}/>
+                    <Route path="/workspace/project/:projectId" element={<WorkSpace/>}/>
 
                     <Route path="*" element={<PageNotFound />} />
 

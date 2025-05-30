@@ -13,18 +13,16 @@ export const MenuLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const userId = localStorage.getItem("userId");
+    const userId = String(localStorage.getItem("userId"))
 
     useEffect(() => {
         dispatch(setUserId(userId));
-    }, [userId]);
+    }, [dispatch, userId]);
 
     useDocumentTitle(`Home - WebNode`);
 
     const [currentPage, setCurrentPage] = useState<string>()
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     const {data: user_data, isLoading} = useGetUserByIdQuery(userId)
 
     const firstLetter = user_data?.email?.charAt(0).toUpperCase()

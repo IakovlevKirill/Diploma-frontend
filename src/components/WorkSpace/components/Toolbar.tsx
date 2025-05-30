@@ -1,6 +1,6 @@
 import {images} from '../../../assets/images/images'
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
-import {setCurrentTool} from "../../../app/slices/currentToolSlice.ts";
+import {setCurrentTool} from "../../../app/slices/WorkSpace/currentToolSlice.ts";
 import * as React from "react";
 
 export const Toolbar = () => {

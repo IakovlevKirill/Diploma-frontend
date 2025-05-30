@@ -3,7 +3,7 @@ import { CanvasArea } from "./CanvasArea.tsx";
 import {useAppDispatch, useAppSelector, useDocumentTitle} from "../../app/hooks.ts";
 import {RingLoader} from "react-spinners";
 import React, { useEffect } from "react";
-import { setCurrentTool } from "../../app/slices/currentToolSlice.ts";
+import { setCurrentTool } from "../../app/slices/WorkSpace/currentToolSlice.ts";
 import { setCurrentNode } from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
@@ -27,10 +27,10 @@ export const WorkSpace = () => {
 
     const { projectId } = useParams();
 
-    const current_user_userId = useAppSelector((state) => state.userId.userId);
+    const userId = String(localStorage.getItem("userId"))
 
-    const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(current_user_userId);
-    const { data: project_nodes, isLoading: isNodesLoading } = useGetNodesByProjectIdQuery(current_user_userId);
+    const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(String(projectId));
+    const { data: project_nodes, isLoading: isNodesLoading } = useGetNodesByProjectIdQuery(String(projectId));
 
     useEffect(() => {
         if (projectId) {
@@ -143,22 +143,22 @@ export const WorkSpace = () => {
         <div className="flex flex-col h-screen w-screen overflow-hidden">
             <LayoutBar></LayoutBar>
             {(isProjectLoading || isNodesLoading) && (
-                <div className="flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF] w-full h-full">
+                <div className="h-[95vh] w-[100vh] flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF]">
                     <RingLoader
                         color={'#ffffff'}
                         speedMultiplier={1}
                     />
                 </div>
             )}
-            {(!(isProjectLoading || isNodesLoading)) && (
+            {!(isProjectLoading || isNodesLoading) && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="h-[95%] w-[100vw] flex flex-row items-center justify-center"
+                    className="h-[95vh] w-[100vw] flex flex-row items-center justify-center"
                 >
                     {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
-                    <LeftSidebar projectTitle={String(project?.title)} userId={current_user_userId}></LeftSidebar>
+                    <LeftSidebar projectTitle={String(project?.title)} userId={userId}></LeftSidebar>
                     {/*z-1 relative flex h-full w-[85%]*/}
                     <CanvasArea></CanvasArea>
                 </motion.div>
