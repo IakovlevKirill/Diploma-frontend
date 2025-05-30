@@ -154,7 +154,7 @@ export const Auth = () => {
                                 bg-gradient-to-b
                                 from-[#4CAF72]
                                 to-[#3E945F]
-                                text-[#FFF] font-[Inter-medium] text-[14px] px-[25px] w-[40px] rounded-[10px] outline-none border-[1px] border-[#76BF92] cursor-pointer flex items-center justify-center"
+                                text-[#FFF] font-[Inter-medium] text-[14px] px-[25px] h-[40px] rounded-[10px] outline-none border-[1px] border-[#76BF92] cursor-pointer flex items-center justify-center"
                                     disabled={isRegisterLoading || isLoginLoading}
                                 >
                                     {isRegisterLoading || isLoginLoading ? (
@@ -239,7 +239,7 @@ export const Auth = () => {
                                     bg-gradient-to-b
                                     from-[#4CAF72]
                                     to-[#3E945F]
-                                    text-[#FFF] font-[Inter-medium] text-[14px] px-[25px] w-[40px] rounded-[10px] outline-none border-[1px] border-[#76BF92] cursor-pointer flex items-center justify-center"
+                                    text-[#FFF] font-[Inter-medium] text-[14px] px-[25px] h-[40px] rounded-[10px] outline-none border-[1px] border-[#76BF92] cursor-pointer flex items-center justify-center"
                                     disabled={isRegisterLoading || isLoginLoading}
                                 >
                                     {isRegisterLoading || isLoginLoading ? (
