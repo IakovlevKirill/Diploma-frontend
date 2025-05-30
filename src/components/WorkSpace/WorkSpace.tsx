@@ -143,7 +143,7 @@ export const WorkSpace = () => {
         <div className="flex flex-col h-screen w-screen overflow-hidden">
             <LayoutBar></LayoutBar>
             {(isProjectLoading || isNodesLoading) && (
-                <div className="h-[95vh] w-[100vh] flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF]">
+                <div className="h-[95vh] w-[100vw] flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF]">
                     <RingLoader
                         color={'#ffffff'}
                         speedMultiplier={1}

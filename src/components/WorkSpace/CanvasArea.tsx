@@ -437,8 +437,6 @@ export const CanvasArea = () => {
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>
             )}
-            <TreeUpdateIndicator></TreeUpdateIndicator>
-
             <motion.div
                 className="absolute bg-[#F5F5F5] z-1 w-[1000px] h-[1000px] origin-center"
                 style={{
