@@ -16,6 +16,13 @@ export const MenuLayout = () => {
     const userId = String(localStorage.getItem("userId"))
 
     useEffect(() => {
+        if (document.URL == 'http://localhost:5173/' || document.URL == 'https://diploma-frontend-mlcp.onrender.com/') {
+            navigate("/projects");
+        }
+
+    }, [navigate]);
+
+    useEffect(() => {
         dispatch(setUserId(userId));
     }, [dispatch, userId]);
 
