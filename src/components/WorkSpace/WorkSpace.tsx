@@ -2,7 +2,7 @@ import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
 import {useAppDispatch, useAppSelector, useDocumentTitle} from "../../app/hooks.ts";
 import {RingLoader} from "react-spinners";
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { setCurrentTool } from "../../app/slices/WorkSpace/currentToolSlice.ts";
 import { setCurrentNode } from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {LayoutBar} from "../LayoutBar.tsx";
@@ -16,12 +16,15 @@ import {
 } from "../../api/testApi.ts";
 import {deleteNode, setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
+import {images} from "../../assets/images/images.ts";
+import {DeleteProjectModal} from "./components/DeleteProjectModal.tsx";
 
 export const WorkSpace = () => {
 
     const [deleteNodeQuery] = useDeleteNodeMutation();
 
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
+    const isDeleteProjectModalVisible = useAppSelector((state) => state.isModalVisible.visibility);
 
     const dispatch = useAppDispatch();
 
@@ -137,11 +140,15 @@ export const WorkSpace = () => {
             </div>
         )
     }
-
-
+    
     return (
-        <div className="flex flex-col h-screen w-screen overflow-hidden">
+        <div className="flex flex-col h-screen w-screen overflow-hidden relative">
             <LayoutBar></LayoutBar>
+            {(isDeleteProjectModalVisible) && (
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                <DeleteProjectModal project={project} projectId={String(project?.id)}></DeleteProjectModal>
+            )}
             {(isProjectLoading || isNodesLoading) && (
                 <div className="h-[95vh] w-[100vw] flex flex-col items-center justify-center font-[Inter-medium] text-[#FFF]">
                     <RingLoader
@@ -158,7 +165,7 @@ export const WorkSpace = () => {
                     className="h-[95vh] w-[100vw] flex flex-row items-center justify-center"
                 >
                     {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
-                    <LeftSidebar projectTitle={String(project?.title)} userId={userId}></LeftSidebar>
+                    <LeftSidebar projectTitle={String(project?.title)} userId={userId} projectId={String(project?.id)}></LeftSidebar>
                     {/*z-1 relative flex h-full w-[85%]*/}
                     <CanvasArea></CanvasArea>
                 </motion.div>

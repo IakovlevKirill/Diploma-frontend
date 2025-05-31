@@ -27,6 +27,7 @@ import text_toolbar from './text_toolbar.png'
 import Trash_Full from './Trash_Full.png'
 import Users_Group from './Users_Group.png'
 import node_icon_white from './node_icon_white.png'
+import close_modal_icon from './close_modal_icon.png'
 
 export const images =
 {
@@ -59,4 +60,5 @@ export const images =
     Trash_Full,
     Users_Group,
     node_icon_white,
+    close_modal_icon
 }

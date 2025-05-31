@@ -6,13 +6,16 @@ import {images} from "../../../assets/images/images"
 import React, {useEffect, useRef, useState} from "react";
 import {
     useChangeProjectTitleMutation,
+    useDeleteProjectMutation,
     useDuplicateProjectMutation
 } from "../../../api/testApi.ts";
 import {store} from "../../../store/store.ts";
+import {setModalVisibility} from "../../../app/slices/WorkSpace/DeleteProjectModalSlice.ts";
 
 interface LeftSidebarProps {
     projectTitle: string;
     userId: string;
+    projectId: string;
 }
 
 export const LeftSidebar = ( props: LeftSidebarProps) => {
@@ -58,12 +61,11 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                                 setIsChangeTitleInputActive(!isChangeTitleInputActive);
                             }}
                             className="w-[calc(100%)] text-[20px] p-[4px] rounded-[8px] text-start select-none font-[Inter-semibold] text-[#FFF]
-                    border-[1px]
-                    border-[#1C1F24]
-                    bg-[#1C1F24]
-                    hover:bg-[#5b5d61]
-                    hover:border-[#5b5d61]
-                    "
+                                border-[1px]
+                                border-[#1C1F24]
+                                bg-[#1C1F24]
+                                hover:bg-[#5b5d61]
+                                hover:border-[#5b5d61]"
                         >
                             {title}
                         </button>
@@ -97,8 +99,8 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                             }}
                             type="text"
                             className="
-                         w-[calc(100%-10px)] text-[20px] p-[4px] rounded-[8px] select-none font-[Inter-semibold] text-[#FFF] bg-[#1C1F24] border-[1px]
-                         focus:outline-none"
+                                w-[calc(100%-10px)] text-[20px] p-[4px] rounded-[8px] select-none font-[Inter-semibold] text-[#FFF] bg-[#1C1F24] border-[1px]
+                                focus:outline-none"
                         />
                     </div>
                     <div className="flex flex-row select-none flex-wrap gap-[10px]">
@@ -112,7 +114,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                             text-[#9C9C9C]
                             hover:bg-[#D9D9D9]
                             hover:text-[black]
-                            ">Menu
+                            ">Back to files
                         </button>
                         <button
                             onClick={ async ()=>{
@@ -132,14 +134,18 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                             text-[#9C9C9C]
                             hover:bg-[#D9D9D9]
                             hover:text-[black]
-                            ">Duplicate project
+                            ">Duplicate
                         </button>
-                        <button className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
+                        <button
+                            onClick={ () => {
+                                dispatch(setModalVisibility(true))
+                            }}
+                            className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
                             bg-[#1c1f24]
                             text-[#9C9C9C]
                             hover:bg-[#D9D9D9]
                             hover:text-[black]
-                            ">Move to trash
+                            ">Delete
                         </button>
                         <button className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
                             bg-[#1c1f24]
