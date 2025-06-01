@@ -14,11 +14,11 @@ export const Profile = () => {
 
     const navigate = useNavigate();
 
-    const {data: user_data, isLoading} = useGetUserByIdQuery(userId)
+    const {data: user_data, isLoading} = useGetUserByIdQuery({ userId: userId })
 
-    useDocumentTitle(`${user_data?.email} Profile - WebNode`);
+    useDocumentTitle(`${user_data?.data.user.email} Profile - WebNode`);
 
-    const firstLetter = user_data?.email?.charAt(0).toUpperCase()
+    const firstLetter = user_data?.data.user.email?.charAt(0).toUpperCase()
 
     const OnLogout = () => {
         localStorage.removeItem('authToken');
@@ -53,15 +53,14 @@ export const Profile = () => {
                     old_password: values.old_password,
                     new_password: values.new_password,
                 }).unwrap()
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                if (response) {
-                    console.log('success');
+
+                if (response.result == "success") {
+                    console.log(response.data.message);
                 } else {
-                    console.log('error');
+                    console.log(response.data.message);
                 }
             } catch (error) {
-                console.log('Произошла ошибка при регистрации');
+                console.log('Произошла ошибка при смене пароля');
                 console.error(error);
             }
 
@@ -96,8 +95,8 @@ export const Profile = () => {
                                     <span className="text-[#FFF] font-[Inter-medium]  text-[30px]">{firstLetter}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <div className="text-[#FFF] font-[Inter-medium] text-[24px]">{user_data?.email}</div>
-                                    <div className="text-[#A8A9AC] font-[Inter-normal] text-[16px]">{user_data?.role}</div>
+                                    <div className="text-[#FFF] font-[Inter-medium] text-[24px]">{user_data?.data.user.email}</div>
+                                    <div className="text-[#A8A9AC] font-[Inter-normal] text-[16px]">{user_data?.data.user.role}</div>
                                 </div>
                             </div>
                             <button

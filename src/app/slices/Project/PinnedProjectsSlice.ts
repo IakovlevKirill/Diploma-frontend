@@ -17,7 +17,11 @@ export const PinnedProjectsSlice = createSlice({
     initialState,
     reducers: {
         addPinnedProject: (state, action: PayloadAction<Project>) => {
-            state.projects.push(action.payload);
+            const newProject = {
+                ...action.payload,
+                isPinned: true
+            };
+            state.projects.push(newProject);
         },
         setPinnedProjects: (state, action: PayloadAction<Project[]>) => {
             state.projects = action.payload;

@@ -14,6 +14,8 @@ export const DeleteProjectModal = ( props: {projectId: string, project: Project}
 
     const [deleteProjectRequest] = useDeleteProjectMutation()
 
+    // TODO пересмотреть устройство модального окна + поработать с плавным появлением
+
     return (
         <button
             onClick={() => {
@@ -34,7 +36,7 @@ export const DeleteProjectModal = ( props: {projectId: string, project: Project}
                         onClick={ () => {
                             dispatch(setModalVisibility(false))
                             dispatch(deleteProject(props.project))
-                            deleteProjectRequest(props.projectId)
+                            deleteProjectRequest({ projectId: props.projectId})
                             // TODO не работает удаление в стейте
                             navigate('/projects')
                         }}

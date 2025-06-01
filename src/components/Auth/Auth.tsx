@@ -46,12 +46,10 @@ export const Auth = () => {
                     password: values.password,
                 }).unwrap();
 
-                if (response.access_token) {
-                    // Перенес сохранение токена и имени пользователя сюда
-                    const jwtToken = response.access_token; // В реальном приложении token должен приходить с сервера
+                if (response.result == "success") {
 
-                    localStorage.setItem('authToken', jwtToken);
-                    localStorage.setItem('userId', response.id);
+                    localStorage.setItem('authToken', response.data.access_token);
+                    localStorage.setItem('userId', response.data.id);
                     localStorage.setItem('userEmail', values.email);
 
                     navigate('/projects');
@@ -70,12 +68,10 @@ export const Auth = () => {
                     password: values.password,
                 }).unwrap();
 
-                if (response.access_token) {
-                    // Перенес сохранение токена и имени пользователя сюда
-                    const jwtToken = response.access_token; // В реальном приложении token должен приходить с сервера
+                if (response.result == "success") {
 
-                    localStorage.setItem('authToken', jwtToken);
-                    localStorage.setItem('userId', response.id);
+                    localStorage.setItem('authToken', response.data.access_token);
+                    localStorage.setItem('userId', response.data.id);
                     localStorage.setItem('userEmail', values.email);
 
                     navigate('/projects');

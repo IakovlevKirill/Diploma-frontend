@@ -34,52 +34,5 @@ export type Project = {
 
 // REQUESTS
 
-export type registerRequestType = {
-    email: string,
-    password: string,
-}
 
-export type loginRequestType = {
-    email: string,
-    password: string
-}
-
-export type createProjectRequestType = {
-    userId: string
-}
-
-export type getAllProjectsRequestsType = {
-    userId: string,
-}
-
-export type pinProjectRequestType = {
-    projectId: string,
-}
-
-export type getPinnedProjectsRequestType = {
-    userId: string,
-}
 // RESPONSES
-
-export type registerResponseType = {
-    access_token: string;
-    id: string;
-}
-
-export type loginResponseType = {
-    access_token: string;
-    id: string;
-}
-
-export type createProjectResponseType = {
-    project: Project
-}
-
-export type getAllProjectsResponseType = {
-    projects: Project[]
-
-}
-
-export type getProjectByIdResponseType = {
-    project: Project
-}

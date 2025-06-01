@@ -1,13 +1,8 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {
-    createProjectRequestType,
-    createProjectResponseType,
-    getAllProjectsResponseType,
-    loginRequestType,
-    loginResponseType,
-    registerRequestType,
-    registerResponseType,
-    pinProjectRequestType, User, Project, CanvasNode,
+    User,
+    Project,
+    CanvasNode,
 } from "../store/types.ts";
 
 const host = import.meta.env.VITE_HOST
@@ -19,16 +14,35 @@ export const diplomaApi = createApi({
     baseQuery: fetchBaseQuery({baseUrl}),
     endpoints: (builder) => ({
 
-        /// USER
+        /// AUTH
 
-        registerRequest: builder.mutation<registerResponseType, registerRequestType>({
+        registerRequest: builder.mutation<{
+            result: "success" | "failure",
+            data: {
+                access_token: string;
+                id: string;
+            }
+        }, {
+            email: string;
+            password: string;
+        }>({
             query: arg => ({
                 url: `${baseUrl}/api/auth/register`,
                 method: 'POST',
                 body: arg,
             })
         }),
-        loginRequest: builder.mutation<loginResponseType, loginRequestType>({
+
+        loginRequest: builder.mutation<{
+            result: "success" | "failure";
+            data: {
+                access_token: string;
+                id: string;
+            },
+        }, {
+            email: string;
+            password: string;
+        }>({
             query: arg => ({
                 url: `${baseUrl}/api/auth/login`,
                 method: 'POST',
@@ -36,76 +50,151 @@ export const diplomaApi = createApi({
             })
         }),
 
-        changeUserPassword: builder.mutation<void, {userId: string, new_password: string, old_password: string}>({
+        /// USER
+
+        changeUserPassword: builder.mutation<{
+            result: "success" | "failure",
+            data: {
+                message: string
+            }
+        }, {
+            userId: string,
+            new_password: string,
+            old_password: string
+        }>({
             query: arg => ({
                 url: `${baseUrl}/api/user/change/password`,
                 method: 'POST',
                 body: arg
             })
         }),
-        getUserById: builder.query<User, string>({
+
+        getUserById: builder.query<{
+            result: "success" | "failure";
+            data: {
+                user: User
+            }
+        }, {
+            userId: string
+        }>({
             query: (userId) => ({
-                url: `${baseUrl}/api/user/get?userId=${userId}`,
+                url: `${baseUrl}/api/user/get?userId=${userId.userId}`,
                 method: 'GET',
             })
         }),
 
         /// PROJECTS
 
-        createProject: builder.mutation<createProjectResponseType, createProjectRequestType>({
+        createProject: builder.mutation<{
+            result: "success" | "failure";
+            data: {
+                project: Project;
+            }
+        }, {
+            userId: string;
+        }>({
             query: arg => ({
                 url: `${baseUrl}/api/project/create`,
                 method: 'POST',
                 body: arg,
             })
         }),
-        getAllProjects: builder.query<getAllProjectsResponseType, string>({
+        getAllProjects: builder.query<{
+            result: "success" | "failure",
+            data: {
+                projects: Project[];
+            }
+        }, {
+            userId: string
+        }>({
             query: (userId) => ({
-                url: `${baseUrl}/api/project/get/all?userId=${userId}`,
+                url: `${baseUrl}/api/project/get/all?userId=${userId.userId}`,
                 method: 'GET',
             })
         }),
-        getProjectById: builder.query<{project: Project}, string>({
+        getProjectById: builder.query<{
+            result: "success" | "failure",
+            data: {
+                project: Project;
+            }
+        }, {
+            projectId: string;
+        }>({
             query: (projectId) => ({
-                url: `${baseUrl}/api/project/get?projectId=${projectId}`,
+                url: `${baseUrl}/api/project/get?projectId=${projectId.projectId}`,
                 method: 'GET',
             })
         }),
-        deleteProject: builder.mutation<void, string>({
+        deleteProject: builder.mutation<{
+            result: "success" | "failure",
+            message: string
+        }, {
+            projectId: string;
+        }>({
             query: (projectId) => ({
-                url: `${baseUrl}/api/project/delete?projectId=${projectId}`,
+                url: `${baseUrl}/api/project/delete?projectId=${projectId.projectId}`,
                 method: 'DELETE',
             })
         }),
-        pinProject: builder.mutation<void, pinProjectRequestType>({
+        pinProject: builder.mutation<{
+            result: "success" | "failure",
+            message: string,
+        }, {
+            projectId: string
+        }>({
             query: (arg) => ({
                 url: `${baseUrl}/api/project/pin`,
                 method: 'POST',
                 body: arg
             })
         }),
-        unpinProject: builder.mutation<void, pinProjectRequestType>({
+        unpinProject: builder.mutation<{
+            result: "success" | "failure",
+            message: string,
+        }, {
+            projectId: string
+        }>({
             query: (arg) => ({
                 url: `${baseUrl}/api/project/unpin`,
                 method: 'POST',
                 body: arg
             })
         }),
-        getPinnedProject: builder.query<getAllProjectsResponseType, string>({
+        getPinnedProjects: builder.query<{
+            result: "success" | "failure",
+            data: {
+                projects: Project[]
+            }
+        }, {
+            userId: string
+        }>({
             query: (userId) => ({
-                url: `${baseUrl}/api/project/get/pinned?userId=${userId}`,
+                url: `${baseUrl}/api/project/get/pinned?userId=${userId.userId}`,
                 method: 'GET',
             })
         }),
-
-        changeProjectTitle: builder.mutation<void, {projectId: string, projectTitle: string}>({
+        changeProjectTitle: builder.mutation<{
+            result: "success" | "failure",
+            message: string,
+        }, {
+            projectId: string,
+            projectTitle: string
+        }>({
             query: arg => ({
                 url: `${baseUrl}/api/project/change/title`,
                 method: 'POST',
                 body: arg
             })
         }),
-        duplicateProject: builder.mutation<createProjectResponseType, { userId: string, newTitle: string }>({
+        duplicateProject: builder.mutation<{
+            result: "success" | "failure",
+            data: {
+                project: Project
+            }
+        }, {
+            userId: string,
+            newTitle: string
+        }>({
             query: arg => ({
                 url: `${baseUrl}/api/project/duplicate`,
                 method: 'POST',
@@ -115,14 +204,19 @@ export const diplomaApi = createApi({
 
         /// NODES
 
-        createNode: builder.mutation<{created_node_id :string}, {
+        createNode: builder.mutation<{
+            result: "success" | "failure",
+            data: {
+                created_node: CanvasNode,
+            }
+        }, {
             name: string,
             projectId: string,
             position: { x: number; y: number },
-            size: { width: number; height: number ; },
+            size: { width: number; height: number; },
             parent: string,
             children: string[],
-            color: string,
+            color: string
         }>({
             query: arg => ({
                 url: `${baseUrl}/api/project/node/create`,
@@ -130,19 +224,38 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
-        getNodesByProjectId: builder.query<CanvasNode[], string>({
+        getNodesByProjectId: builder.query<{
+            result: "success" | "failure",
+            data: {
+                nodes: CanvasNode[]
+            }
+        }, {
+            projectId: string
+        }>({
             query: (projectId) => ({
-                url: `${baseUrl}/api/project/nodes/get?projectId=${projectId}`,
+                url: `${baseUrl}/api/project/nodes/get?projectId=${projectId.projectId}`,
                 method: 'GET',
             })
         }),
-        deleteNode: builder.mutation<void, string>({
+        deleteNode: builder.mutation<{
+            result: "success" | "failure";
+            message: string;
+        }, {
+            nodeId: string
+        }>({
             query: (nodeId) => ({
-                url: `${baseUrl}/api/project/node/delete?nodeId=${nodeId}`,
+                url: `${baseUrl}/api/project/node/delete?nodeId=${nodeId.nodeId}`,
                 method: 'DELETE',
             })
         }),
-        updateNode: builder.mutation<void, {id: string, x: number, y: number}>({
+        updateNode: builder.mutation<{
+            result: "success" | "failure",
+            message: string
+        }, {
+            id: string,
+            x: number,
+            y: number
+        }>({
             query: (arg) => ({
                 url: `${baseUrl}/api/project/node/update`,
                 method: 'POST',
@@ -162,7 +275,7 @@ export const {
     useGetProjectByIdQuery,
     useDeleteProjectMutation,
     usePinProjectMutation,
-    useGetPinnedProjectQuery,
+    useGetPinnedProjectsQuery,
     useChangeUserPasswordMutation,
     useGetUserByIdQuery,
     useChangeProjectTitleMutation,

@@ -113,12 +113,13 @@ export const CanvasArea = () => {
             children: []
         };
 
+        // TODO, мне запрос по идее возвращает ноду с айдишником, надо как то подменить оптимистичную на серверную
         createNode({
             name: `node` + objects_count,
             projectId: String(projectId.projectId),
             position: {x: x, y: y},
             size: {width: 120, height: 80},
-            parent: 'chlen',
+            parent: 'root',
             children: [],
             color: '#D9D9D9',
         })
@@ -382,7 +383,7 @@ export const CanvasArea = () => {
                     >
                         <button
                             onClick={() => {
-                                deleteNodeQuery(currentSelectedNodeId)
+                                deleteNodeQuery({ nodeId: currentSelectedNodeId })
                                 dispatch(deleteNode(currentSelectedNodeId))
                                 setContextMenuNode({
                                     visible: false,

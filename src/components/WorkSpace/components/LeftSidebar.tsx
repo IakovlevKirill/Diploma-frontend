@@ -6,7 +6,6 @@ import {images} from "../../../assets/images/images"
 import React, {useEffect, useRef, useState} from "react";
 import {
     useChangeProjectTitleMutation,
-    useDeleteProjectMutation,
     useDuplicateProjectMutation
 } from "../../../api/testApi.ts";
 import {store} from "../../../store/store.ts";
@@ -118,13 +117,14 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                         </button>
                         <button
                             onClick={ async ()=>{
+
                                 const response = await duplicateProject({
                                     userId: props.userId,
                                     newTitle: title + ' ' + 'Copy'
                                 }).unwrap();
 
-                                if (response) {
-                                    const newUrl = `/workspace/project/${response.project.id}`
+                                if (response.result == "success") {
+                                    const newUrl = `/workspace/project/${response.data.project.id}`
                                     navigate(newUrl)
                                     window.open(newUrl, '_blank')
                                 }

@@ -3,7 +3,7 @@ import {
     useCreateProjectMutation,
     useDeleteProjectMutation,
     useGetAllProjectsQuery,
-    useGetPinnedProjectQuery,
+    useGetPinnedProjectsQuery,
     usePinProjectMutation,
     useUnpinProjectMutation
 } from "../../../api/testApi.ts";
@@ -39,18 +39,18 @@ export const Projects = () => {
 
     const userId = String(localStorage.getItem("userId"))
 
-    const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery(userId);
-    const { data: pinnedProjectsData, isLoading: isPinnedProjectsLoading } = useGetPinnedProjectQuery(userId);
+    const { data: projectsData, isLoading: isAllProjectsLoading } = useGetAllProjectsQuery({ userId: userId });
+    const { data: pinnedProjectsData, isLoading: isPinnedProjectsLoading } = useGetPinnedProjectsQuery({ userId: userId });
 
     useEffect(() => {
         if (projectsData) {
-            dispatch(setProjects(projectsData.projects));
+            dispatch(setProjects(projectsData.data.projects));
         }
     }, [projectsData, dispatch]);
 
     useEffect(() => {
         if (pinnedProjectsData) {
-            dispatch(setPinnedProjects(pinnedProjectsData.projects));
+            dispatch(setPinnedProjects(pinnedProjectsData.data.projects));
         }
     }, [pinnedProjectsData, dispatch]);
 
@@ -58,10 +58,10 @@ export const Projects = () => {
     const pinned_projects_array = useAppSelector((state) => state.PinnedProjects.projects);
 
     const getLatestUpdateDate = (data: typeof projectsData) => {
-        if (!data?.projects || data.projects.length === 0) return null;
+        if (!data?.data.projects || data.data.projects.length === 0) return null;
 
         // Создаем массив дат updatedAt
-        const updatedDates = data.projects.map(project => new Date(project.updatedAt));
+        const updatedDates = data.data.projects.map(project => new Date(project.updatedAt));
 
         // Находим самую позднюю дату
         const latestDate = new Date(Math.max(...updatedDates.map(date => date.getTime())));
@@ -79,9 +79,11 @@ export const Projects = () => {
                     userId: userId,
                 }).unwrap();
 
-                if (response.project) {
-                    dispatch(addProject(response.project));
-                    navigate(`/workspace/project/${response.project.id}`);
+                console.log(response);
+
+                if (response.result == "success") {
+                    dispatch(addProject(response.data.project));
+                    navigate(`/workspace/project/${response.data.project.id}`);
                 } else {
                     navigate(`/projects`);
                     console.log('error creating project')
@@ -119,14 +121,16 @@ export const Projects = () => {
                                          flex flex-row items-start justify-end">
                         <button
                             onClick={() => {
-                                console.log(props.project)
-                                if (props.project.isPinned) {
+                                if (props.project.isPinned == true) {
                                     dispatch(unpinPinnedProject(props.project));
-                                    unpinProject({projectId: props.id})
+                                    console.log('unpin')
+                                    unpinProject({ projectId: props.id })
                                 }
-                                if (!props.project.isPinned) {
+                                // TODO переделать организацию и ui избранных проектов и обычных.
+                                if (props.project.isPinned == false) {
                                     dispatch(addPinnedProject(props.project));
-                                    pinProject({projectId: props.id})
+                                    console.log('pin')
+                                    pinProject({ projectId: props.id })
                                 }
                             }}
                             className="flex items-center justify-center bg-transparent border-0 focus:outline-none cursor-pointer h-[36px] w-[36px] px-[0] py-[0]">
@@ -143,7 +147,7 @@ export const Projects = () => {
                             onClick={() => {
                                 dispatch(deletePinnedProject(props.project))
                                 dispatch(deleteProject(props.project))
-                                deleteProjectRequest(props.project.id)
+                                deleteProjectRequest({ projectId: props.id})
 
                             }}
                             className="flex items-center justify-center bg-transparent border-0 focus:outline-none cursor-pointer h-[36px] w-[36px] px-[0] py-[0]">

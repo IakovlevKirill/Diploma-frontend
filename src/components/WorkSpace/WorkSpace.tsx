@@ -2,7 +2,7 @@ import { LeftSidebar } from "./components/LeftSidebar.tsx";
 import { CanvasArea } from "./CanvasArea.tsx";
 import {useAppDispatch, useAppSelector, useDocumentTitle} from "../../app/hooks.ts";
 import {RingLoader} from "react-spinners";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { setCurrentTool } from "../../app/slices/WorkSpace/currentToolSlice.ts";
 import { setCurrentNode } from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {LayoutBar} from "../LayoutBar.tsx";
@@ -16,7 +16,6 @@ import {
 } from "../../api/testApi.ts";
 import {deleteNode, setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
-import {images} from "../../assets/images/images.ts";
 import {DeleteProjectModal} from "./components/DeleteProjectModal.tsx";
 
 export const WorkSpace = () => {
@@ -32,8 +31,8 @@ export const WorkSpace = () => {
 
     const userId = String(localStorage.getItem("userId"))
 
-    const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery(String(projectId));
-    const { data: project_nodes, isLoading: isNodesLoading } = useGetNodesByProjectIdQuery(String(projectId));
+    const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery({ projectId: String(projectId) });
+    const { data: project_nodes, isLoading: isNodesLoading } = useGetNodesByProjectIdQuery({ projectId: String(projectId) });
 
     useEffect(() => {
         if (projectId) {
@@ -43,12 +42,12 @@ export const WorkSpace = () => {
 
     useEffect(() => {
         if (project_nodes) {
-            dispatch(setNodes(project_nodes));
-            dispatch(setNodeCount(project_nodes.length));
+            dispatch(setNodes(project_nodes.data.nodes));
+            dispatch(setNodeCount(project_nodes.data.nodes.length));
         }
     }, [project_nodes, dispatch]);
 
-    const project = project_data?.project
+    const project = project_data?.data.project
 
     useDocumentTitle(`${project?.title} - WebNode`);
 
@@ -66,7 +65,7 @@ export const WorkSpace = () => {
                     dispatch(setCurrentTool("node_creation"));
                     break;
                 case "Delete":
-                    deleteNodeQuery(currentSelectedNodeId)
+                    deleteNodeQuery({ nodeId: currentSelectedNodeId })
                     dispatch(deleteNode(currentSelectedNodeId))
                     break;
                 default:

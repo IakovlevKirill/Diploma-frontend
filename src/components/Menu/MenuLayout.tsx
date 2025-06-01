@@ -30,9 +30,9 @@ export const MenuLayout = () => {
 
     const [currentPage, setCurrentPage] = useState<string>()
 
-    const {data: user_data, isLoading} = useGetUserByIdQuery(userId)
+    const {data: user_data, isLoading} = useGetUserByIdQuery({ userId: userId })
 
-    const firstLetter = user_data?.email?.charAt(0).toUpperCase()
+    const firstLetter = user_data?.data.user.email?.charAt(0).toUpperCase()
 
     interface OnChangePageProps {
         e: React.MouseEvent<HTMLButtonElement>
@@ -101,8 +101,8 @@ export const MenuLayout = () => {
                             <span className="text-[#FFF] font-[Inter-medium]  text-[16px]">{firstLetter}</span>
                         </div>
                         <div className="flex flex-col gap-[4px]">
-                            <div className="text-[#FFF] font-[Inter-semibold] text-[16px]">{user_data?.email}</div>
-                            <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">{user_data?.role}</div>
+                            <div className="text-[#FFF] font-[Inter-semibold] text-[16px]">{user_data?.data.user.email}</div>
+                            <div className="text-[#A8A9AC] font-[Inter-normal] text-[12px]">{user_data?.data.user.role}</div>
                         </div>
                     </div>
                     <img className="pr-[12px]" src={images.polygon_sidebar_open} alt=""/>
