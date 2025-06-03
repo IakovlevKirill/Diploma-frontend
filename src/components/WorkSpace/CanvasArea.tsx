@@ -34,6 +34,7 @@ import {
     useSearchParams
 } from "react-router-dom";
 import {ClipLoader} from "react-spinners";
+import {images} from "../../assets/images/images.ts";
 
 export const CanvasArea = () => {
 
@@ -489,6 +490,31 @@ export const CanvasArea = () => {
             <Toolbar />
             <ContextMenuCanvas></ContextMenuCanvas>
             <ContextMenuNode></ContextMenuNode>
+            <div className="absolute z-20 right-[0] flex flex-row">
+                <div className="hidden flex-col items-center border-[0px] p-[10px] gap-[10px]">
+                    <div className="w-[20px] h-[20px] font-[Inter-medium]">
+                        root
+                    </div>
+                    <div className="w-[20px] h-[20px] font-[Inter-medium]">
+                        root
+                    </div>
+                    <div className="w-[20px] h-[20px] font-[Inter-medium]">
+                        root
+                    </div>
+                    <div className="w-[20px] h-[20px] font-[Inter-medium]">
+                        root
+                    </div>
+                </div>
+                <div className="flex flex-col items-center border-[0px] p-[10px]">
+                    <div className="cursor-pointer rounded-[100px] border-[3px] w-[17px] h-[17px]"></div>
+                    <div className="w-[2px] h-[10px] bg-[#000]"></div>
+                    <img className="cursor-pointerw-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
+                    <div className="w-[2px] h-[10px] bg-[#000]"></div>
+                    <img className="cursor-pointer w-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
+                    <div className="w-[2px] h-[10px] bg-[#000]"></div>
+                    <img className="cursor-pointer w-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
+                </div>
+            </div>
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>
             )}
