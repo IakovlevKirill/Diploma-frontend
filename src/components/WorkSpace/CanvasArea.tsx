@@ -1,9 +1,16 @@
 import { Toolbar } from "./components/Toolbar.tsx";
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
+import {
+    useAppDispatch,
+    useAppSelector
+} from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
 import {Route} from "./components/Route.tsx";
 import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
-import {addNode, deleteNode, updateNodePosition} from "../../app/slices/Node/CanvasNodesSlice.ts";
+import {
+    addNode,
+    deleteNode,
+    updateNodePosition
+} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setCurrentTool} from "../../app/slices/WorkSpace/currentToolSlice.ts";
 import {incrementNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 import * as React from "react";
@@ -12,16 +19,29 @@ import {
     useRef,
     useState
 } from "react";
-import { motion } from "framer-motion";
+import {
+    motion
+} from "framer-motion";
 import {
     useCreateNodeMutation,
     useDeleteNodeMutation,
     useUpdateNodeMutation
 } from "../../api/testApi.ts";
-import {useNavigate, useParams} from "react-router-dom";
+import {
+    useLocation,
+    useNavigate,
+    useParams,
+    useSearchParams
+} from "react-router-dom";
 import {ClipLoader} from "react-spinners";
 
 export const CanvasArea = () => {
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const currentLayerId = searchParams.get('node') || null;
+
+    console.log(currentLayerId);
 
     const projectId = useParams()
 
@@ -31,6 +51,8 @@ export const CanvasArea = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+
     const currentTool = useAppSelector((state) => state.currentTool.tool);
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
     const node_array = useAppSelector((state) => state.nodes.nodes);
@@ -53,6 +75,12 @@ export const CanvasArea = () => {
     const canvasRef = useRef<HTMLDivElement>(null);
     const isPanning = useRef(false);
     const startPos = useRef({ x: 0, y: 0 });
+
+    const handleInspect = () => {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('node', currentSelectedNodeId);
+        navigate({ search: searchParams.toString() });
+    };
 
     // Бинды для перемещения по холсту: колесико / ctrl+пкм
     const handleMouseDown = (e: React.MouseEvent) => {
@@ -337,33 +365,46 @@ export const CanvasArea = () => {
                          }}
                          onClick={(e) => e.stopPropagation()}
                     >
-                        <button className="
-                    bg-[#1e1e1e] w-[full] text-start border-0 font-[Inter-medium] text-[#FFF] text-[12px] p-[6px] rounded-[4px]
-                      hover:bg-[#3575ff]
-                    ">
+                        <motion.button
+                            whileHover={{ backgroundColor: "#3575ff" }}
+                            whileTap={{ scale: 0.98 }}
+                            className="
+                            bg-[#1e1e1e] w-full text-start border-0
+                            font-[Inter-medium] text-[#FFF] text-[12px]
+                            p-[6px] rounded-[4px] transition-colors"
+                        >
                             option 1
-                        </button>
-                        <div className="w-full h-[1px] bg-[#505356]"></div>
-                        <button className="
-                    bg-[#1e1e1e] w-[full] text-start border-0 font-[Inter-medium] text-[#FFF] text-[12px] p-[6px] rounded-[4px]
-                      hover:bg-[#3575ff]
-                    ">
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ backgroundColor: "#3575ff" }}
+                            whileTap={{ scale: 0.98 }}
+                            className="
+                            bg-[#1e1e1e] w-full text-start border-0
+                            font-[Inter-medium] text-[#FFF] text-[12px]
+                            p-[6px] rounded-[4px] transition-colors"
+                        >
                             option 2
-                        </button>
-                        <button className="
-                    bg-[#1e1e1e] relative w-[full] text-start border-0 font-[Inter-medium] text-[#FFF] text-[12px] p-[6px] rounded-[4px]
-                      hover:bg-[#3575ff]
-                    ">
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ backgroundColor: "#3575ff" }}
+                            whileTap={{ scale: 0.98 }}
+                            className="
+                            bg-[#1e1e1e] w-full text-start border-0
+                            font-[Inter-medium] text-[#FFF] text-[12px]
+                            p-[6px] rounded-[4px] transition-colors"
+                        >
                             option 3
-                            <div className="absolute right-[5%] top-[30%] text-[#8F8F8F]">Shift + Ctrl</div>
-                        </button>
-                        <div className="w-full h-[1px] bg-[#505356]"></div>
-                        <button className="
-                    bg-[#1e1e1e] w-[full] text-start border-0 font-[Inter-medium] text-[#FFF] text-[12px] p-[6px] rounded-[4px]
-                      hover:bg-[#3575ff]
-                    ">
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ backgroundColor: "#3575ff" }}
+                            whileTap={{ scale: 0.98 }}
+                            className="
+                            bg-[#1e1e1e] w-full text-start border-0
+                            font-[Inter-medium] text-[#FFF] text-[12px]
+                            p-[6px] rounded-[4px] transition-colors"
+                        >
                             option 4
-                        </button>
+                        </motion.button>
                     </div>
                 )}
             </>
@@ -381,7 +422,9 @@ export const CanvasArea = () => {
                          }}
                          onClick={(e) => e.stopPropagation()}
                     >
-                        <button
+                        <motion.button
+                            whileHover={{ backgroundColor: "#3575ff" }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={() => {
                                 deleteNodeQuery({ nodeId: currentSelectedNodeId })
                                 dispatch(deleteNode(currentSelectedNodeId))
@@ -393,11 +436,22 @@ export const CanvasArea = () => {
                             }}
                             className="
                             bg-[#1e1e1e] w-[full] text-start border-0 font-[Inter-medium] text-[#FFF] text-[12px] p-[6px] rounded-[4px]
-                            hover:bg-[#3575ff]
-                        ">
+                              transition-colors"
+                        >
                             Delete
-                        </button>
+                        </motion.button>
                         <div className="w-full h-[1px] bg-[#505356]"></div>
+                        <motion.button
+                            onClick={handleInspect}
+                            whileHover={{ backgroundColor: "#3575ff" }}
+                            whileTap={{ scale: 0.98 }}
+                            className="
+                            bg-[#1e1e1e] w-full text-start border-0
+                            font-[Inter-medium] text-[#FFF] text-[12px]
+                            p-[6px] rounded-[4px] transition-colors"
+                        >
+                            Inspect
+                        </motion.button>
                     </div>
                 )}
             </>
