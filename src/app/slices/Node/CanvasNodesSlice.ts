@@ -2,11 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CanvasNode } from "../../../store/types.ts";
 
 interface NodesState {
-    nodes: CanvasNode[];
+    all_nodes: CanvasNode[];
+    canvas_nodes: CanvasNode[];
 }
 
 const initialState: NodesState = {
-    nodes: [],
+    all_nodes: [],
+    canvas_nodes: []
 };
 
 export const NodesSlice = createSlice({
@@ -14,29 +16,37 @@ export const NodesSlice = createSlice({
     initialState,
     reducers: {
         addNode: (state, action: PayloadAction<CanvasNode>) => {
-            state.nodes.push(action.payload);
+            state.all_nodes.push(action.payload);
+            state.canvas_nodes.push(action.payload);
         },
         deleteNode: (state, action: PayloadAction<string>) => {
-            state.nodes = state.nodes.filter(node => node.id !== action.payload);
+            state.all_nodes = state.all_nodes.filter(node => node.id !== action.payload);
+            state.canvas_nodes = state.canvas_nodes.filter(node => node.id !== action.payload);
         },
-        setNodes: (state, action: PayloadAction<CanvasNode[]>) => {
-            state.nodes = action.payload;
+        setAllNodes: (state, action: PayloadAction<CanvasNode[]>) => {
+            state.all_nodes = action.payload;
         },
         changeColor: (state, action: PayloadAction<{id: string; color: string}>) => {
-            const node = state.nodes.find(node => node.id === action.payload.id);
+            const node = state.all_nodes.find(node => node.id === action.payload.id);
             if (node) {
                 node.color = action.payload.color;
             }
         },
+        setCanvasNodes: (state, action: PayloadAction<CanvasNode[]>) => {
+            state.canvas_nodes = action.payload;
+        },
         clearCanvas: (state) => {
-            state.nodes = [];
+            state.canvas_nodes = [];
         },
         updateNodePosition: (state, action: PayloadAction<{id: string; x: number; y: number}>) => {
             const { id, x, y } = action.payload;
-            const node = state.nodes.find(node => node.id === id);
-            if (node) {
+            const canvas_node = state.canvas_nodes.find(node => node.id === id);
+            const node = state.all_nodes.find(node => node.id === id);
+            if (node && canvas_node) {
                 node.position.x = x;
                 node.position.y = y;
+                canvas_node.position.x = x;
+                canvas_node.position.y = y;
             }
         }
     },
@@ -44,7 +54,8 @@ export const NodesSlice = createSlice({
 
 export const {
     addNode,
-    setNodes,
+    setAllNodes,
+    setCanvasNodes,
     changeColor,
     deleteNode,
     updateNodePosition,

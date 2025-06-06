@@ -8,7 +8,7 @@ export type CanvasNode = {
     name: string;
     position: {x: number, y: number};
     size: {width: number, height: number};
-    parent: string;
+    parentId: string;
     children: string[];
     color: string;
 };

@@ -214,7 +214,7 @@ export const diplomaApi = createApi({
             projectId: string,
             position: { x: number; y: number },
             size: { width: number; height: number; },
-            parent: string,
+            parentId: string,
             children: string[],
             color: string
         }>({
@@ -262,7 +262,19 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
-
+        getNodeChildren: builder.query<{
+            result: "success" | "failure",
+            data: {
+                nodes: CanvasNode[]
+            }
+        }, {
+            nodeId: string
+        }>({
+            query: (nodeId) => ({
+                url: `${baseUrl}/api/project/node/get/children?nodeId=${nodeId.nodeId}`,
+                method: 'GET',
+            })
+        }),
     }),
 });
 
@@ -285,4 +297,5 @@ export const {
     useDeleteNodeMutation,
     useGetNodesByProjectIdQuery,
     useUpdateNodeMutation,
+    useLazyGetNodeChildrenQuery
 } = diplomaApi;

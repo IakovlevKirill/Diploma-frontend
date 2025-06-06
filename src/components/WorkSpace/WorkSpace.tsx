@@ -9,27 +9,36 @@ import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
 import {setCurrentProjectId,} from "../../app/slices/Project/currentProjectSlice.ts";
 import {
-    useParams,
+    useParams, useSearchParams,
 } from "react-router-dom";
 import {
     useDeleteNodeMutation,
     useGetNodesByProjectIdQuery,
     useGetProjectByIdQuery,
 } from "../../api/testApi.ts";
-import {deleteNode, setNodes} from "../../app/slices/Node/CanvasNodesSlice.ts";
+import {
+    deleteNode,
+    setAllNodes,
+    setCanvasNodes
+} from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 import {DeleteProjectModal} from "./components/DeleteProjectModal.tsx";
+import {CanvasNode} from "../../store/types.ts";
 
 export const WorkSpace = () => {
 
+    const [searchParams] = useSearchParams();
+
+    const currentLayerId = searchParams.get('layer') || "";
+    
+    const { projectId } = useParams();
+    
     const [deleteNodeQuery] = useDeleteNodeMutation();
 
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
     const isDeleteProjectModalVisible = useAppSelector((state) => state.isModalVisible.visibility);
 
     const dispatch = useAppDispatch();
-
-    const { projectId } = useParams();
 
     const userId = String(localStorage.getItem("userId"))
 
@@ -44,11 +53,24 @@ export const WorkSpace = () => {
 
     useEffect(() => {
         if (project_nodes) {
-            dispatch(setNodes(project_nodes.data.nodes));
+            dispatch(setAllNodes(project_nodes.data.nodes));
             dispatch(setNodeCount(project_nodes.data.nodes.length));
         }
     }, [project_nodes, dispatch]);
 
+    useEffect(() => {
+        if (project_nodes) {
+            const nodes = project_nodes.data.nodes;
+            const current_layer_nodes : CanvasNode[] = [];
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i].parentId == currentLayerId) {
+                    current_layer_nodes.push(nodes[i]);
+                }
+            }
+            dispatch(setCanvasNodes(current_layer_nodes))
+        }
+    }, [dispatch, currentLayerId, project_nodes]);
+    
     const project = project_data?.data.project
 
     useDocumentTitle(`${project?.title} - WebNode`);

@@ -8,6 +8,7 @@ import {Route} from "./components/Route.tsx";
 import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {
     addNode,
+    clearCanvas,
     deleteNode,
     updateNodePosition
 } from "../../app/slices/Node/CanvasNodesSlice.ts";
@@ -25,6 +26,7 @@ import {
 import {
     useCreateNodeMutation,
     useDeleteNodeMutation,
+    useLazyGetNodeChildrenQuery,
     useUpdateNodeMutation
 } from "../../api/testApi.ts";
 import {
@@ -38,14 +40,13 @@ import {images} from "../../assets/images/images.ts";
 
 export const CanvasArea = () => {
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
-    const currentLayerId = searchParams.get('node') || null;
-
-    console.log(currentLayerId);
+    const currentLayerId = searchParams.get('layer') || "";
 
     const projectId = useParams()
 
+    const [getNodeChildren] = useLazyGetNodeChildrenQuery()
     const [createNode, { isLoading : isCreateLoading}] = useCreateNodeMutation();
     const [updateNode, { isLoading : isUpdateLoading}] = useUpdateNodeMutation();
     const [deleteNodeQuery, { isLoading : isDeleteLoading}] = useDeleteNodeMutation();
@@ -56,7 +57,8 @@ export const CanvasArea = () => {
 
     const currentTool = useAppSelector((state) => state.currentTool.tool);
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
-    const node_array = useAppSelector((state) => state.nodes.nodes);
+    const all_nodes_array = useAppSelector((state) => state.nodes.all_nodes);
+    const canvas_nodes_array = useAppSelector((state) => state.nodes.canvas_nodes);
     const objects_count = useAppSelector((state) => state.nodeCount.nodeCount);
 
     // Состояния для перемещения объекта
@@ -77,10 +79,19 @@ export const CanvasArea = () => {
     const isPanning = useRef(false);
     const startPos = useRef({ x: 0, y: 0 });
 
-    const handleInspect = () => {
+    const handleInspect = async () => {
+        setContextMenuNode({ visible: false, x: 0, y: 0 });
+        dispatch(clearCanvas())
         const searchParams = new URLSearchParams(location.search);
-        searchParams.set('node', currentSelectedNodeId);
+        searchParams.set('layer', currentSelectedNodeId);
         navigate({ search: searchParams.toString() });
+        const response = await getNodeChildren({ nodeId: currentSelectedNodeId })
+            .unwrap()
+        if (response.result == "success") {
+            console.log(response.data.nodes)
+        } else if (response.result == "failure") {
+            navigate(-1)
+        }
     };
 
     // Бинды для перемещения по холсту: колесико / ctrl+пкм
@@ -138,7 +149,7 @@ export const CanvasArea = () => {
             color: '#D9D9D9',
             size: {width: 120, height: 80},
             position: {x: x, y: y},
-            parent: '',
+            parentId: '',
             children: []
         };
 
@@ -148,7 +159,7 @@ export const CanvasArea = () => {
             projectId: String(projectId.projectId),
             position: {x: x, y: y},
             size: {width: 120, height: 80},
-            parent: 'root',
+            parentId: 'root',
             children: [],
             color: '#D9D9D9',
         })
@@ -303,7 +314,7 @@ export const CanvasArea = () => {
         if (!currentDraggedNode) return;
 
         // Получаем актуальные данные из хранилища
-        const currentNode = node_array.find(n => n.id === currentDraggedNode.id);
+        const currentNode = all_nodes_array.find(n => n.id === currentDraggedNode.id);
         if (!currentNode) return;
 
         const newNodeCoordinates = {
@@ -323,12 +334,13 @@ export const CanvasArea = () => {
     const Node = (props: {key: string; node: CanvasNode;}) => {
         return (
             <div
-                onDoubleClick={()=>{navigate(`${currentSelectedNodeId}`)}} // дабл клик -> проваливаемся на уровень ниже
+                onDoubleClick={ () => {handleInspect()}} // дабл клик -> проваливаемся на уровень ниже
                 onContextMenu={(e) => {
                     handleContextMenu(e, 'node', props.node)
                 }}
-                onClick={(e) => {
+                onClick={ async (e) => {
                     handleNodeClick(e, props.node)
+
                 }} // лкм на ноду
                 onMouseDown={(e) => {
                     if (currentTool === 'default') {
@@ -340,10 +352,8 @@ export const CanvasArea = () => {
                 onMouseLeave={handleDragEnd}
                 className={`absolute z-99 border-2 border-[#F5F5F5] 
                             ${(currentSelectedNodeId === props.node.id) ? "border-[2px] border-[#0d99ff]!": ""}
-                            
                             ${isDragging ? "rounded-[0px] hover:border-[2px] cursor-pointer" : "cursor-pointer"}
-                            
-                        `}
+                          `}
                 style={{
                     left: `${props.node.position.x}px`,
                     top: `${props.node.position.y}px`,
@@ -459,7 +469,6 @@ export const CanvasArea = () => {
         )
     }
 
-
     const TreeUpdateIndicator = () => {
         return(
             <div className="absolute left-[30px] bottom-[30px] z-100 flex flex-row items-center gap-[10px]">
@@ -505,13 +514,18 @@ export const CanvasArea = () => {
                         root
                     </div>
                 </div>
-                <div className="flex flex-col items-center border-[0px] p-[10px]">
-                    <div className="cursor-pointer rounded-[100px] border-[3px] w-[17px] h-[17px]"></div>
-                    <div className="w-[2px] h-[10px] bg-[#000]"></div>
-                    <img className="cursor-pointerw-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
-                    <div className="w-[2px] h-[10px] bg-[#000]"></div>
+                <div className="flex flex-col items-center border-[0px] p-[20px]">
+                    <button
+                        onClick={() => {
+                            navigate(`/workspace/project/${projectId.projectId}?layer=root`);
+                        }}
+                        className="cursor-pointer rounded-[100px] border-[3px] w-[17px] h-[17px]">
+                    </button>
+                    <div className="w-[2px] h-[15px] bg-[#000]"></div>
                     <img className="cursor-pointer w-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
-                    <div className="w-[2px] h-[10px] bg-[#000]"></div>
+                    <div className="w-[2px] h-[15px] bg-[#000]"></div>
+                    <img className="cursor-pointer w-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
+                    <div className="w-[2px] h-[15px] bg-[#000]"></div>
                     <img className="cursor-pointer w-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
                 </div>
             </div>
@@ -526,7 +540,7 @@ export const CanvasArea = () => {
                     scale: scale,
                 }}
             >
-                {node_array.map((node: CanvasNode) => (
+                {canvas_nodes_array.map((node: CanvasNode) => (
                     <Node node={node} key={node.id}></Node>
                 ))}
             </motion.div>

@@ -22,7 +22,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
-    const node_array = useAppSelector((state) => state.nodes.nodes);
+    const all_node_array = useAppSelector((state) => state.nodes.all_nodes);
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
 
     const inputRef = useRef(null);
@@ -162,7 +162,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                     </div>
                     <div className="h-[92%] w-full flex overflow-y-scroll ">
                         <div className="w-full h-full flex flex-col items-center gap-[10px]">
-                            {node_array.map((node) => (
+                            {all_node_array.map((node) => (
                                 <div
                                     onClick={() => {
                                         dispatch(setCurrentNode({color: node.color, id: node.id, name: node.name}));
