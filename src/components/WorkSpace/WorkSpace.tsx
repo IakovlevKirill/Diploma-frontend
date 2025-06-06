@@ -13,7 +13,7 @@ import {
 } from "react-router-dom";
 import {
     useDeleteNodeMutation,
-    useGetNodesByProjectIdQuery,
+    useGetAllProjectNodesByProjectIdQuery,
     useGetProjectByIdQuery,
 } from "../../api/testApi.ts";
 import {
@@ -43,7 +43,9 @@ export const WorkSpace = () => {
     const userId = String(localStorage.getItem("userId"))
 
     const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery({ projectId: String(projectId) });
-    const { data: project_nodes, isLoading: isNodesLoading } = useGetNodesByProjectIdQuery({ projectId: String(projectId) });
+    const { data: project_nodes, isLoading: isNodesLoading } = useGetAllProjectNodesByProjectIdQuery({ projectId: String(projectId) });
+
+    console.log(project_nodes?.data.nodes);
 
     useEffect(() => {
         if (projectId) {

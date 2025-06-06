@@ -10,6 +10,7 @@ import {
     addNode,
     clearCanvas,
     deleteNode,
+    setCanvasNodes,
     updateNodePosition
 } from "../../app/slices/Node/CanvasNodesSlice.ts";
 import {setCurrentTool} from "../../app/slices/WorkSpace/currentToolSlice.ts";
@@ -80,17 +81,20 @@ export const CanvasArea = () => {
     const startPos = useRef({ x: 0, y: 0 });
 
     const handleInspect = async () => {
+
         setContextMenuNode({ visible: false, x: 0, y: 0 });
         dispatch(clearCanvas())
+
         const searchParams = new URLSearchParams(location.search);
         searchParams.set('layer', currentSelectedNodeId);
         navigate({ search: searchParams.toString() });
+
         const response = await getNodeChildren({ nodeId: currentSelectedNodeId })
             .unwrap()
         if (response.result == "success") {
-            console.log(response.data.nodes)
-        } else if (response.result == "failure") {
-            navigate(-1)
+            dispatch(setCanvasNodes(response.data.nodes))
+        } else {
+            alert('error')
         }
     };
 
@@ -159,7 +163,7 @@ export const CanvasArea = () => {
             projectId: String(projectId.projectId),
             position: {x: x, y: y},
             size: {width: 120, height: 80},
-            parentId: 'root',
+            parentId: currentLayerId,
             children: [],
             color: '#D9D9D9',
         })
@@ -334,14 +338,13 @@ export const CanvasArea = () => {
     const Node = (props: {key: string; node: CanvasNode;}) => {
         return (
             <div
-                onDoubleClick={ () => {handleInspect()}} // дабл клик -> проваливаемся на уровень ниже
+                onDoubleClick={ () => {handleInspect() }} // дабл клик -> проваливаемся на уровень ниже
                 onContextMenu={(e) => {
                     handleContextMenu(e, 'node', props.node)
                 }}
                 onClick={ async (e) => {
                     handleNodeClick(e, props.node)
-
-                }} // лкм на ноду
+                }}
                 onMouseDown={(e) => {
                     if (currentTool === 'default') {
                         handleDragStart(e, props.node);

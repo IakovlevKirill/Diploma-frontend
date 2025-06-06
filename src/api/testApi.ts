@@ -224,7 +224,7 @@ export const diplomaApi = createApi({
                 body: arg,
             })
         }),
-        getNodesByProjectId: builder.query<{
+        getAllProjectNodesByProjectId: builder.query<{
             result: "success" | "failure",
             data: {
                 nodes: CanvasNode[]
@@ -295,7 +295,7 @@ export const {
     useUnpinProjectMutation,
     useCreateNodeMutation,
     useDeleteNodeMutation,
-    useGetNodesByProjectIdQuery,
+    useGetAllProjectNodesByProjectIdQuery,
     useUpdateNodeMutation,
     useLazyGetNodeChildrenQuery
 } = diplomaApi;
