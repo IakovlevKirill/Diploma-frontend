@@ -46,7 +46,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
         }
     }, [isChangeTitleInputActive]);
 
-    const [width, setWidth] = useState(300); // Начальная ширина
+    const [width, setWidth] = useState(localStorage.getItem("canvas_sidebar_width") || 300); // Начальная ширина
     const isResizing = useRef(false);
 
     const startResize = (e: React.MouseEvent) => {
@@ -61,6 +61,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
         const newWidth = e.clientX; // Новая ширина = позиция курсора по X
         if (newWidth > 200 && newWidth < 600) { // Минимальная и максимальная ширина
             setWidth(newWidth);
+            localStorage.setItem('canvas_sidebar_width', String(newWidth))
         }
     };
 
