@@ -117,17 +117,16 @@ export const Projects = () => {
                         <div className="text-[#FFF] font-[Inter-normal] text-[12px]">Last updated - {new Date(props.updatedAt).toLocaleDateString('en-GB')}</div>
                     </button>
 
-                    <div className="z-2 absolute right-[25px]
-                                         flex flex-row items-start justify-end">
+                    <div className="z-2 absolute right-[25px] flex flex-row items-start justify-end">
                         <button
                             onClick={() => {
-                                if (props.project.isPinned == true) {
+                                if (props.project.isPinned) {
                                     dispatch(unpinPinnedProject(props.project));
                                     console.log('unpin')
                                     unpinProject({ projectId: props.id })
                                 }
                                 // TODO переделать организацию и ui избранных проектов и обычных.
-                                if (props.project.isPinned == false) {
+                                if (!props.project.isPinned) {
                                     dispatch(addPinnedProject(props.project));
                                     console.log('pin')
                                     pinProject({ projectId: props.id })
@@ -168,7 +167,7 @@ export const Projects = () => {
                     transition={{ delay: 0.1 }}
                     className="flex w-full h-[95vh]"
                 >
-                    <div className="flex w-[calc(100%-100px)] p-[50px] overflow-y-scroll scroll-smooth">
+                    <div className="flex w-[calc(100%-100px)] p-[50px] overflow-y-scroll project_page_scrollbar ">
                         <div className="w-[100%] flex flex-col">
                             <div className="flex flex-col w-full gap-[16px]">
                                 <div className="text-[#FFF] font-[Inter-semibold]  text-[40px]">Templates</div>

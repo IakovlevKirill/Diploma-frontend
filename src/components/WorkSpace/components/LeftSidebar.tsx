@@ -46,11 +46,43 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
         }
     }, [isChangeTitleInputActive]);
 
+    const [width, setWidth] = useState(300); // Начальная ширина
+    const isResizing = useRef(false);
 
+    const startResize = (e: React.MouseEvent) => {
+        e.preventDefault();
+        isResizing.current = true;
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', stopResize);
+    };
 
+    const handleMouseMove = (e: MouseEvent) => {
+        if (!isResizing.current) return;
+        const newWidth = e.clientX; // Новая ширина = позиция курсора по X
+        if (newWidth > 200 && newWidth < 600) { // Минимальная и максимальная ширина
+            setWidth(newWidth);
+        }
+    };
+
+    const stopResize = () => {
+        isResizing.current = false;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', stopResize);
+    };
+
+    // Убираем обработчики при размонтировании
+    useEffect(() => {
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', stopResize);
+        };
+    }, []);
 
     return (
-        <div className="z-2 flex h-full w-[calc(20%)] bg-[#1C1F24] border-r-[1px] border-[#535558]">
+        <div
+            className="h-[95vh] z-2 absolute left-[0px] flex bg-[#1C1F24] border-r-[1px] border-[#535558]"
+            style={{ width: `${width}px` }}
+        >
             <div className="w-full h-full flex flex-col items-center">
                 <div className="w-[calc(100%-40px)] h-[calc(15%-41px)] p-[20px] flex flex-col items-start justify-center gap-[15px] border-b-[1px] border-[#535558]">
                     <div className="w-full ">
@@ -156,12 +188,15 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                         </button>
                     </div>
                 </div>
-                <div className="w-[calc(100%-40px)] h-[80%] p-[20px] py-[0px] flex flex-col">
+                <div className="w-[calc(100%-20px)] h-[85%] pl-[20px] pr-[4px] flex flex-col">
                     <div className="h-[8%] w-full flex items-center justify-start">
                         <span className="select-none flex font-[Inter-medium] text-[#FFF]">Layers</span>
                     </div>
-                    <div className="h-[92%] w-full flex overflow-y-scroll ">
-                        <div className="w-full h-full flex flex-col items-center gap-[10px]">
+                    <div className={`h-[92%] w-full flex
+                     overflow-y-auto 
+                     canvas_sidebar_scrollbar
+                     scroll-smooth`}>
+                        <div className="w-full h-full flex flex-col items-center gap-[10px] pr-[3px]">
                             {all_node_array.map((node) => (
                                 <div
                                     onClick={() => {
@@ -169,7 +204,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                                         dispatch(setCurrentTool("default"))
                                     }}
                                     key={node.id}
-                                    className={`w-[calc(100%-10px)] p-[5px] flex flex-row items-center justify-start gap-[15px] select-none cursor-pointer text-center rounded-[4px]
+                                    className={`w-[calc(100%-10px)] text-[14px] p-[5px] flex flex-row items-center justify-start gap-[15px] select-none cursor-pointer text-center rounded-[4px]
                                     ${(currentSelectedNodeId == node.id) ? "bg-[#3575ff] " : "hover:bg-[#737578]"}
                                   `}>
                                     <img className="flex w-[20px]" src={images.node_icon_white} alt=""/>
@@ -179,6 +214,11 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div
+                className="w-[5px] h-full cursor-ew-resize bg-transparent "
+                onMouseDown={startResize}
+            >
             </div>
         </div>
     );

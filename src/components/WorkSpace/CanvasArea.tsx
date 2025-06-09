@@ -47,6 +47,19 @@ export const CanvasArea = () => {
 
     const projectId = useParams()
 
+    const [path, setPath] = useState<string[]>([]);
+
+    useEffect(() => {
+        
+        const searchParams = new URLSearchParams(location.search);
+        const layerParam = searchParams.get('layer') || 'root';
+
+        const pathArray = layerParam.split('/');
+
+        setPath(pathArray);
+
+    }, []);
+
     const [getNodeChildren] = useLazyGetNodeChildrenQuery()
     const [createNode, { isLoading : isCreateLoading}] = useCreateNodeMutation();
     const [updateNode, { isLoading : isUpdateLoading}] = useUpdateNodeMutation();
@@ -483,6 +496,30 @@ export const CanvasArea = () => {
         )
     }
 
+    const DepthIndicator = () => {
+        return(
+            <div className="absolute z-20 top-[20px] right-[20px] flex flex-col gap-[15px]">
+                {path.map((layer, index) => (
+                    <div key={`${layer}-${index}`} className="flex flex-row gap-[15px]">
+                        <div className="w-[20px] h-[20px]  font-[Inter-medium] flex items-center justify-center text-white text-xs">
+                            {index}
+                        </div>
+                        <button
+                            onClick={() => handleInspect()}
+                            className="flex items-center justify-center cursor-pointer w-[20px] h-[20px] border-0"
+                        >
+                            <img
+                                className="cursor-pointer w-[20px] h-[20px]"
+                                src={images.node_icon_black}
+                                alt={`Layer ${index + 1}`}
+                            />
+                        </button>
+                    </div>
+                ))}
+            </div>
+        )
+    }
+
     return (
         <div className={`z-1 relative flex h-full w-[85%] bg-[#F5F5F5] flex-1 overflow-hidden
                 ${currentTool === "default" ? "cursor-default" : ""}
@@ -502,36 +539,8 @@ export const CanvasArea = () => {
             <Toolbar />
             <ContextMenuCanvas></ContextMenuCanvas>
             <ContextMenuNode></ContextMenuNode>
-            <div className="absolute z-20 right-[0] flex flex-row">
-                <div className="hidden flex-col items-center border-[0px] p-[10px] gap-[10px]">
-                    <div className="w-[20px] h-[20px] font-[Inter-medium]">
-                        root
-                    </div>
-                    <div className="w-[20px] h-[20px] font-[Inter-medium]">
-                        root
-                    </div>
-                    <div className="w-[20px] h-[20px] font-[Inter-medium]">
-                        root
-                    </div>
-                    <div className="w-[20px] h-[20px] font-[Inter-medium]">
-                        root
-                    </div>
-                </div>
-                <div className="flex flex-col items-center border-[0px] p-[20px]">
-                    <button
-                        onClick={() => {
-                            navigate(`/workspace/project/${projectId.projectId}?layer=root`);
-                        }}
-                        className="cursor-pointer rounded-[100px] border-[3px] w-[17px] h-[17px]">
-                    </button>
-                    <div className="w-[2px] h-[15px] bg-[#000]"></div>
-                    <img className="cursor-pointer w-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
-                    <div className="w-[2px] h-[15px] bg-[#000]"></div>
-                    <img className="cursor-pointer w-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
-                    <div className="w-[2px] h-[15px] bg-[#000]"></div>
-                    <img className="cursor-pointer w-[20px] h-[20px]" src={images.node_icon_black} alt=""/>
-                </div>
-            </div>
+            <DepthIndicator></DepthIndicator>
+
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>
             )}

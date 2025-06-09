@@ -55,7 +55,7 @@ export const Templates = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="w-[calc(100%-100px)] p-[50px]"
+            className="w-[calc(100%-100px)] h-[95vh] overflow-y-scroll project_page_scrollbar p-[50px]"
         >
             <div className="flex flex-row text-[#FFF]">
                 <div className="">

@@ -1,19 +1,28 @@
 /* Кастомизация скроллбара */
-::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
+.project_page_scrollbar {
+    scrollbar-width: none;
 }
 
-::-webkit-scrollbar-track {
-    background: #353535; /* Цвет трека */
-    border-radius: 4px;
+/* Для WebKit браузеров (Chrome, Safari) */
+.canvas_sidebar_scrollbar::-webkit-scrollbar {
+    width: 8px; /* Ширина скроллбара */
 }
 
-::-webkit-scrollbar-thumb {
-    background: #616161; /* Цвет ползунка */
-    border-radius: 4px;
+.canvas_sidebar_scrollbar::-webkit-scrollbar-track {
+    background: #1c1f24; /* Цвет трека */
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #aeaeae; /* Цвет ползунка при наведении */
+.canvas_sidebar_scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4a5568; /* Цвет ползунка */
+    border-radius: 4px; /* Закругление углов */
+}
+
+.canvas_sidebar_scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #2d3748; /* Цвет ползунка при наведении */
+}
+
+/* Для Firefox */
+.canvas_sidebar_scrollbar {
+    scrollbar-width: thin; /* "auto" | "thin" | "none" */
+    scrollbar-color: #4a5568 transparent; /* thumb и track цвет */
 }
