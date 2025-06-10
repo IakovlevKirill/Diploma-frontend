@@ -83,7 +83,7 @@ export const Projects = () => {
 
                 if (response.result == "success") {
                     dispatch(addProject(response.data.project));
-                    navigate(`/workspace/project/${response.data.project.id}?layer=root`);
+                    navigate(`/workspace/project/${response.data.project.id}/root`);
                 } else {
                     navigate(`/projects`);
                     console.log('error creating project')
@@ -110,7 +110,7 @@ export const Projects = () => {
                 <div className="flex flex-row justify-between items-center">
                     <button
                         onClick={() => {
-                            navigate(`/workspace/project/${props.id}?layer=root`);
+                            navigate(`/workspace/project/${props.id}/root`);
                         }}
                         className="z-1 py-[25px] pl-[25px] w-[calc(100%)] h-[calc(100%)] flex flex-col text-left gap-[5px] bg-transparent cursor-pointer border-0">
                         <span className="text-[#FFF] font-[Inter-normal] text-[20px]">{props.title}</span>

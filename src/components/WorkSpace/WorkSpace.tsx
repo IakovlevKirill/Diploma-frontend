@@ -9,7 +9,8 @@ import {LayoutBar} from "../LayoutBar.tsx";
 import {motion} from "framer-motion";
 import {setCurrentProjectId,} from "../../app/slices/Project/currentProjectSlice.ts";
 import {
-    useParams, useSearchParams,
+    useLocation,
+    useParams,
 } from "react-router-dom";
 import {
     useDeleteNodeMutation,
@@ -27,10 +28,15 @@ import {CanvasNode} from "../../store/types.ts";
 
 export const WorkSpace = () => {
 
-    const [searchParams] = useSearchParams();
+    const location = useLocation();
 
-    const currentLayerId = searchParams.get('layer') || "";
-    
+    const pathParts = location.pathname.split('/')
+
+    const currentLayerId = pathParts[pathParts.length-1] || 'root';
+
+    console.log(currentLayerId);
+    console.log(pathParts);
+
     const { projectId } = useParams();
     
     const [deleteNodeQuery] = useDeleteNodeMutation();

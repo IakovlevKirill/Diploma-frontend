@@ -14,8 +14,7 @@ export const Toolbar = () => {
     };
 
     return (
-        <div onClick={handleToolbarClick}
-            className="absolute z-3 left-[45.5%] top-[2%]">
+        <div onClick={handleToolbarClick} className="absolute z-5 left-1/2 top-[1%]">
             <div className="select-none cursor-default gap-[10px] px-[10px] py-[5px] flex items-center bg-[#FFFFFF] rounded-[10px] border-[1px] border-[#EBEBEB] shadow-[0px_5px_16px_0px_rgba(0,_0,_0,_0.1)]">
                 <button
                     className={`bg-[white] flex items-center justify-center border-[1px] border-[white] w-[35px] h-[35px] rounded-[8px]

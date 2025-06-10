@@ -4,7 +4,7 @@ import {
     useAppSelector
 } from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
-import {Route} from "./components/Route.tsx";
+import {Breadcrumbs} from "./components/Breadcrumbs.tsx";
 import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {
     addNode,
@@ -34,31 +34,19 @@ import {
     useLocation,
     useNavigate,
     useParams,
-    useSearchParams
 } from "react-router-dom";
 import {ClipLoader} from "react-spinners";
 import {images} from "../../assets/images/images.ts";
 
 export const CanvasArea = () => {
 
-    const [searchParams] = useSearchParams();
-
-    const currentLayerId = searchParams.get('layer') || "";
-
     const projectId = useParams()
 
-    const [path, setPath] = useState<string[]>([]);
+    const location = useLocation();
 
-    useEffect(() => {
-        
-        const searchParams = new URLSearchParams(location.search);
-        const layerParam = searchParams.get('layer') || 'root';
+    const [path, setPath] = useState<string[]>(location.pathname.split("/"));
 
-        const pathArray = layerParam.split('/');
-
-        setPath(pathArray);
-
-    }, []);
+    console.log(location.pathname.split("/"))
 
     const [getNodeChildren] = useLazyGetNodeChildrenQuery()
     const [createNode, { isLoading : isCreateLoading}] = useCreateNodeMutation();
@@ -67,7 +55,6 @@ export const CanvasArea = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const location = useLocation();
 
     const currentTool = useAppSelector((state) => state.currentTool.tool);
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
@@ -96,18 +83,22 @@ export const CanvasArea = () => {
     const handleInspect = async () => {
 
         setContextMenuNode({ visible: false, x: 0, y: 0 });
-        dispatch(clearCanvas())
 
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.set('layer', currentSelectedNodeId);
-        navigate({ search: searchParams.toString() });
+        dispatch(clearCanvas());
+
+        navigate(`${currentSelectedNodeId}`);
+
+        const pathArray = path
+        pathArray.push(currentSelectedNodeId)
+
+        setPath(pathArray);
 
         const response = await getNodeChildren({ nodeId: currentSelectedNodeId })
-            .unwrap()
+            .unwrap();
         if (response.result == "success") {
-            dispatch(setCanvasNodes(response.data.nodes))
+            dispatch(setCanvasNodes(response.data.nodes));
         } else {
-            alert('error')
+            alert('error');
         }
     };
 
@@ -176,7 +167,7 @@ export const CanvasArea = () => {
             projectId: String(projectId.projectId),
             position: {x: x, y: y},
             size: {width: 120, height: 80},
-            parentId: currentLayerId,
+            parentId: path[path.length-1],
             children: [],
             color: '#D9D9D9',
         })
@@ -521,7 +512,7 @@ export const CanvasArea = () => {
     }
 
     return (
-        <div className={`z-1 relative flex h-full w-[85%] bg-[#F5F5F5] flex-1 overflow-hidden
+        <div className={`z-1 relative flex h-full w-[100%] bg-[#F5F5F5] flex-1 overflow-hidden
                 ${currentTool === "default" ? "cursor-default" : ""}
                 ${currentTool === "node_creation" ? "cursor-crosshair" : ""}
                 ${currentTool === "link" ? "cursor-crosshair" : ""}
@@ -535,7 +526,7 @@ export const CanvasArea = () => {
              onContextMenu={(e) => handleContextMenu(e, 'canvas')} // пкм по холсту или ноде
             // onWheel={handleWheel} пока что выключил потому что работает не корректно
         >
-            <Route />
+            <Breadcrumbs></Breadcrumbs>
             <Toolbar />
             <ContextMenuCanvas></ContextMenuCanvas>
             <ContextMenuNode></ContextMenuNode>
@@ -544,6 +535,7 @@ export const CanvasArea = () => {
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>
             )}
+
             <motion.div
                 className="absolute bg-[#F5F5F5] z-1 w-[1000px] h-[1000px] origin-center"
                 style={{
