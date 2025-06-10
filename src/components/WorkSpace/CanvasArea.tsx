@@ -4,7 +4,6 @@ import {
     useAppSelector
 } from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
-import {Breadcrumbs} from "./components/Breadcrumbs.tsx";
 import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {
     addNode,
@@ -488,15 +487,28 @@ export const CanvasArea = () => {
     }
 
     const DepthIndicator = () => {
+
+        const pathParts = location.pathname.split('/').slice(4);
+        console.log(pathParts)
+
         return(
             <div className="absolute z-20 top-[20px] right-[20px] flex flex-col gap-[15px]">
-                {path.map((layer, index) => (
-                    <div key={`${layer}-${index}`} className="flex flex-row gap-[15px]">
-                        <div className="w-[20px] h-[20px]  font-[Inter-medium] flex items-center justify-center text-white text-xs">
+                {pathParts.map((layer, index) => (
+                    <div key={`${layer}-${index}`} className="flex flex-row justify-between gap-[15px]">
+                        <div>
                             {index}
                         </div>
                         <button
-                            onClick={() => handleInspect()}
+                            onClick={ () => {
+
+                            }}
+                            className="w-auto border-0 bg-transparent cursor-pointer h-[20px] hover:underline font-[Inter-medium] flex items-center justify-center text-white text-xs">
+                            {layer}
+                        </button>
+                        <button
+                            onClick={ () => {
+
+                            }}
                             className="flex items-center justify-center cursor-pointer w-[20px] h-[20px] border-0"
                         >
                             <img
@@ -526,7 +538,7 @@ export const CanvasArea = () => {
              onContextMenu={(e) => handleContextMenu(e, 'canvas')} // пкм по холсту или ноде
             // onWheel={handleWheel} пока что выключил потому что работает не корректно
         >
-            <Breadcrumbs></Breadcrumbs>
+
             <Toolbar />
             <ContextMenuCanvas></ContextMenuCanvas>
             <ContextMenuNode></ContextMenuNode>
