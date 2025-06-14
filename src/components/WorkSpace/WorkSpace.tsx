@@ -34,14 +34,11 @@ export const WorkSpace = () => {
 
     const currentLayerId = pathParts[pathParts.length-1] || 'root';
 
-    console.log(currentLayerId);
-    console.log(pathParts);
-
     const { projectId } = useParams();
     
     const [deleteNodeQuery] = useDeleteNodeMutation();
 
-    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
+    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node?.id);
     const isDeleteProjectModalVisible = useAppSelector((state) => state.isModalVisible.visibility);
 
     const dispatch = useAppDispatch();
@@ -88,7 +85,15 @@ export const WorkSpace = () => {
             switch (e.key) {
                 case "Escape":
                     dispatch(setCurrentTool("default"));
-                    dispatch(setCurrentNode({ id: '', name: '', color: '' }));
+                    dispatch(setCurrentNode({
+                        children: [],
+                        color: "",
+                        id: "",
+                        name: "",
+                        parentId: "",
+                        position: {x: 0, y: 0},
+                        size: {height: 0, width: 0}
+                    }));
                     break;
                 case "1":
                     dispatch(setCurrentTool("default"));
@@ -97,8 +102,10 @@ export const WorkSpace = () => {
                     dispatch(setCurrentTool("node_creation"));
                     break;
                 case "Delete":
-                    deleteNodeQuery({ nodeId: currentSelectedNodeId })
-                    dispatch(deleteNode(currentSelectedNodeId))
+                    if (currentSelectedNodeId) {
+                        deleteNodeQuery({ nodeId: currentSelectedNodeId })
+                        dispatch(deleteNode(currentSelectedNodeId))
+                    }
                     break;
                 default:
                     break;

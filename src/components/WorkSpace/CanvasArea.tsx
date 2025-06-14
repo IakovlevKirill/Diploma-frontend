@@ -34,8 +34,13 @@ import {
     useNavigate,
     useParams,
 } from "react-router-dom";
-import {ClipLoader} from "react-spinners";
+            import {
+    ClipLoader
+} from "react-spinners";
 import {images} from "../../assets/images/images.ts";
+import {
+    NodeProperties
+} from "./PropertiesWindow.tsx";
 
 export const CanvasArea = () => {
 
@@ -56,7 +61,7 @@ export const CanvasArea = () => {
     const navigate = useNavigate();
 
     const currentTool = useAppSelector((state) => state.currentTool.tool);
-    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
+    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node?.id);
     const all_nodes_array = useAppSelector((state) => state.nodes.all_nodes);
     const canvas_nodes_array = useAppSelector((state) => state.nodes.canvas_nodes);
     const objects_count = useAppSelector((state) => state.nodeCount.nodeCount);
@@ -88,16 +93,21 @@ export const CanvasArea = () => {
         navigate(`${currentSelectedNodeId}`);
 
         const pathArray = path
-        pathArray.push(currentSelectedNodeId)
+
+        if (currentSelectedNodeId) {
+            pathArray.push(currentSelectedNodeId)
+        }
 
         setPath(pathArray);
 
-        const response = await getNodeChildren({ nodeId: currentSelectedNodeId })
-            .unwrap();
-        if (response.result == "success") {
-            dispatch(setCanvasNodes(response.data.nodes));
-        } else {
-            alert('error');
+        if (currentSelectedNodeId) {
+            const response = await getNodeChildren({ nodeId: currentSelectedNodeId })
+                .unwrap();
+            if (response.result == "success") {
+                dispatch(setCanvasNodes(response.data.nodes));
+            } else {
+                alert('error');
+            }
         }
     };
 
@@ -133,6 +143,10 @@ export const CanvasArea = () => {
             id: obj.id,
             name: obj.name,
             color: obj.color,
+            children: obj.children,
+            parentId: obj.parentId,
+            position: obj.position,
+            size: obj.size,
         }));
         dispatch(setCurrentTool('default'));
     };
@@ -153,7 +167,7 @@ export const CanvasArea = () => {
         const newNode: CanvasNode = {
             id: Math.random().toString(36).substring(2, 9),
             name: `node ` + objects_count,
-            color: '#D9D9D9',
+            color: '#1c1f24',
             size: {width: 120, height: 80},
             position: {x: x, y: y},
             parentId: '',
@@ -168,7 +182,7 @@ export const CanvasArea = () => {
             size: {width: 120, height: 80},
             parentId: path[path.length-1],
             children: [],
-            color: '#D9D9D9',
+            color: '#1c1f24',
         })
 
         dispatch(addNode(newNode));
@@ -210,7 +224,15 @@ export const CanvasArea = () => {
                     y: e.clientY
                 });
             } else if (!contextMenuNode.visible && !contextMenuCanvas.visible && node) {
-                dispatch(setCurrentNode({id: node.id, name: node.name, color: node.color}))
+                dispatch(setCurrentNode({
+                    id: node.id,
+                    name: node.name,
+                    color: node.color,
+                    children: node.children,
+                    parentId: node.parentId,
+                    position: node.position,
+                    size: node.size
+                }))
                 setContextMenuNode({
                     visible: true,
                     x: e.clientX,
@@ -356,7 +378,7 @@ export const CanvasArea = () => {
                 onMouseMove={handleDrag}
                 onMouseUp={handleDragEnd}
                 onMouseLeave={handleDragEnd}
-                className={`absolute z-99 border-2 border-[#F5F5F5] 
+                className={`absolute z-4 border-2 border-[#F5F5F5] rounded-[5px] 
                             ${(currentSelectedNodeId === props.node.id) ? "border-[2px] border-[#0d99ff]!": ""}
                             ${isDragging ? "rounded-[0px] hover:border-[2px] cursor-pointer" : "cursor-pointer"}
                           `}
@@ -367,7 +389,12 @@ export const CanvasArea = () => {
                     height: `${props.node.size.height}px`,
                     backgroundColor: props.node.color
                 }}
-            />
+            >
+                <div className="flex flex-col w-[calc(100%)] h-[calc(100%)] ">
+                    <span className="w-[calc(100%-10px)] p-[5px] text-[#FFF] text-[14px] font-[Inter-bold]">{props.node.name}</span>
+                    <div className="w-full h-[1px] bg-[#737373]"></div>
+                </div>
+            </div>
         )
     }
 
@@ -443,13 +470,15 @@ export const CanvasArea = () => {
                             whileHover={{ backgroundColor: "#3575ff" }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => {
-                                deleteNodeQuery({ nodeId: currentSelectedNodeId })
-                                dispatch(deleteNode(currentSelectedNodeId))
-                                setContextMenuNode({
-                                    visible: false,
-                                    x: 0,
-                                    y: 0,
-                                })
+                                if (currentSelectedNodeId) {
+                                    deleteNodeQuery({ nodeId: currentSelectedNodeId })
+                                    dispatch(deleteNode(currentSelectedNodeId))
+                                    setContextMenuNode({
+                                        visible: false,
+                                        x: 0,
+                                        y: 0,
+                                    })
+                                }
                             }}
                             className="
                             bg-[#1e1e1e] w-[full] text-start border-0 font-[Inter-medium] text-[#FFF] text-[12px] p-[6px] rounded-[4px]
@@ -543,6 +572,7 @@ export const CanvasArea = () => {
             <ContextMenuCanvas></ContextMenuCanvas>
             <ContextMenuNode></ContextMenuNode>
             <DepthIndicator></DepthIndicator>
+            <NodeProperties></NodeProperties>
 
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>

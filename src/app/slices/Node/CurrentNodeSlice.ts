@@ -2,27 +2,22 @@ import {
     createSlice,
     PayloadAction
 } from '@reduxjs/toolkit'
+import {CanvasNode} from "../../../store/types.ts";
 
 interface currentNodeState {
-    node_id: string
-    node_name: string
-    node_color: string
+    node: CanvasNode | null;
 }
 
 const initialState: currentNodeState = {
-    node_id: '',
-    node_name: '',
-    node_color: '',
+    node: null,
 };
 
 export const CurrentNodeSlice = createSlice({
     name: 'currentNode',
     initialState,
     reducers: {
-        setCurrentNode: (state, action: PayloadAction<{id: string; name: string; color: string}>) => {
-            state.node_id = action.payload.id;
-            state.node_name = action.payload.name;
-            state.node_color = action.payload.color;
+        setCurrentNode: (state, action: PayloadAction<CanvasNode>) => {
+            state.node = action.payload;
         },
     },
 });

@@ -23,7 +23,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
     const navigate = useNavigate();
 
     const all_node_array = useAppSelector((state) => state.nodes.all_nodes);
-    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node_id);
+    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node?.id);
 
     const inputRef = useRef(null);
 
@@ -201,7 +201,15 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                             {all_node_array.map((node) => (
                                 <div
                                     onClick={() => {
-                                        dispatch(setCurrentNode({color: node.color, id: node.id, name: node.name}));
+                                        dispatch(setCurrentNode({
+                                            id: node.id,
+                                            name: node.name,
+                                            color: node.color,
+                                            children: node.children,
+                                            parentId: node.parentId,
+                                            position: node.position,
+                                            size: node.size
+                                        }))
                                         dispatch(setCurrentTool("default"))
                                     }}
                                     key={node.id}
