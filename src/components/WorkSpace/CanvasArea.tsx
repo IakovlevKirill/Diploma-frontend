@@ -391,8 +391,11 @@ export const CanvasArea = () => {
                 }}
             >
                 <div className="flex flex-col w-[calc(100%)] h-[calc(100%)] ">
-                    <span className="w-[calc(100%-10px)] p-[5px] text-[#FFF] text-[14px] font-[Inter-bold]">{props.node.name}</span>
-                    <div className="w-full h-[1px] bg-[#737373]"></div>
+                    <div className="w-[calc(100%-10px)] p-[5px] gap-[5px] flex flex-row items-center">
+                        <div className="w-[10px] h-[10px] rounded-[100px] bg-[orange]"></div>
+                        <span className="text-[#FFF] text-[14px] font-[Inter-bold]">{props.node.name}</span>
+                    </div>
+                    <div className="w-full h-[2px] bg-[#474a4e]"></div>
                 </div>
             </div>
         )
