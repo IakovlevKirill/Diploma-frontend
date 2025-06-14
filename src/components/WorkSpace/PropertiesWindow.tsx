@@ -27,7 +27,11 @@ export const NodeProperties = () => {
     }, [isChangeTitleInputActive]);
 
     return (
-        <div className="absolute bottom-[30px] z-3 right-[30px] w-[400px] h-[30vh] bg-[#FFF] rounded-[15px] shadow-lg">
+        <div
+            className={`
+            bottom-[30px] z-3 right-[30px] w-[400px] h-[30vh] bg-[#FFF] rounded-[15px] shadow-lg
+            ${(currentSelectedNode?.id == "" || !currentSelectedNode) ? "hidden" : "absolute"}
+            `}>
             <div className="h-[calc(100%-40px)] p-[20px] flex flex-col justify-between gap-[10px]">
                 <div className="font-[Inter-semibold] text-[#000] text-[20px]">Node properties</div>
                 <div className="w-full h-[1px] bg-[#ACACAC]"></div>
