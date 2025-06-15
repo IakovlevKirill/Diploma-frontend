@@ -4,7 +4,7 @@ import {useDocumentTitle} from "../../../app/hooks.ts";
 
 export const Inbox = () => {
 
-    useDocumentTitle(`Inbox - WebNode`);
+    useDocumentTitle(`Inbox - DeepNodes`);
 
     const NewMessage = () => {
         return(

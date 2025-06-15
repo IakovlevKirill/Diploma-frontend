@@ -6,7 +6,7 @@ import {useDocumentTitle} from "../../../app/hooks.ts";
 
 export const Templates = () => {
 
-    useDocumentTitle(`Templates - WebNode`);
+    useDocumentTitle(`Templates - DeepNodes`);
 
     const TemplateComponent = () => {
         return(

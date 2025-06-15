@@ -27,7 +27,7 @@ import {Project} from "../../../store/types.ts";
 
 export const Projects = () => {
 
-    useDocumentTitle(`Projects - WebNode`);
+    useDocumentTitle(`Projects - DeepNodes`);
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();

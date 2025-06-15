@@ -16,7 +16,7 @@ export const Profile = () => {
 
     const {data: user_data, isLoading} = useGetUserByIdQuery({ userId: userId })
 
-    useDocumentTitle(`${user_data?.data.user.email} Profile - WebNode`);
+    useDocumentTitle(`${user_data?.data.user.email} Profile - DeepNodes`);
 
     const firstLetter = user_data?.data.user.email?.charAt(0).toUpperCase()
 

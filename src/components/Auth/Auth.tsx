@@ -9,7 +9,7 @@ import {PulseLoader} from "react-spinners";
 
 export const Auth = () => {
 
-    useDocumentTitle(`Auth - WebNode`);
+    useDocumentTitle(`Auth - DeepNodes`);
 
     const navigate = useNavigate();
 

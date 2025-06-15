@@ -4,7 +4,7 @@ import React from "react";
 
 export const PageNotFound = () => {
 
-    useDocumentTitle(`404 - WebNode`);
+    useDocumentTitle(`404 - DeepNodes`);
 
     return (
         <div className="flex flex-col overflow-hidden w-[100vw] h-[100vh]">

@@ -7,7 +7,7 @@ import {currentProjectSlice} from "../app/slices/Project/currentProjectSlice.ts"
 import {PinnedProjectsSlice} from "../app/slices/Project/PinnedProjectsSlice.ts";
 import {ProjectsSlice} from "../app/slices/Project/ProjectsSlice.ts";
 import {CurrentNodeSlice} from "../app/slices/Node/CurrentNodeSlice.ts";
-import {CurrentUserIdSlice} from "../app/slices/CurrentUserIdSlice.ts";
+import {CurrentUserIdSlice} from "../app/slices/Other/CurrentUserIdSlice.ts";
 import {CurrentProjectIdSlice} from "../app/slices/WorkSpace/CurrentProjectIdSlice.ts";
 import {DeleteProjectModalSlice} from "../app/slices/WorkSpace/DeleteProjectModalSlice.ts"
 

@@ -6,7 +6,7 @@ import {useGetUserByIdQuery} from "../../api/testApi.ts";
 import {useDocumentTitle} from "../../app/hooks.ts";
 import {RingLoader} from "react-spinners";
 import {useDispatch} from "react-redux";
-import {setUserId} from "../../app/slices/CurrentUserIdSlice.ts";
+import {setUserId} from "../../app/slices/Other/CurrentUserIdSlice.ts";
 
 export const MenuLayout = () => {
 
@@ -26,7 +26,7 @@ export const MenuLayout = () => {
         dispatch(setUserId(userId));
     }, [dispatch, userId]);
 
-    useDocumentTitle(`Home - WebNode`);
+    useDocumentTitle(`Home - DeepNodes`);
 
     const [currentPage, setCurrentPage] = useState<string>()
 

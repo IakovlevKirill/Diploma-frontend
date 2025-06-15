@@ -3,7 +3,7 @@ import {useDocumentTitle} from "../../../app/hooks.ts";
 
 export const Teams = () => {
 
-    useDocumentTitle(`Teams - WebNode`);
+    useDocumentTitle(`Teams - DeepNodes`);
 
     return (
         <motion.div

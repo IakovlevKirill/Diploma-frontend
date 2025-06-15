@@ -78,7 +78,7 @@ export const WorkSpace = () => {
     
     const project = project_data?.data.project
 
-    useDocumentTitle(`${project?.title} - WebNode`);
+    useDocumentTitle(`${project?.title} - DeepNodes`);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
