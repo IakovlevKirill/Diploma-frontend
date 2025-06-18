@@ -593,6 +593,14 @@ export const CanvasArea = () => {
             <DepthIndicator></DepthIndicator>
             <NodeProperties></NodeProperties>
 
+            {(canvas_nodes_array.length == 0) && (
+                <div className="z-3 fixed w-full h-full flex items-center justify-center ">
+                    <div className="select-none font-[Inter-medium] text-[#454545]">
+                        this layer is empty
+                    </div>
+                </div>
+                //TODO надо сделать нормальную динамическую ширину
+            )}
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>
             )}
