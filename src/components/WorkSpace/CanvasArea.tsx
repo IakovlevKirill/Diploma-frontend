@@ -50,8 +50,6 @@ export const CanvasArea = () => {
 
     const [path, setPath] = useState<string[]>(location.pathname.split("/"));
 
-    console.log(location.pathname.split("/"))
-
     const [getNodeChildren] = useLazyGetNodeChildrenQuery()
     const [createNode, { isLoading : isCreateLoading}] = useCreateNodeMutation();
     const [updateNode, { isLoading : isUpdateLoading}] = useUpdateNodeMutation();
@@ -520,31 +518,49 @@ export const CanvasArea = () => {
 
     const DepthIndicator = () => {
 
-        const pathParts = location.pathname.split('/').slice(4);
-        console.log(pathParts)
+        const [path, setPath] = useState<string[]>(location.pathname.split('/').slice(4));
 
-        return(
-            <div className="absolute z-20 top-[20px] right-[20px] flex flex-col gap-[15px]">
-                {pathParts.map((layer, index) => (
-                    <div key={`${layer}-${index}`} className="flex flex-row justify-between gap-[15px]">
-                        <div>
-                            {index}
-                        </div>
+        const truncateLayer = (text: string) => {
+            return text.length > 10 ? `${text.substring(0, 10)}...` : text;
+        };
+
+        const handleLayerClick = async (index: number, layer: string) => {
+
+            const basePath = location.pathname.split('/').slice(0, 4).join('/');
+            const newPathParts = path.slice(0, index + 1);
+            const newUrl = `${basePath}/${newPathParts.join('/')}`;
+
+            navigate(newUrl);
+
+            try {
+                const response = await getNodeChildren({ nodeId: layer }).unwrap();
+                if (response.result === "success") {
+                    setPath(newPathParts);
+                    dispatch(setCanvasNodes(response.data.nodes));
+                } else {
+                    console.error('Error loading node children:', response);
+                }
+            } catch (error) {
+                console.error('Failed to fetch node children:', error);
+            }
+        };
+
+        return (
+            <div className="w-[125px] bg-[#FFF] rounded-[15px] shadow-[0px_4px_10px_8px_rgba(0,_0,_0,_0.1)] p-[10px] absolute z-20 top-[20px] right-[20px] flex flex-col gap-[10px]">
+                {path.map((layer, index) => (
+                    <div key={`${layer}-${index}`} className="flex flex-row justify-between">
                         <button
-                            onClick={ () => {
-
-                            }}
-                            className="w-auto border-0 bg-transparent cursor-pointer h-[20px] hover:underline font-[Inter-medium] flex items-center justify-center text-white text-xs">
-                            {layer}
+                            onClick={() => handleLayerClick(index, layer)}
+                            className="w-[calc(100%-20px)] text-center text-[12px] border-0 bg-transparent cursor-pointer h-[20px] font-[Inter-medium] flex items-center justify-center hover:underline"
+                        >
+                            {truncateLayer(layer)}
                         </button>
                         <button
-                            onClick={ () => {
-
-                            }}
-                            className="flex items-center justify-center cursor-pointer w-[20px] h-[20px] border-0"
+                            onClick={() => {}}
+                            className="w-[20px] h-[20px] flex items-center justify-center cursor-pointer border-0"
                         >
                             <img
-                                className="cursor-pointer w-[20px] h-[20px]"
+                                className="cursor-pointer w-[20px] h-[20px] bg-[#FFF]"
                                 src={images.node_icon_black}
                                 alt={`Layer ${index + 1}`}
                             />
@@ -552,8 +568,8 @@ export const CanvasArea = () => {
                     </div>
                 ))}
             </div>
-        )
-    }
+        );
+    };
 
     return (
         <div className={`z-1 relative flex h-full w-[100%] bg-[#F5F5F5] flex-1 overflow-hidden

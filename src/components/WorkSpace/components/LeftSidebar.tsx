@@ -139,7 +139,8 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                         <button
                             onClick={()=>{
                                 console.log('Before navigate back', store.getState()); // добавьте это
-                                navigate('/projects');
+                                navigate("/projects", { replace: true })
+                                window.location.reload()
                             }}
                             className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
                             bg-[#1c1f24]

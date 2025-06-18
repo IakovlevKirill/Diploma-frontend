@@ -48,8 +48,6 @@ export const WorkSpace = () => {
     const { data: project_data, isLoading: isProjectLoading } = useGetProjectByIdQuery({ projectId: String(projectId) });
     const { data: project_nodes, isLoading: isNodesLoading } = useGetAllProjectNodesByProjectIdQuery({ projectId: String(projectId) });
 
-    console.log(project_nodes?.data.nodes);
-
     useEffect(() => {
         if (projectId) {
             dispatch(setCurrentProjectId(projectId))
