@@ -38,9 +38,6 @@ import {
     ClipLoader
 } from "react-spinners";
 import {images} from "../../assets/images/images.ts";
-import {
-    NodeProperties
-} from "./PropertiesWindow.tsx";
 
 export const CanvasArea = () => {
 
@@ -51,6 +48,7 @@ export const CanvasArea = () => {
     const [path, setPath] = useState<string[]>(location.pathname.split("/"));
 
     const [getNodeChildren] = useLazyGetNodeChildrenQuery()
+
     const [createNode, { isLoading : isCreateLoading}] = useCreateNodeMutation();
     const [updateNode, { isLoading : isUpdateLoading}] = useUpdateNodeMutation();
     const [deleteNodeQuery, { isLoading : isDeleteLoading}] = useDeleteNodeMutation();
@@ -572,7 +570,7 @@ export const CanvasArea = () => {
     };
 
     return (
-        <div className={`z-1 relative flex h-full w-[100%] bg-[#F5F5F5] flex-1 overflow-hidden
+        <div className={`z-1 relative flex h-full bg-[#F5F5F5] flex-1 overflow-hidden
                 ${currentTool === "default" ? "cursor-default" : ""}
                 ${currentTool === "node_creation" ? "cursor-crosshair" : ""}
                 ${currentTool === "link" ? "cursor-crosshair" : ""}
@@ -590,8 +588,6 @@ export const CanvasArea = () => {
             <Toolbar />
             <ContextMenuCanvas></ContextMenuCanvas>
             <ContextMenuNode></ContextMenuNode>
-            <DepthIndicator></DepthIndicator>
-            <NodeProperties></NodeProperties>
 
             {(canvas_nodes_array.length == 0) && (
                 <div className="z-3 fixed w-full h-full flex items-center justify-center ">

@@ -29,6 +29,8 @@ import Users_Group from './Users_Group.png'
 import node_icon_white from './node_icon_white.png'
 import node_icon_black from './node_icon_black.png'
 import close_modal_icon from './close_modal_icon.png'
+import linear_format_img from './linear_format_img.png'
+import tree_format_img from './tree_format_img.png'
 
 export const images =
 {
@@ -62,5 +64,7 @@ export const images =
     Users_Group,
     node_icon_white,
     node_icon_black,
-    close_modal_icon
+    close_modal_icon,
+    linear_format_img,
+    tree_format_img,
 }

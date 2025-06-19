@@ -46,7 +46,16 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
         }
     }, [isChangeTitleInputActive]);
 
-    const [width, setWidth] = useState(localStorage.getItem("canvas_sidebar_width") || 300); // Начальная ширина
+    const handleMouseMove = (e: MouseEvent) => {
+        if (!isResizing.current) return;
+        const newWidth = e.clientX; // Новая ширина = позиция курсора по X
+        if (newWidth > 200 && newWidth < 600) { // Минимальная и максимальная ширина
+            setWidth(newWidth);
+            localStorage.setItem('canvas_left_sidebar_width', String(newWidth))
+        }
+    };
+
+    const [width, setWidth] = useState(localStorage.getItem("canvas_left_sidebar_width") || 300); // Начальная ширина
     const isResizing = useRef(false);
 
     const startResize = (e: React.MouseEvent) => {
@@ -54,15 +63,6 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
         isResizing.current = true;
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', stopResize);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-        if (!isResizing.current) return;
-        const newWidth = e.clientX; // Новая ширина = позиция курсора по X
-        if (newWidth > 200 && newWidth < 600) { // Минимальная и максимальная ширина
-            setWidth(newWidth);
-            localStorage.setItem('canvas_sidebar_width', String(newWidth))
-        }
     };
 
     const stopResize = () => {
@@ -81,11 +81,11 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
 
     return (
         <div
-            className="h-[95vh] z-2 absolute left-[0px] flex bg-[#1C1F24] border-r-[1px] border-[#535558]"
+            className="h-[95vh] z-2 left-[0px] flex bg-[#1C1F24] border-r-[1px] border-[#535558]"
             style={{ width: `${width}px` }}
         >
             <div className="w-full h-full flex flex-col items-center">
-                <div className="w-[calc(100%-40px)] h-[calc(15%-41px)] p-[20px] flex flex-col items-start justify-center gap-[15px] border-b-[1px] border-[#535558]">
+                <div className="w-[calc(100%-40px)] h-[calc(15%-41px)] p-[20px] flex flex-col items-start justify-center gap-[10px] border-b-[1px] border-[#535558]">
                     <div className="w-full ">
                         <button
                             hidden={!isChangeTitleInputActive}
@@ -135,7 +135,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                                 focus:outline-none"
                         />
                     </div>
-                    <div className="flex flex-row select-none flex-wrap gap-[10px]">
+                    <div className="flex flex-row select-none flex-wrap gap-[3px]">
                         <button
                             onClick={()=>{
                                 console.log('Before navigate back', store.getState()); // добавьте это
@@ -148,6 +148,19 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                             hover:bg-[#D9D9D9]
                             hover:text-[black]
                             ">Back to files
+                        </button>
+                        <button
+                            onClick={()=>{
+                                console.log('Before navigate back', store.getState()); // добавьте это
+                                navigate("/projects", { replace: true })
+                                window.location.reload()
+                            }}
+                            className="p-[4px] flex font-[Inter-medium] text-[12px] rounded-[8px] border-0
+                            bg-[#1c1f24]
+                            text-[#9C9C9C]
+                            hover:bg-[#D9D9D9]
+                            hover:text-[black]
+                            ">Settings
                         </button>
                         <button
                             onClick={ async ()=>{
@@ -192,7 +205,7 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
                 </div>
                 <div className="w-[calc(100%-20px)] h-[85%] pl-[20px] pr-[4px] flex flex-col">
                     <div className="h-[8%] w-full flex items-center justify-start">
-                        <span className="select-none flex font-[Inter-medium] text-[#FFF]">Layers</span>
+                        <span className="text-[16px] select-none flex font-[Inter-medium] text-[#FFF]">Nodes</span>
                     </div>
                     <div className={`h-[92%] w-full flex
                      overflow-y-auto 

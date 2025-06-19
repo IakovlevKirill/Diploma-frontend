@@ -25,6 +25,7 @@ import {
 import {setNodeCount} from "../../app/slices/Node/NodeCountSlice.ts";
 import {DeleteProjectModal} from "./components/DeleteProjectModal.tsx";
 import {CanvasNode} from "../../store/types.ts";
+import {RightSidebar} from "./components/RightSidebar.tsx";
 
 export const WorkSpace = () => {
 
@@ -138,12 +139,15 @@ export const WorkSpace = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="h-[95vh] w-[100vw] flex flex-row items-center justify-center"
+                    className="h-[95vh] w-[100vw] flex flex-row"
                 >
                     {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
                     <LeftSidebar projectTitle={String(project?.title)} userId={userId} projectId={String(project?.id)}></LeftSidebar>
                     {/*z-1 relative flex h-full w-[85%]*/}
                     <CanvasArea></CanvasArea>
+
+                    <RightSidebar></RightSidebar>
+
                 </motion.div>
             )}
         </div>
