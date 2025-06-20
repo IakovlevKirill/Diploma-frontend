@@ -4,7 +4,7 @@ import {
     useAppSelector
 } from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
-import {setCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
+import {setCurrentNode, unsetCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {
     addNode,
     clearCanvas,
@@ -151,40 +151,50 @@ export const CanvasArea = () => {
 
     // Обработчик нажатия на холст
     const handleCanvasClick = (e: React.MouseEvent) => {
-        if (currentTool == 'default') return;
 
         if (contextMenuCanvas.visible) {
             setContextMenuCanvas({ ...contextMenuCanvas, visible: false });
             return;
         }
 
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = (e.clientX - rect.left - position.x) / scale;
-        const y = (e.clientY - rect.top - position.y) / scale;
+        if (currentTool == 'default') {
+            dispatch(unsetCurrentNode())
+        }
 
-        const newNode: CanvasNode = {
-            id: uuidv4(),
-            name: `node` + objects_count,
-            projectId: String(projectId.projectId),
-            position: {x: x, y: y},
-            size: {width: 120, height: 80},
-            parentId: path[path.length-1],
-            children: [],
-            color: '#1c1f24',
-        };
+        if (currentTool == 'node_creation') {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = (e.clientX - rect.left - position.x) / scale;
+            const y = (e.clientY - rect.top - position.y) / scale;
 
-        createNode(newNode)
-        dispatch(addNode(newNode));
-        dispatch(incrementNodeCount());
+            const newNode: CanvasNode = {
+                id: uuidv4(),
+                name: `node` + objects_count,
+                projectId: String(projectId.projectId),
+                position: {x: x, y: y},
+                size: {width: 120, height: 80},
+                parentId: path[path.length-1],
+                children: [],
+                color: '#1c1f24',
+            };
+
+            createNode(newNode)
+            dispatch(addNode(newNode));
+            dispatch(incrementNodeCount());
+            dispatch(setCurrentNode(newNode))
+            return;
+        }
     };
 
     // Обработчик контекстного меню
     const handleContextMenu = (e: React.MouseEvent, menu_type: "canvas" | "node", node?: CanvasNode) => {
+
         e.preventDefault();
         e.stopPropagation();
+
         if (e.ctrlKey) { // чтобы не открывалось при зажатом ctrl
             return
         }
+
         if (menu_type === 'canvas')  {
             if (contextMenuCanvas.visible) {
                 setContextMenuCanvas({
@@ -311,6 +321,7 @@ export const CanvasArea = () => {
 
     const handleDragStart = (e: React.MouseEvent, node: CanvasNode) => {
         setCurrentDraggedNode(node);
+        dispatch(setCurrentNode(node))
         e.stopPropagation();
         setIsDragging(true);
         setDragStartPos({

@@ -19,11 +19,15 @@ export const CurrentNodeSlice = createSlice({
         setCurrentNode: (state, action: PayloadAction<CanvasNode>) => {
             state.node = action.payload;
         },
-    },
+        unsetCurrentNode: (state) => {
+            state.node = null;
+        },
+    }
 });
 
 export const {
-    setCurrentNode
+    setCurrentNode,
+    unsetCurrentNode
 } = CurrentNodeSlice.actions;
 
 export default CurrentNodeSlice.reducer;
