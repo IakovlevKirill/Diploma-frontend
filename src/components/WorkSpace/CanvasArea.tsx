@@ -139,6 +139,7 @@ export const CanvasArea = () => {
         dispatch(setCurrentNode({
             id: node.id,
             name: node.name,
+            pointColor: node.pointColor,
             color: node.color,
             children: node.children,
             parentId: node.parentId,
@@ -169,6 +170,7 @@ export const CanvasArea = () => {
             const newNode: CanvasNode = {
                 id: uuidv4(),
                 name: `node` + objects_count,
+                pointColor: '#ffa500',
                 projectId: String(projectId.projectId),
                 position: {x: x, y: y},
                 size: {width: 120, height: 80},
@@ -226,6 +228,7 @@ export const CanvasArea = () => {
                 dispatch(setCurrentNode({
                     id: node.id,
                     name: node.name,
+                    pointColor: node.pointColor,
                     color: node.color,
                     children: node.children,
                     parentId: node.parentId,
@@ -364,7 +367,7 @@ export const CanvasArea = () => {
     const Node = (props: {key: string; node: CanvasNode;}) => {
         return (
             <div
-                onDoubleClick={ () => {handleInspect() }} // дабл клик -> проваливаемся на уровень ниже
+                onDoubleClick={ () => {handleInspect()}} // дабл клик -> проваливаемся на уровень ниже
                 onContextMenu={(e) => {
                     handleContextMenu(e, 'node', props.node)
                 }}
@@ -393,7 +396,12 @@ export const CanvasArea = () => {
             >
                 <div className="flex flex-col w-[calc(100%)] h-[calc(100%)] ">
                     <div className="w-[calc(100%-10px)] p-[5px] gap-[5px] flex flex-row items-center">
-                        <div className="w-[10px] h-[10px] rounded-[100px] bg-[orange]"></div>
+                        <div
+                            className={`w-[10px] h-[10px] rounded-[100px]`}
+                            style={{
+                                backgroundColor: props.node.pointColor
+                            }}
+                        ></div>
                         <span className="text-[#FFF] text-[14px] font-[Inter-bold]">{props.node.name}</span>
                     </div>
                     <div className="w-full h-[2px] bg-[#474a4e]"></div>

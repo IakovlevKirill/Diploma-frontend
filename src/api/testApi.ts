@@ -211,6 +211,7 @@ export const diplomaApi = createApi({
             }
         }, {
             id: string,
+            pointColor: string,
             name: string,
             projectId: string,
             position: { x: number; y: number },

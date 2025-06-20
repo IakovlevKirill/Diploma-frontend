@@ -6,6 +6,7 @@ export type currentToolType = {
 export type CanvasNode = {
     id: string;
     name: string;
+    pointColor: string;
     projectId: string;
     position: {x: number, y: number};
     size: {width: number, height: number};
