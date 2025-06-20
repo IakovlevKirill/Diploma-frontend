@@ -590,18 +590,20 @@ export const CanvasArea = () => {
             // onWheel={handleWheel} пока что выключил потому что работает не корректно
         >
 
-            <Toolbar />
+            <div className="relative w-full flex items-start justify-center mt-[20px]">
+                <Toolbar></Toolbar>
+            </div>
             <ContextMenuCanvas></ContextMenuCanvas>
             <ContextMenuNode></ContextMenuNode>
 
             {(canvas_nodes_array.length == 0) && (
-                <div className="z-3 fixed w-full h-full flex items-center justify-center ">
+                <div className="z-3 absolute w-full h-full flex items-center justify-center ">
                     <div className="select-none font-[Inter-medium] text-[#454545]">
-                        this layer is empty
+                        This layer is empty
                     </div>
                 </div>
-                //TODO надо сделать нормальную динамическую ширину
             )}
+
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>
             )}
@@ -618,6 +620,7 @@ export const CanvasArea = () => {
                     <Node node={node} key={node.id}></Node>
                 ))}
             </motion.div>
+
         </div>
     );
 };

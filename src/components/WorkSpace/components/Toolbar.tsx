@@ -17,7 +17,10 @@ export const Toolbar = () => {
     };
 
     return (
-        <div onClick={handleToolbarClick} className="absolute z-5 left-1/2 top-[1%]">
+        <div
+            onClick={handleToolbarClick}
+            className="z-5"
+        >
             <div className="
                  select-none
                  cursor-default
@@ -84,60 +87,6 @@ export const Toolbar = () => {
                         (<img className="w-full" src={images.cell_active_tollbar} alt=""/>)
                         :
                         (<img className="w-full" src={images.cell_toolbar} alt=""/>)
-                    }
-                </button>
-                <button
-                    className={`
-                    bg-[white] 
-                    flex 
-                    items-center 
-                    justify-center 
-                    border-[1px] 
-                    border-[white] 
-                    w-[35px] 
-                    h-[35px] 
-                    rounded-[8px]
-                    hover:bg-[#F2F2F2] 
-                    focus:outline-[0]
-                    ${currentTool === "node_creation" ? "bg-[#3575FF]! border-[1px] " : ""}
-                    `}
-                    onClick={() => {
-                        dispatch(setCurrentTool("node_creation"))
-                    }}
-                >
-                    {
-                        (currentTool === "node_creation")
-                            ?
-                            (<img className="w-full" src={images.cell_active_tollbar} alt=""/>)
-                            :
-                            (<img className="w-full" src={images.cell_toolbar} alt=""/>)
-                    }
-                </button>
-                <button
-                    className={`
-                    bg-[white] 
-                    flex 
-                    items-center 
-                    justify-center 
-                    border-[1px] 
-                    border-[white] 
-                    w-[35px] 
-                    h-[35px] 
-                    rounded-[8px]
-                    hover:bg-[#F2F2F2] 
-                    focus:outline-[0]
-                    ${currentTool === "node_creation" ? "bg-[#3575FF]! border-[1px] " : ""}
-                    `}
-                    onClick={() => {
-                        dispatch(setCurrentTool("node_creation"))
-                    }}
-                >
-                    {
-                        (currentTool === "node_creation")
-                            ?
-                            (<img className="w-full" src={images.cell_active_tollbar} alt=""/>)
-                            :
-                            (<img className="w-full" src={images.cell_toolbar} alt=""/>)
                     }
                 </button>
             </div>
