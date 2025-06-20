@@ -169,14 +169,24 @@ export const RightSidebar = () => {
                                     setIsChangeNameInputActive(!isChangeNameInputActive);
                                 }}
                                 className="
-                        w-[calc(100%)]  text-[16px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
-                        border-[1px]
-                        text-[#FFF]
-                        border-[#7D7D7D]
-                        bg-[#1C1F24]
-                        hover:cursor-text"
+                                    w-[calc(100%)]
+                                    h-[30px]
+                                    text-[16px]
+                                    p-[4px]
+                                    rounded-[4px]
+                                    text-start
+                                    select-none
+                                    font-[Inter-bold]
+                                    border-[1px]
+                                    text-[#FFF]
+                                    border-[#7D7D7D]
+                                    bg-[#1C1F24]
+                                    hover:cursor-text
+                                    "
                             >
-                                {nodeName}
+                                <div className="text-[#FFF]">
+                                    {nodeName}
+                                </div>
                             </button>
                             <input
                                 ref={nameInputRef}
@@ -185,7 +195,7 @@ export const RightSidebar = () => {
                                 placeholder="Enter name"
                                 defaultValue={currentSelectedNode?.name}
                                 onBlur={(e) => {
-                                    const newName = e.target.value;
+                                    const newName = e?.target?.value;
                                     setNodeName(newName);
                                     dispatch(updateNodeName({id: String(currentSelectedNode?.id), name: newName}));
                                     setIsChangeNameInputActive(!isChangeNameInputActive);
@@ -202,7 +212,7 @@ export const RightSidebar = () => {
                                 }}
                                 type="text"
                                 className="
-                                w-[calc(100%-10px)] text-[16px] p-[4px] rounded-[4px] select-none font-[Inter-bold] text-[#FFF] bg-[#1C1F24] border-[1px] border-[#FFF]
+                                w-[calc(100%-10px)] h-[20px] text-[16px] p-[4px] rounded-[4px] select-none font-[Inter-bold] text-[#FFF] bg-[#1C1F24] border-[1px] border-[#FFF]
                                 focus:outline-none"
                             />
                         </div>
@@ -218,12 +228,12 @@ export const RightSidebar = () => {
                                             setIsChangeWidthInputActive(!isChangeWidthInputActive);
                                         }}
                                         className="
-                        w-[calc(100%)] text-[16px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
-                         text-[#FFF]
-                        border-[1px]
-                        border-[#7D7D7D]
-                        bg-[#1C1F24]
-                        hover:cursor-text"
+                                            w-[calc(100%)] h-[30px] text-[16px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
+                                             text-[#FFF]
+                                            border-[1px]
+                                            border-[#7D7D7D]
+                                            bg-[#1C1F24]
+                                            hover:cursor-text"
                                     >
                                         {nodeWidth}
                                     </button>
@@ -251,8 +261,17 @@ export const RightSidebar = () => {
                                         }}
                                         type="text"
                                         className="
-                                w-[calc(100%-10px)] text-[16px] p-[4px] rounded-[4px] select-none font-[Inter-bold] text-[#FFF] bg-[#1C1F24] border-[1px]
-                                focus:outline-none"
+                                            w-[calc(100%-10px)]
+                                            h-[20px]
+                                            text-[16px]
+                                            p-[4px]
+                                            rounded-[4px]
+                                            select-none
+                                            font-[Inter-bold]
+                                            text-[#FFF]
+                                            bg-[#1C1F24]
+                                            border-[1px]
+                                            focus:outline-none"
                                     />
                                 </div>
                             </div>
@@ -267,12 +286,12 @@ export const RightSidebar = () => {
                                             setIsChangeHeightInputActive(!isChangeHeightInputActive);
                                         }}
                                         className="
-                        w-[calc(100%)] text-[16px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
-                           text-[#FFF]
-                        border-[1px]
-                        border-[#7D7D7D]
-                        bg-[#1C1F24]
-                        hover:cursor-text"
+                                            w-[calc(100%)] text-[16px] h-[30px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
+                                               text-[#FFF]
+                                            border-[1px]
+                                            border-[#7D7D7D]
+                                            bg-[#1C1F24]
+                                            hover:cursor-text"
                                     >
                                         {nodeHeight}
                                     </button>
@@ -300,8 +319,17 @@ export const RightSidebar = () => {
                                         }}
                                         type="text"
                                         className="
-                                w-[calc(100%-10px)] text-[16px] p-[4px] rounded-[4px] select-none font-[Inter-bold] text-[#FFF] bg-[#1C1F24] border-[1px]
-                                focus:outline-none"
+                                            w-[calc(100%-10px)]
+                                            h-[20px]
+                                            text-[16px]
+                                            p-[4px]
+                                            rounded-[4px]
+                                            select-none
+                                            font-[Inter-bold]
+                                            text-[#FFF]
+                                            bg-[#1C1F24]
+                                            border-[1px]
+                                            focus:outline-none"
                                     />
                                 </div>
                             </div>
@@ -318,12 +346,12 @@ export const RightSidebar = () => {
                                             setIsChangeXInputActive(!isChangeXInputActive);
                                         }}
                                         className="
-                                    w-[calc(100%)] text-[16px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
-                                          text-[#FFF]
-                                     border-[1px]
-                                    border-[#7D7D7D]
-                                    bg-[#1C1F24]
-                                    hover:cursor-text
+                                            w-[calc(100%)] text-[16px] h-[30px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
+                                            text-[#FFF]
+                                            border-[1px]
+                                            border-[#7D7D7D]
+                                            bg-[#1C1F24]
+                                            hover:cursor-text
                                         "
                                     >
                                         {nodeX}
@@ -352,8 +380,17 @@ export const RightSidebar = () => {
                                         }}
                                         type="text"
                                         className="
-                                w-[calc(100%-10px)] text-[16px] p-[4px] rounded-[4px] select-none font-[Inter-bold] text-[#FFF] bg-[#1C1F24] border-[1px]
-                                focus:outline-none"
+                                            w-[calc(100%-10px)]
+                                            h-[20px]
+                                            text-[16px]
+                                            p-[4px]
+                                            rounded-[4px]
+                                            select-none
+                                            font-[Inter-bold]
+                                            text-[#FFF]
+                                            bg-[#1C1F24]
+                                            border-[1px]
+                                            focus:outline-none"
                                     />
                                 </div>
                             </div>
@@ -368,12 +405,12 @@ export const RightSidebar = () => {
                                             setIsChangeYInputActive(!isChangeYInputActive);
                                         }}
                                         className="
-                        w-[calc(100%)] text-[16px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
-                              text-[#FFF]
-                        border-[1px]
-                        border-[#7D7D7D]
-                        bg-[#1C1F24]
-                        hover:cursor-text"
+                                             w-[calc(100%)] text-[16px] h-[30px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
+                                             text-[#FFF]
+                                             border-[1px]
+                                             border-[#7D7D7D]
+                                             bg-[#1C1F24]
+                                             hover:cursor-text"
                                     >
                                         {nodeY}
                                     </button>
@@ -401,8 +438,17 @@ export const RightSidebar = () => {
                                         }}
                                         type="text"
                                         className="
-                                w-[calc(100%-10px)] text-[16px] p-[4px] rounded-[4px] select-none font-[Inter-bold] text-[#FFF] bg-[#1C1F24] border-[1px]
-                                focus:outline-none"
+                                            w-[calc(100%-10px)]
+                                            h-[20px]
+                                            text-[16px]
+                                            p-[4px]
+                                            rounded-[4px]
+                                            select-none
+                                            font-[Inter-bold]
+                                            text-[#FFF]
+                                            bg-[#1C1F24]
+                                            border-[1px]
+                                            focus:outline-none"
                                     />
                                 </div>
                             </div>
@@ -416,14 +462,14 @@ export const RightSidebar = () => {
                         <div className="flex flex-col gap-[5px]">
                             <span className="font-[Inter-medium] text-[14px] text-[#FFF] ">ID</span>
                             {(currentSelectedNode?.id) && (
-                                <div className="w-full flex items-center justify-center p-[4px] rounded-[5px] border-[#7D7D7D] border-[1px] h-[35px]">
+                                <div className="cursor-pointer w-full flex items-center justify-center p-[4px] rounded-[5px] border-[#7D7D7D] border-[1px] h-[35px]">
                                 <span className="font-[Inter-medium] text-[14px] text-[#FFF]">
                                     {currentSelectedNode?.id}
                                 </span>
                                 </div>
                             )}
                             {(!currentSelectedNode?.id) && (
-                                <div className="w-full flex items-center justify-center p-[4px] rounded-[5px] border-[#7D7D7D] border-[1px] h-[35px]">
+                                <div className="cursor-default select-none w-full flex items-center justify-center p-[4px] rounded-[5px] border-[#7D7D7D] border-[1px] h-[35px]">
                                 <span className="font-[Inter-medium] text-[14px] text-[#7D7D7D]">
                                     select an object
                                 </span>
