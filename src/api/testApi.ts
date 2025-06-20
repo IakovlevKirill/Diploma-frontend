@@ -210,6 +210,7 @@ export const diplomaApi = createApi({
                 created_node: CanvasNode,
             }
         }, {
+            id: string,
             name: string,
             projectId: string,
             position: { x: number; y: number },

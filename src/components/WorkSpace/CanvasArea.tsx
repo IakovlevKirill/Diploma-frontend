@@ -18,8 +18,9 @@ import * as React from "react";
 import {
     useEffect,
     useRef,
-    useState
+    useState,
 } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import {
     motion
 } from "framer-motion";
@@ -34,7 +35,7 @@ import {
     useNavigate,
     useParams,
 } from "react-router-dom";
-            import {
+import {
     ClipLoader
 } from "react-spinners";
 import {images} from "../../assets/images/images.ts";
@@ -133,16 +134,17 @@ export const CanvasArea = () => {
     };
 
     // Обработчик нажатия на ноду
-    const handleNodeClick = (e: React.MouseEvent, obj: CanvasNode) => {
+    const handleNodeClick = (e: React.MouseEvent, node: CanvasNode) => {
         e.stopPropagation();
         dispatch(setCurrentNode({
-            id: obj.id,
-            name: obj.name,
-            color: obj.color,
-            children: obj.children,
-            parentId: obj.parentId,
-            position: obj.position,
-            size: obj.size,
+            id: node.id,
+            name: node.name,
+            color: node.color,
+            children: node.children,
+            parentId: node.parentId,
+            position: node.position,
+            size: node.size,
+            projectId: node.projectId,
         }));
         dispatch(setCurrentTool('default'));
     };
@@ -161,17 +163,7 @@ export const CanvasArea = () => {
         const y = (e.clientY - rect.top - position.y) / scale;
 
         const newNode: CanvasNode = {
-            id: Math.random().toString(36).substring(2, 9),
-            name: `node ` + objects_count,
-            color: '#1c1f24',
-            size: {width: 120, height: 80},
-            position: {x: x, y: y},
-            parentId: '',
-            children: []
-        };
-
-        // TODO, мне запрос по идее возвращает ноду с айдишником, надо как то подменить оптимистичную на серверную
-        createNode({
+            id: uuidv4(),
             name: `node` + objects_count,
             projectId: String(projectId.projectId),
             position: {x: x, y: y},
@@ -179,8 +171,9 @@ export const CanvasArea = () => {
             parentId: path[path.length-1],
             children: [],
             color: '#1c1f24',
-        })
+        };
 
+        createNode(newNode)
         dispatch(addNode(newNode));
         dispatch(incrementNodeCount());
     };
@@ -227,7 +220,8 @@ export const CanvasArea = () => {
                     children: node.children,
                     parentId: node.parentId,
                     position: node.position,
-                    size: node.size
+                    size: node.size,
+                    projectId: node.projectId,
                 }))
                 setContextMenuNode({
                     visible: true,
