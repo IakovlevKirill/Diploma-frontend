@@ -38,7 +38,6 @@ import {
 import {
     ClipLoader
 } from "react-spinners";
-import {images} from "../../assets/images/images.ts";
 
 export const CanvasArea = () => {
 
@@ -61,6 +60,9 @@ export const CanvasArea = () => {
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node?.id);
     const all_nodes_array = useAppSelector((state) => state.nodes.all_nodes);
     const canvas_nodes_array = useAppSelector((state) => state.nodes.canvas_nodes);
+
+    console.log("canvas_nodes_array", canvas_nodes_array);
+
     const objects_count = useAppSelector((state) => state.nodeCount.nodeCount);
 
     // Состояния для перемещения объекта
@@ -348,20 +350,28 @@ export const CanvasArea = () => {
 
         // Получаем актуальные данные из хранилища
         const currentNode = all_nodes_array.find(n => n.id === currentDraggedNode.id);
-        if (!currentNode) return;
 
-        const newNodeCoordinates = {
-            id: String(currentNode.id),
-            x: Number(currentNode.position.x),
-            y: Number(currentNode.position.y),
-        };
+        if (!currentNode) {
+            return;
+        } else {
+            const updatedNode = {
+                id: currentNode.id,
+                name: currentNode.name,
+                pointColor: currentNode.pointColor,
+                position: currentNode.position,
+                size: currentNode.size,
+                parentId: currentNode.parentId,
+                children: currentNode.children,
+                color: currentNode.color,
+            }
 
-        updateNode(newNodeCoordinates)
-            .unwrap()
-            .catch((error) => console.error("Update failed:", error));
+            updateNode(updatedNode)
+                .unwrap()
+                .catch((error) => console.error("Update failed:", error));
 
-        setIsDragging(false);
-        setCurrentDraggedNode(null);
+            setIsDragging(false);
+            setCurrentDraggedNode(null);
+        }
     };
 
     const Node = (props: {key: string; node: CanvasNode;}) => {
@@ -526,61 +536,6 @@ export const CanvasArea = () => {
             </div>
         )
     }
-
-    const DepthIndicator = () => {
-
-        const [path, setPath] = useState<string[]>(location.pathname.split('/').slice(4));
-
-        const truncateLayer = (text: string) => {
-            return text.length > 10 ? `${text.substring(0, 10)}...` : text;
-        };
-
-        const handleLayerClick = async (index: number, layer: string) => {
-
-            const basePath = location.pathname.split('/').slice(0, 4).join('/');
-            const newPathParts = path.slice(0, index + 1);
-            const newUrl = `${basePath}/${newPathParts.join('/')}`;
-
-            navigate(newUrl);
-
-            try {
-                const response = await getNodeChildren({ nodeId: layer }).unwrap();
-                if (response.result === "success") {
-                    setPath(newPathParts);
-                    dispatch(setCanvasNodes(response.data.nodes));
-                } else {
-                    console.error('Error loading node children:', response);
-                }
-            } catch (error) {
-                console.error('Failed to fetch node children:', error);
-            }
-        };
-
-        return (
-            <div className="w-[125px] bg-[#FFF] rounded-[15px] shadow-[0px_4px_10px_8px_rgba(0,_0,_0,_0.1)] p-[10px] absolute z-20 top-[20px] right-[20px] flex flex-col gap-[10px]">
-                {path.map((layer, index) => (
-                    <div key={`${layer}-${index}`} className="flex flex-row justify-between">
-                        <button
-                            onClick={() => handleLayerClick(index, layer)}
-                            className="w-[calc(100%-20px)] text-center text-[12px] border-0 bg-transparent cursor-pointer h-[20px] font-[Inter-medium] flex items-center justify-center hover:underline"
-                        >
-                            {truncateLayer(layer)}
-                        </button>
-                        <button
-                            onClick={() => {}}
-                            className="w-[20px] h-[20px] flex items-center justify-center cursor-pointer border-0"
-                        >
-                            <img
-                                className="cursor-pointer w-[20px] h-[20px] bg-[#FFF]"
-                                src={images.node_icon_black}
-                                alt={`Layer ${index + 1}`}
-                            />
-                        </button>
-                    </div>
-                ))}
-            </div>
-        );
-    };
 
     return (
         <div className={`z-1 relative flex h-full bg-[#F5F5F5] flex-1 overflow-hidden

@@ -255,8 +255,13 @@ export const diplomaApi = createApi({
             message: string
         }, {
             id: string,
-            x: number,
-            y: number
+            pointColor: string,
+            name: string,
+            position: { x: number; y: number },
+            size: { width: number; height: number; },
+            parentId: string,
+            children: string[],
+            color: string
         }>({
             query: (arg) => ({
                 url: `${baseUrl}/api/project/node/update`,

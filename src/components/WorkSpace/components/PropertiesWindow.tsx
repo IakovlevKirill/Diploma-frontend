@@ -5,13 +5,13 @@ import React, {
 import {
     useAppDispatch,
     useAppSelector
-} from "../../app/hooks.ts";
+} from "../../../app/hooks.ts";
 import {
     updateNodeHeight,
     updateNodeName,
     updateNodeWidth,
     updateNodeX, updateNodeY
-} from "../../app/slices/Node/CanvasNodesSlice.ts";
+} from "../../../app/slices/Node/CanvasNodesSlice.ts";
 
 export const NodeProperties = () => {
 

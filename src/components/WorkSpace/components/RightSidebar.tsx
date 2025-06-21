@@ -11,6 +11,7 @@ import {
     updateNodeWidth,
     updateNodeX, updateNodeY
 } from "../../../app/slices/Node/CanvasNodesSlice.ts";
+import {BreadCrumbs} from "./BreadCrumps.tsx";
 
 export const RightSidebar = () => {
 
@@ -121,14 +122,10 @@ export const RightSidebar = () => {
                 <div className="flex flex-col w-[calc(100%-40px)] p-[20px] gap-[10px]">
                     <span className="font-[Inter-medium] text-[16px] text-[#FFF] select-none">Layers</span>
                     {(activeFormat == "stack") && (
-                        <div className="w-full flex items-center justify-center flex-col h-[200px] border-[#FFF] border-[1px]">
-                            <span className="font-[Inter-medium] text-[#FFF]">тут будет потоковая структура</span>
-                        </div>
+                        <BreadCrumbs></BreadCrumbs>
                     )}
                     {(activeFormat == "tree") && (
-                        <div className="w-full flex items-center justify-center flex-col h-[100px] border-[#FFF] border-[1px]">
-                            <span className="font-[Inter-medium] text-[#FFF]">тут будет древовидная структура</span>
-                        </div>
+                        <BreadCrumbs></BreadCrumbs>
                     )}
                     <div className="flex flex-row gap-[10px]">
                         <button
