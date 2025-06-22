@@ -10,15 +10,19 @@ import {CurrentNodeSlice} from "../app/slices/Node/CurrentNodeSlice.ts";
 import {CurrentUserIdSlice} from "../app/slices/Other/CurrentUserIdSlice.ts";
 import {CurrentProjectIdSlice} from "../app/slices/WorkSpace/CurrentProjectIdSlice.ts";
 import {DeleteProjectModalSlice} from "../app/slices/WorkSpace/DeleteProjectModalSlice.ts"
+import {BreadCrumbsSlice} from "../app/slices/Other/BreadCrumbsSlice.ts";
 
 export const store = configureStore({
     reducer: {
         [diplomaApi.reducerPath]: diplomaApi.reducer,
 
+        // OTHERS
+
         currentTool: currentToolSlice.reducer,
         userId: CurrentUserIdSlice.reducer,
         projectId: CurrentProjectIdSlice.reducer,
         isModalVisible: DeleteProjectModalSlice.reducer,
+        breadCrumbs: BreadCrumbsSlice.reducer,
 
         /// PROJECTS
 

@@ -38,6 +38,8 @@ import {
 import {
     ClipLoader
 } from "react-spinners";
+import {addBreadCrumb} from "../../app/slices/Other/BreadCrumbsSlice.ts";
+import {store} from "../../store/store.ts";
 
 export const CanvasArea = () => {
 
@@ -58,10 +60,9 @@ export const CanvasArea = () => {
 
     const currentTool = useAppSelector((state) => state.currentTool.tool);
     const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node?.id);
+    const currentSelectedNodeName = useAppSelector((state) => state.currentNode.node?.name);
     const all_nodes_array = useAppSelector((state) => state.nodes.all_nodes);
     const canvas_nodes_array = useAppSelector((state) => state.nodes.canvas_nodes);
-
-    console.log("canvas_nodes_array", canvas_nodes_array);
 
     const objects_count = useAppSelector((state) => state.nodeCount.nodeCount);
 
@@ -86,8 +87,22 @@ export const CanvasArea = () => {
     const handleInspect = async () => {
 
         setContextMenuNode({ visible: false, x: 0, y: 0 });
-
         dispatch(clearCanvas());
+
+        const depthLevel = location.pathname.split('/').slice(4).length;
+
+        const truncateLayerName = (text: string) => {
+            return text.length > 13 ? `${text.substring(0, 13)}...` : text;
+        };
+
+        dispatch(addBreadCrumb({
+            index: depthLevel,
+            name: currentSelectedNodeName,
+            layer_id: currentSelectedNodeId,
+            layer_id_visible_part: truncateLayerName(currentSelectedNodeId!),
+        }))
+
+        console.log(store.getState());
 
         navigate(`${currentSelectedNodeId}`);
 
@@ -518,7 +533,7 @@ export const CanvasArea = () => {
                             font-[Inter-medium] text-[#FFF] text-[12px]
                             p-[6px] rounded-[4px] transition-colors"
                         >
-                            Inspect
+                            Drill Down
                         </motion.button>
                     </div>
                 )}
