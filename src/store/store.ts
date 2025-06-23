@@ -15,6 +15,8 @@ import {CurrentActiveLayerSlice} from "../app/slices/Other/CurrentActiveLayerSli
 import {
     ModalNewObjectTypeCreationVisibilitySlice
 } from "../app/slices/Other/ModalNewObjectTypeCreationVisibilitySlice.tsx";
+import {CurrentCanvasZoomSlice} from "../app/slices/Other/CurrentCanvasZoomSlice.ts";
+import {CursorPositionZoomSlice} from "../app/slices/Other/CursorPositionSlice.ts";
 
 export const store = configureStore({
     reducer: {
@@ -29,6 +31,8 @@ export const store = configureStore({
         breadCrumbs: BreadCrumbsSlice.reducer,
         activeLayer: CurrentActiveLayerSlice.reducer,
         isNewObjectTypeModalVisible: ModalNewObjectTypeCreationVisibilitySlice.reducer,
+        zoomCanvas: CurrentCanvasZoomSlice.reducer,
+        cursorPosition: CursorPositionZoomSlice.reducer,
 
         /// PROJECTS
 

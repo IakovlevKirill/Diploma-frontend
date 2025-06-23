@@ -42,6 +42,7 @@ import {addBreadCrumb} from "../../app/slices/Other/BreadCrumbsSlice.ts";
 import {store} from "../../store/store.ts";
 import {setActiveLayer} from "../../app/slices/Other/CurrentActiveLayerSlice.ts";
 import {ModalNewObjectTypeCreation} from "./components/ModalNewObjectTypeCreation.tsx";
+import {setZoom} from "../../app/slices/Other/CurrentCanvasZoomSlice.ts";
 
 export const CanvasArea = () => {
 
@@ -65,6 +66,7 @@ export const CanvasArea = () => {
     const currentSelectedNodeName = useAppSelector((state) => state.currentNode.node?.name);
     const all_nodes_array = useAppSelector((state) => state.nodes.all_nodes);
     const canvas_nodes_array = useAppSelector((state) => state.nodes.canvas_nodes);
+    const scale = useAppSelector((state) => state.zoomCanvas.zoom);
 
     const objects_count = useAppSelector((state) => state.nodeCount.nodeCount);
 
@@ -80,7 +82,6 @@ export const CanvasArea = () => {
 
     // Состояния для перемещения по холсту
     const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [scale, setScale] = useState(1);
 
     const canvasRef = useRef<HTMLDivElement>(null);
     const isPanning = useRef(false);
@@ -309,11 +310,27 @@ export const CanvasArea = () => {
     }, []);
 
     // Обработчик колесика мыши для масштабирования (с центрированием)
-    {/*
-    const handleWheel = (e: React.WheelEvent) => {
-        if (e.ctrlKey) {
-            e.preventDefault();
 
+    const handleWheel = (e: React.WheelEvent) => {
+        if (
+            (
+                (Math.round(scale*100)>30)
+                &&
+                (Math.round(scale*100)<250)
+            )
+            ||
+            (
+                (e.deltaY < 0)
+                &&
+                (Math.round(scale*100)==30)
+            )
+            ||
+            (
+                (e.deltaY > 0)
+                &&
+                (Math.round(scale*100)==250)
+            )
+        ) {
             // Получаем текущие размеры и позицию холста
             const rect = e.currentTarget.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
@@ -324,17 +341,29 @@ export const CanvasArea = () => {
             const canvasY = (mouseY - position.y) / scale;
 
             // Вычисляем новый масштаб
-            const newScale = Math.min(Math.max(0.1, scale - e.deltaY * 0.001), 3);
+            const newScale = Math.min(Math.max(0.3, scale - e.deltaY * 0.0005), 2.5);
 
             // Вычисляем новую позицию для сохранения точки под курсором
             const newX = mouseX - canvasX * newScale;
             const newY = mouseY - canvasY * newScale;
 
-            setScale(newScale);
+            dispatch(setZoom(newScale))
             setPosition({ x: newX, y: newY });
+        } else if (
+            (Math.round(scale*100) == 30) &&
+            (e.ctrlKey) &&
+            (e.deltaY > 0)
+        ) {
+            console.log('всплываю вверх')
+        } else if (
+            (Math.round(scale*100) == 250) &&
+            (e.ctrlKey) &&
+            (e.deltaY < 0)
+        ) {
+            console.log('проваливаюсь в ноду')
         }
     };
-    */}
+
 
     // Обработчики для drag and drop
 
@@ -555,14 +584,14 @@ export const CanvasArea = () => {
         <div className={`z-1 relative flex h-full bg-[#F5F5F5] flex-1 overflow-hidden
                 ${currentTool === "default" ? "cursor-default" : ""}
                 ${currentTool === "node_creation" ? "cursor-crosshair" : ""}`}
-             ref={canvasRef}
-             onClick={handleCanvasClick} // одиночный лкм на холст
-             onMouseDown={handleMouseDown}
-             onMouseMove={handleMouseMove}
-             onMouseUp={handleMouseUp}
-             onMouseLeave={handleMouseUp}
-             onContextMenu={(e) => handleContextMenu(e, 'canvas')} // пкм по холсту или ноде
-            // onWheel={handleWheel} пока что выключил потому что работает не корректно
+                ref={canvasRef}
+                onClick={handleCanvasClick} // одиночный лкм на холст
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onContextMenu={(e) => handleContextMenu(e, 'canvas')} // пкм по холсту или ноде
+                onWheel={handleWheel}
         >
 
             <div className="relative w-full flex items-start justify-center mt-[20px]">

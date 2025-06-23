@@ -18,6 +18,8 @@ export const RightSidebar = () => {
     const dispatch = useAppDispatch();
 
     const currentSelectedNode = useAppSelector(state => state.currentNode.node);
+    const scale = useAppSelector((state) => state.zoomCanvas.zoom);
+    const cursor_position = useAppSelector((state) => state.cursorPosition.cursor_position.x);
 
     const [activeFormat, setActiveFormat] = useState(localStorage.getItem("layers_panel_format") || "stack")
     // TODO переделать в пользов. конфиг в бд
@@ -119,7 +121,20 @@ export const RightSidebar = () => {
             </div>
             <div className="h-full w-[calc(100%-5px)] flex flex-col justify-start">
 
+                <div className="flex flex-col w-[calc(100%-40px)] p-[20px] gap-[20px]">
+                    <span className="font-[Inter-medium] text-[16px] text-[#FFF] select-none">
+                        Scale
+                    </span>
+                    <div className="font-[Inter-medium] text-[16px] text-[#FFF] flex flex-col gap-[15px]">
+                        {Math.round(scale * 100)}%
+                    </div>
+                </div>
+
+                <div className="w-full h-[1px] bg-[#535558]"></div>
+
+
                 <div className="flex flex-col w-[calc(100%-40px)] p-[20px] gap-[10px]">
+
                     <span className="font-[Inter-medium] text-[16px] text-[#FFF] select-none">Layers</span>
                     {(activeFormat == "stack") && (
                         <BreadCrumbs></BreadCrumbs>
