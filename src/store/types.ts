@@ -1,6 +1,15 @@
 
 export type currentToolType = {
-    tool: 'default' | 'node_creation' | 'link' | 'text'
+    tool:
+        'default' |
+        'node_creation' |
+        'quest_creation' |
+        'location_creation' |
+        'character_creation' |
+        'event_creation' |
+        'boss_creation' |
+        'item_creation' |
+        'cluster_creation'
 }
 
 export type CanvasNode = {

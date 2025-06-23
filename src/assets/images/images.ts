@@ -1,6 +1,6 @@
 import Add_Plus from './Add_Plus.png'
 import avatar_example from './avatar_example.png'
-import cell_active_tollbar from './cell_active_tollbar.png'
+import cell_active_toolbar from './cell_active_tollbar.png'
 import cell_toolbar from './cell_toolbar.png'
 import cell from './cells.png'
 import default_hand_toolbox from './default_hand_toolbox.png'
@@ -8,7 +8,7 @@ import default_hand_toolbox_active from './default_hand_toolbox_active.png'
 import Edit_Pencil_01 from './Edit_Pencil_01.png'
 import github from './github.png'
 import inbox_icon_white from './inbox_icon_white.png'
-import link_active_tollbar from './link_active_tollbar.png'
+import link_active_toolbar from './link_active_tollbar.png'
 import link_toolbar from './link_toolbar.png'
 import logo from './logo.png'
 import mail from './small_mail_icon.png'
@@ -32,12 +32,42 @@ import close_modal_icon from './close_modal_icon.png'
 import linear_format_img from './linear_format_img.png'
 import tree_format_img from './tree_format_img.png'
 import layer_icon_white from './layer_icon_white.png'
+import boss_icon_black from './boss_icon_black.png'
+import character_icon_black from './character_icon_black.png'
+import cluster_icon_black from './cluster_icon_black.png'
+import event_icon_black from './event_icon_black.png'
+import location_icon_black from './location_icon_black.png'
+import quest_icon_black from './quest_icon_black.png'
+import item_icon_black from './item_icon_black.png'
+import boss_icon_white from './boss_icon_white.png'
+import character_icon_white from './character_icon_white.png'
+import cluster_icon_white from './cluster_icon_white.png'
+import event_icon_white from './event_icon_white.png'
+import location_icon_white from './location_icon_white.png'
+import quest_icon_white from './quest_icon_white.png'
+import item_icon_white from './item_icon_white.png'
+import cross from './cross.png'
 
 export const images =
 {
+    cross,
+    boss_icon_white,
+    character_icon_white,
+    cluster_icon_white,
+    event_icon_white,
+    location_icon_white,
+    quest_icon_white,
+    item_icon_white,
+    item_icon_black,
+    boss_icon_black,
+    character_icon_black,
+    cluster_icon_black,
+    event_icon_black,
+    location_icon_black,
+    quest_icon_black,
     Add_Plus,
     avatar_example,
-    cell_active_tollbar,
+    cell_active_toolbar,
     cell_toolbar,
     cell,
     default_hand_toolbox,
@@ -45,7 +75,7 @@ export const images =
     Edit_Pencil_01,
     github,
     inbox_icon_white,
-    link_active_tollbar,
+    link_active_toolbar,
     link_toolbar,
     logo,
     mail,

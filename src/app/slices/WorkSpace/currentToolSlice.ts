@@ -9,7 +9,17 @@ export const currentToolSlice = createSlice({
     name: 'currentTool',
     initialState,
     reducers: {
-        setCurrentTool: (state, action: PayloadAction<'default' | 'node_creation' | 'link' | 'text' >) => {
+        setCurrentTool: (state, action: PayloadAction<
+            'default' |
+            'node_creation' |
+            'quest_creation' |
+            'location_creation' |
+            'character_creation' |
+            'event_creation' |
+            'boss_creation' |
+            'item_creation' |
+            'cluster_creation'
+        >) => {
             state.tool = action.payload;
         },
     },

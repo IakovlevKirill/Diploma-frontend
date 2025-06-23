@@ -40,6 +40,8 @@ import {
 } from "react-spinners";
 import {addBreadCrumb} from "../../app/slices/Other/BreadCrumbsSlice.ts";
 import {store} from "../../store/store.ts";
+import {setActiveLayer} from "../../app/slices/Other/CurrentActiveLayerSlice.ts";
+import {ModalNewObjectTypeCreation} from "./components/ModalNewObjectTypeCreation.tsx";
 
 export const CanvasArea = () => {
 
@@ -89,17 +91,14 @@ export const CanvasArea = () => {
         setContextMenuNode({ visible: false, x: 0, y: 0 });
         dispatch(clearCanvas());
 
-        const depthLevel = location.pathname.split('/').slice(4).length;
+        dispatch(setActiveLayer(currentSelectedNodeId))
 
-        const truncateLayerName = (text: string) => {
-            return text.length > 13 ? `${text.substring(0, 13)}...` : text;
-        };
+        const depthLevel = location.pathname.split('/').slice(4).length;
 
         dispatch(addBreadCrumb({
             index: depthLevel,
             name: currentSelectedNodeName,
             layer_id: currentSelectedNodeId,
-            layer_id_visible_part: truncateLayerName(currentSelectedNodeId!),
         }))
 
         console.log(store.getState());
@@ -555,9 +554,7 @@ export const CanvasArea = () => {
     return (
         <div className={`z-1 relative flex h-full bg-[#F5F5F5] flex-1 overflow-hidden
                 ${currentTool === "default" ? "cursor-default" : ""}
-                ${currentTool === "node_creation" ? "cursor-crosshair" : ""}
-                ${currentTool === "link" ? "cursor-crosshair" : ""}
-                ${currentTool === "text" ? "cursor-text" : ""}`}
+                ${currentTool === "node_creation" ? "cursor-crosshair" : ""}`}
              ref={canvasRef}
              onClick={handleCanvasClick} // одиночный лкм на холст
              onMouseDown={handleMouseDown}
@@ -573,6 +570,8 @@ export const CanvasArea = () => {
             </div>
             <ContextMenuCanvas></ContextMenuCanvas>
             <ContextMenuNode></ContextMenuNode>
+
+            <ModalNewObjectTypeCreation></ModalNewObjectTypeCreation>
 
             {(canvas_nodes_array.length == 0) && (
                 <div className="z-3 absolute w-full h-full flex items-center justify-center ">

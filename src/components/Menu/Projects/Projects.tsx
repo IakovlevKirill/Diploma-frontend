@@ -24,6 +24,7 @@ import {
     unpinPinnedProject
 } from "../../../app/slices/Project/PinnedProjectsSlice.ts";
 import {Project} from "../../../store/types.ts";
+import {ModalNewObjectTypeCreation} from "../../WorkSpace/components/ModalNewObjectTypeCreation.tsx";
 
 export const Projects = () => {
 
@@ -194,6 +195,7 @@ export const Projects = () => {
                                     </div>
                                 </div>
                             </div>
+                            <ModalNewObjectTypeCreation></ModalNewObjectTypeCreation>
                             <div className="flex flex-col w-full gap-[16px] mt-[56px]">
                                 <div className="text-[#FFF] font-[Inter-semibold] text-[40px]">Pinned Projects</div>
                                 <div className="flex flex-row w-full mt-[30px] flex-wrap" style={{ gap: "25px" }}>

@@ -11,6 +11,10 @@ import {CurrentUserIdSlice} from "../app/slices/Other/CurrentUserIdSlice.ts";
 import {CurrentProjectIdSlice} from "../app/slices/WorkSpace/CurrentProjectIdSlice.ts";
 import {DeleteProjectModalSlice} from "../app/slices/WorkSpace/DeleteProjectModalSlice.ts"
 import {BreadCrumbsSlice} from "../app/slices/Other/BreadCrumbsSlice.ts";
+import {CurrentActiveLayerSlice} from "../app/slices/Other/CurrentActiveLayerSlice.ts";
+import {
+    ModalNewObjectTypeCreationVisibilitySlice
+} from "../app/slices/Other/ModalNewObjectTypeCreationVisibilitySlice.tsx";
 
 export const store = configureStore({
     reducer: {
@@ -23,6 +27,8 @@ export const store = configureStore({
         projectId: CurrentProjectIdSlice.reducer,
         isModalVisible: DeleteProjectModalSlice.reducer,
         breadCrumbs: BreadCrumbsSlice.reducer,
+        activeLayer: CurrentActiveLayerSlice.reducer,
+        isNewObjectTypeModalVisible: ModalNewObjectTypeCreationVisibilitySlice.reducer,
 
         /// PROJECTS
 

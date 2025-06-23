@@ -4,7 +4,6 @@ interface breadCrumb {
     index: number;
     name: string;
     layer_id: string;
-    layer_id_visible_part: string;
 }
 
 interface BreadCrumbsSliceType {

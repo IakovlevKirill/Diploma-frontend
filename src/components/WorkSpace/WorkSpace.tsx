@@ -85,6 +85,8 @@ export const WorkSpace = () => {
                 case "Escape":
                     dispatch(setCurrentTool("default"));
                     dispatch(setCurrentNode({
+                        pointColor: "",
+                        projectId: "",
                         children: [],
                         color: "",
                         id: "",
