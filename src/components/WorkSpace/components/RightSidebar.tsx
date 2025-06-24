@@ -341,6 +341,7 @@ export const RightSidebar = () => {
                                             setIsChangeXInputActive(!isChangeXInputActive);
                                         }}
                                         className="
+                                            overflow-hidden
                                             w-[calc(100%)] text-[16px] h-[30px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
                                             text-[#FFF]
                                             border-[1px]
@@ -375,6 +376,7 @@ export const RightSidebar = () => {
                                         }}
                                         type="text"
                                         className="
+                                            overflow-hidden
                                             w-[calc(100%-10px)]
                                             h-[20px]
                                             text-[16px]
@@ -400,6 +402,7 @@ export const RightSidebar = () => {
                                             setIsChangeYInputActive(!isChangeYInputActive);
                                         }}
                                         className="
+                                             overflow-hidden
                                              w-[calc(100%)] text-[16px] h-[30px] p-[4px] rounded-[4px] text-start select-none font-[Inter-bold]
                                              text-[#FFF]
                                              border-[1px]
@@ -433,6 +436,7 @@ export const RightSidebar = () => {
                                         }}
                                         type="text"
                                         className="
+                                            overflow-hidden
                                             w-[calc(100%-10px)]
                                             h-[20px]
                                             text-[16px]
@@ -451,12 +455,19 @@ export const RightSidebar = () => {
                         <div className="flex flex-col gap-[5px]">
                             <span className="font-[Inter-medium] text-[14px] text-[#FFF] ">Point color</span>
                             <div className="w-[25px] h-[25px] border-[1px] border-[#7D7D7D] rounded-[5px] flex items-center justify-center">
-                                <div
-                                    className="w-[17px] h-[17px] rounded-[5px]"
-                                    style={{
-                                        backgroundColor: currentSelectedNode?.pointColor
-                                    }}
-                                ></div>
+                                {
+                                    (currentSelectedNode?.pointColor == "-")
+                                    ?
+                                    (<div className="w-[17px] h-[17px] rounded-[5px]"></div>)
+                                    :
+                                    (
+                                        <div className="w-[17px] h-[17px] rounded-[5px]"
+                                            style={{
+                                                backgroundColor: currentSelectedNode?.pointColor}}
+                                        >
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                         <div className="flex flex-col gap-[5px]">

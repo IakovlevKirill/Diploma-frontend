@@ -443,12 +443,8 @@ export const CanvasArea = () => {
         const canvas = canvasRef.current;
 
         const { x, y } = props.node.position;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const canvasCenterX = (canvas.offsetWidth!) / 2;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const canvasCenterY = (canvas.offsetHeight!) / 2;
+        const canvasCenterX = (canvas?.offsetWidth!) / 2;
+        const canvasCenterY = (canvas?.offsetHeight!) / 2;
 
         return (
             <div

@@ -174,7 +174,7 @@ export const BreadCrumbs = () => {
                         >
                             {(active_layer == layer.layer_id)
                                 ?
-                                (<div className="w-[10px] h-[10px] rounded-[100px] bg-[#c87800] ml-[10px]"></div>)
+                                (<div className="w-[10px] h-[10px] rounded-[100px] bg-[#C71585] ml-[10px]"></div>)
                                 :
                                 (<div className="w-[10px] h-[10px] rounded-[100px] bg-[#0D0E11] ml-[10px]"></div>)
                             }

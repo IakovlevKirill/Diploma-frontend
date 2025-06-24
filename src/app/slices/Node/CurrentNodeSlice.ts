@@ -3,14 +3,29 @@ import {
     PayloadAction
 } from '@reduxjs/toolkit'
 import {CanvasNode} from "../../../store/types.ts";
-import {number} from "framer-motion";
 
 interface currentNodeState {
     node: CanvasNode | null;
 }
 
 const initialState: currentNodeState = {
-    node: null,
+    node: {
+        id: '-',
+        name: '-',
+        pointColor: '-',
+        projectId: '-',
+        position: {
+            x: "-",
+            y: "-"
+        },
+        size: {
+            width: "-",
+            height: "-"
+        },
+        parentId: '-',
+        children: [],
+        color: '-'
+    }
 };
 
 export const CurrentNodeSlice = createSlice({
@@ -27,7 +42,18 @@ export const CurrentNodeSlice = createSlice({
             }
         },
         unsetCurrentNode: (state) => {
-            state.node = null;
+            if (state.node) {
+                state.node.projectId = "-";
+                state.node.name = "-";
+                state.node.position.x = "-";
+                state.node.position.y = "-";
+                state.node.size.width = "-";
+                state.node.size.height = "-";
+                state.node.id = "-";
+                state.node.pointColor = "-";
+                state.node.parentId = "-";
+                state.node.color = "-";
+            }
         },
     }
 });
