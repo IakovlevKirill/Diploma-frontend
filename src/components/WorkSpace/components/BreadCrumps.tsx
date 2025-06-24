@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { addBreadCrumb, deleteBreadCrumbChildrenById } from "../../../app/slices/Other/BreadCrumbsSlice.ts";
 import { setActiveLayer } from "../../../app/slices/Other/CurrentActiveLayerSlice.ts";
+import root_icon_white from "../../../assets/images/root_icon_white.png";
 
 export const BreadCrumbs = () => {
     const navigate = useNavigate();
@@ -201,11 +202,22 @@ export const BreadCrumbs = () => {
                                     </div>)
                                 }
                             </div>
-                            <img
-                                className="h-[100%]"
-                                src={images.layer_icon_white}
-                                alt="layer_icon_white"
-                            />
+                            {
+                                (layer.layer_id == "root")
+                                    ?
+                                    (<img
+                                        className="h-[100%]"
+                                        src={images.root_icon_white}
+                                        alt="layer_icon_white"
+                                    />)
+                                    :
+                                    (<img
+                                        className="h-[100%]"
+                                        src={images.layer_icon_white}
+                                        alt="layer_icon_white"
+                                    />)
+                            }
+
                         </button>
                     </div>
                 );

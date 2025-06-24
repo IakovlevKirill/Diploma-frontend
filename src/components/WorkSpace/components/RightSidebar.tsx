@@ -21,7 +21,6 @@ export const RightSidebar = () => {
     const scale = useAppSelector((state) => state.zoomCanvas.zoom);
     const cursor_position = useAppSelector((state) => state.cursorPosition.cursor_position.x);
 
-    const [activeFormat, setActiveFormat] = useState(localStorage.getItem("layers_panel_format") || "stack")
     // TODO переделать в пользов. конфиг в бд
 
     const [width, setWidth] = useState(localStorage.getItem("canvas_right_sidebar_width") || 300); // Начальная ширина
@@ -125,7 +124,7 @@ export const RightSidebar = () => {
                     <span className="font-[Inter-medium] text-[16px] text-[#FFF] select-none">
                         Scale
                     </span>
-                    <div className="font-[Inter-medium] text-[16px] text-[#FFF] flex flex-col gap-[15px]">
+                    <div className="font-[Inter-medium] text-[14px] text-[#FFF] flex flex-col gap-[15px]">
                         {Math.round(scale * 100)}%
                     </div>
                 </div>

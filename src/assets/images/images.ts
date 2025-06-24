@@ -47,9 +47,11 @@ import location_icon_white from './location_icon_white.png'
 import quest_icon_white from './quest_icon_white.png'
 import item_icon_white from './item_icon_white.png'
 import cross from './cross.png'
+import root_icon_white from './root_icon_white.png'
 
 export const images =
 {
+    root_icon_white,
     cross,
     boss_icon_white,
     character_icon_white,
