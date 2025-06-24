@@ -19,7 +19,8 @@ export const RightSidebar = () => {
 
     const currentSelectedNode = useAppSelector(state => state.currentNode.node);
     const scale = useAppSelector((state) => state.zoomCanvas.zoom);
-    const cursor_position = useAppSelector((state) => state.cursorPosition.cursor_position.x);
+    const cursor_position_x = useAppSelector((state) => state.cursorPosition.cursor_position.x);
+    const cursor_position_y = useAppSelector((state) => state.cursorPosition.cursor_position.y);
 
     // TODO переделать в пользов. конфиг в бд
 
@@ -120,12 +121,22 @@ export const RightSidebar = () => {
             </div>
             <div className="h-full w-[calc(100%-5px)] flex flex-col justify-start">
 
-                <div className="flex flex-row justify-between w-[calc(100%-40px)] p-[20px] py-[10px]">
-                    <span className="font-[Inter-medium] text-[16px] text-[#FFF] select-none">
+                <div className="flex flex-row justify-between w-[calc(100%-20px)] p-[10px] py-[10px]">
+                    <div className="w-1/2 flex justify-around">
+                        <span className="font-[Inter-medium] text-[12px] text-[#FFF] select-none">
                         Scale
                     </span>
-                    <div className="font-[Inter-medium] text-[14px] text-[#FFF] flex flex-col gap-[15px]">
-                        {Math.round(scale * 100)}%
+                        <div className="font-[Inter-medium] text-[12px] text-[#FFF] flex flex-col gap-[15px]">
+                            {Math.round(scale * 100)}%
+                        </div>
+                    </div>
+                    <div className="w-1/2 flex justify-around">
+                        <span className="font-[Inter-medium] text-[12px] text-[#FFF] select-none">
+                        {cursor_position_x}
+                    </span>
+                        <span className="font-[Inter-medium] text-[12px] text-[#FFF] select-none">
+                        {cursor_position_y}
+                    </span>
                     </div>
                 </div>
 

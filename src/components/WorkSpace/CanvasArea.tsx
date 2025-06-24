@@ -4,7 +4,10 @@ import {
     useAppSelector
 } from "../../app/hooks.ts";
 import {CanvasNode} from "../../store/types.ts";
-import {setCurrentNode, unsetCurrentNode} from "../../app/slices/Node/CurrentNodeSlice.ts";
+import {
+    setCurrentNode,
+    unsetCurrentNode
+} from "../../app/slices/Node/CurrentNodeSlice.ts";
 import {
     addNode,
     clearCanvas,
@@ -43,6 +46,7 @@ import {store} from "../../store/store.ts";
 import {setActiveLayer} from "../../app/slices/Other/CurrentActiveLayerSlice.ts";
 import {ModalNewObjectTypeCreation} from "./components/ModalNewObjectTypeCreation.tsx";
 import {setZoom} from "../../app/slices/Other/CurrentCanvasZoomSlice.ts";
+import {setCursorPosition} from "../../app/slices/Other/CursorPositionSlice.ts";
 
 export const CanvasArea = () => {
 
@@ -86,6 +90,25 @@ export const CanvasArea = () => {
     const canvasRef = useRef<HTMLDivElement>(null);
     const isPanning = useRef(false);
     const startPos = useRef({ x: 0, y: 0 });
+
+    const getRelativeCursorPosition = (e: React.MouseEvent | React.WheelEvent) => {
+        const canvas = e.currentTarget as HTMLElement;
+        const rect = canvas.getBoundingClientRect();
+
+        // Позиция курсора относительно контейнера
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Центр контейнера
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // Учитываем смещение холста (если есть position.x/y) и масштаб
+        const x = (mouseX - centerX - position.x) / scale;
+        const y = (mouseY - centerY - position.y) / scale;
+
+        return { x, y };
+    };
 
     const handleInspect = async () => {
 
@@ -179,27 +202,25 @@ export const CanvasArea = () => {
             dispatch(unsetCurrentNode())
         }
 
-        if (currentTool == 'node_creation') {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = (e.clientX - rect.left - position.x) / scale;
-            const y = (e.clientY - rect.top - position.y) / scale;
+        if (currentTool === 'node_creation') {
+            const { x, y } = getRelativeCursorPosition(e);
 
             const newNode: CanvasNode = {
                 id: uuidv4(),
-                name: `node` + objects_count,
+                name: `node${objects_count}`,
                 pointColor: '#ffa500',
                 projectId: String(projectId.projectId),
-                position: {x: x, y: y},
-                size: {width: 120, height: 80},
-                parentId: path[path.length-1],
+                position: { x, y },  // Теперь координаты согласованы
+                size: { width: 120, height: 80 },
+                parentId: path[path.length - 1],
                 children: [],
                 color: '#1c1f24',
             };
 
-            createNode(newNode)
+            createNode(newNode);
             dispatch(addNode(newNode));
             dispatch(incrementNodeCount());
-            dispatch(setCurrentNode(newNode))
+            dispatch(setCurrentNode(newNode));
             return;
         }
     };
@@ -418,6 +439,13 @@ export const CanvasArea = () => {
     };
 
     const Node = (props: {key: string; node: CanvasNode;}) => {
+
+        const canvas = canvasRef.current;
+
+        const { x, y } = props.node.position;
+        const canvasCenterX = (canvas?.offsetWidth) / 2;
+        const canvasCenterY = (canvas?.offsetHeight) / 2;
+
         return (
             <div
                 onDoubleClick={ () => {handleInspect()}} // дабл клик -> проваливаемся на уровень ниже
@@ -440,8 +468,8 @@ export const CanvasArea = () => {
                             ${isDragging ? "rounded-[0px] hover:border-[2px] cursor-pointer" : "cursor-pointer"}
                           `}
                 style={{
-                    left: `${props.node.position.x}px`,
-                    top: `${props.node.position.y}px`,
+                    left: canvasCenterX + x * scale + position.x,
+                    top: canvasCenterY + y * scale + position.y,
                     width: `${props.node.size.width}px`,
                     height: `${props.node.size.height}px`,
                     backgroundColor: props.node.color
@@ -581,17 +609,22 @@ export const CanvasArea = () => {
     }
 
     return (
-        <div className={`z-1 relative flex h-full bg-[#F5F5F5] flex-1 overflow-hidden
-                ${currentTool === "default" ? "cursor-default" : ""}
-                ${currentTool === "node_creation" ? "cursor-crosshair" : ""}`}
-                ref={canvasRef}
-                onClick={handleCanvasClick} // одиночный лкм на холст
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}
-                onContextMenu={(e) => handleContextMenu(e, 'canvas')} // пкм по холсту или ноде
-                onWheel={handleWheel}
+        <div
+            className={`z-1 relative flex h-full bg-[#F5F5F5] flex-1 overflow-hidden
+               ${currentTool === "default" ? "cursor-default" : ""}
+               ${currentTool === "node_creation" ? "cursor-crosshair" : ""}`}
+            ref={canvasRef}
+            onClick={handleCanvasClick} // одиночный лкм на холст
+            onMouseDown={handleMouseDown}
+            onMouseMove={(e) => {
+                handleMouseMove(e);
+                const { x, y } = getRelativeCursorPosition(e);
+                dispatch(setCursorPosition({ x, y }));
+            }}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onContextMenu={(e) => handleContextMenu(e, 'canvas')} // пкм по холсту или ноде
+            onWheel={handleWheel}
         >
 
             <div className="relative w-full flex items-start justify-center mt-[20px]">
