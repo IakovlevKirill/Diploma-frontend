@@ -3,7 +3,6 @@ import React, {
     useRef,
     useState
 } from "react";
-import {images} from "../../../assets/images/images"
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import {
     updateNodeHeight,
@@ -132,10 +131,10 @@ export const RightSidebar = () => {
                     </div>
                     <div className="w-1/2 flex justify-around">
                         <span className="font-[Inter-medium] text-[12px] text-[#FFF] select-none">
-                        {cursor_position_x}
+                        {Math.round(cursor_position_x)}
                     </span>
                         <span className="font-[Inter-medium] text-[12px] text-[#FFF] select-none">
-                        {cursor_position_y}
+                        {Math.round(cursor_position_y)}
                     </span>
                     </div>
                 </div>
