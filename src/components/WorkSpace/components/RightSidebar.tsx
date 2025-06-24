@@ -121,7 +121,7 @@ export const RightSidebar = () => {
             </div>
             <div className="h-full w-[calc(100%-5px)] flex flex-col justify-start">
 
-                <div className="flex flex-col w-[calc(100%-40px)] p-[20px] gap-[20px]">
+                <div className="flex flex-row justify-between w-[calc(100%-40px)] p-[20px] py-[10px]">
                     <span className="font-[Inter-medium] text-[16px] text-[#FFF] select-none">
                         Scale
                     </span>
@@ -134,36 +134,10 @@ export const RightSidebar = () => {
 
 
                 <div className="flex flex-col w-[calc(100%-40px)] p-[20px] gap-[10px]">
-
-                    <span className="font-[Inter-medium] text-[16px] text-[#FFF] select-none">Layers</span>
-                    {(activeFormat == "stack") && (
-                        <BreadCrumbs></BreadCrumbs>
-                    )}
-                    {(activeFormat == "tree") && (
-                        <BreadCrumbs></BreadCrumbs>
-                    )}
-                    <div className="flex flex-row gap-[10px]">
-                        <button
-                            onClick={() => {
-                                setActiveFormat("tree")
-                                localStorage.setItem("layers_panel_format", "tree")
-                            }}
-                            className={`flex items-center justify-center w-[20px] h-[20px] border-0 rounded-[4px]
-                        ${activeFormat == "tree" ? "bg-[#3575FF]" : "bg-[#4C4C4C]"}
-                        `}>
-                            <img className="w-[11px] h-[11px]" src={images.tree_format_img} alt=""/>
-                        </button>
-                        <button
-                            onClick={() => {
-                                setActiveFormat("stack")
-                                localStorage.setItem("layers_panel_format", "stack")
-                            }}
-                            className={`flex items-center justify-center w-[20px] h-[20px] border-0 rounded-[4px]
-                        ${activeFormat == "stack" ? "bg-[#3575FF]" : "bg-[#4C4C4C]"}
-                        `}>
-                            <img className="w-[11px] h-[11px]" src={images.linear_format_img} alt=""/>
-                        </button>
-                    </div>
+                    <span className="font-[Inter-medium] text-[16px] text-[#FFF] select-none">
+                        Layers
+                    </span>
+                    <BreadCrumbs></BreadCrumbs>
                 </div>
 
                 <div className="w-full h-[1px] bg-[#535558]"></div>

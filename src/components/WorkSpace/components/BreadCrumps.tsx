@@ -14,7 +14,6 @@ export const BreadCrumbs = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const active_layer = useAppSelector((state) => state.activeLayer.active_layer);
-    const currentSelectedNodeId = useAppSelector((state) => state.currentNode.node?.id);
     const breadcrumbs = useAppSelector((state) => state.breadCrumbs.breadcrumbs);
 
     const [getNodeChildren] = useLazyGetNodeChildrenQuery()
@@ -46,7 +45,6 @@ export const BreadCrumbs = () => {
                 const newIndex = activeIndex - 1;
                 setActiveIndex(newIndex);
                 updateVisibleLayers(newIndex);
-                handleLayerClick(newIndex, breadcrumbs[newIndex].layer_id);
             }
         } else {
             // Прокрутка вниз
@@ -54,7 +52,6 @@ export const BreadCrumbs = () => {
                 const newIndex = activeIndex + 1;
                 setActiveIndex(newIndex);
                 updateVisibleLayers(newIndex);
-                handleLayerClick(newIndex, breadcrumbs[newIndex].layer_id);
             }
         }
     };
@@ -79,7 +76,7 @@ export const BreadCrumbs = () => {
     }, [dispatch]);
 
     const truncateLayerName = (text: string) => {
-        return text.length > 10 ? `${text.substring(0, 10)}...` : text;
+        return text.length > 6 ? `${text.substring(0, 6)}` : text;
     };
 
     const handleLayerClick = async (index: number, layer: string) => {
@@ -128,7 +125,7 @@ export const BreadCrumbs = () => {
         <div
             ref={containerRef}
             className="
-                h-[200px]
+                h-[150px]
                 w-full
                 flex
                 flex-col
@@ -160,7 +157,7 @@ export const BreadCrumbs = () => {
                         <button
                             onClick={() => handleLayerClick(layerIndex, layer.layer_id)}
                             className={`
-                                p-[5px]
+                                p-[10px]
                                 border-0
                                 flex
                                 flex-row
@@ -174,6 +171,12 @@ export const BreadCrumbs = () => {
                             `}
                             style={getLayerStyle(index, layerIndex)}
                         >
+                            {(active_layer == layer.layer_id)
+                                ?
+                                (<div className="w-[10px] h-[10px] rounded-[100px] bg-[#c87800] ml-[10px]"></div>)
+                                :
+                                (<div className="w-[10px] h-[10px] rounded-[100px] bg-[#0D0E11] ml-[10px]"></div>)
+                            }
                             <div className="
                                 text-[#FFF]
                                 bg-[#0D0E11]
@@ -186,7 +189,17 @@ export const BreadCrumbs = () => {
                                 items-center
                                 justify-center
                             ">
-                                layer - {truncateLayerName(layer.name)}
+                                {
+                                    (layer.layer_id == "root")
+                                    ?
+                                    (<div>
+                                        root
+                                    </div>)
+                                    :
+                                    (<div>
+                                        layer - {truncateLayerName(layer.name)}
+                                    </div>)
+                                }
                             </div>
                             <img
                                 className="h-[100%]"
