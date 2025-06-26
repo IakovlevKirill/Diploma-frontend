@@ -52,6 +52,17 @@ export const NodesSlice = createSlice({
                 canvas_node.name = name;
             }
         },
+        updateNodeType: (state, action: PayloadAction<{id: string, type: string}>) => {
+            const { id,  type} = action.payload;
+            const canvas_node = state.canvas_nodes.find(node => node.id === id);
+            const node = state.all_nodes.find(node => node.id === id);
+            if (node) {
+                node.type = type;
+            }
+            if (canvas_node) {
+                canvas_node.type = type;
+            }
+        },
         updateNodeColor: (state, action: PayloadAction<{id: string; color: string}>) => {
             const node = state.all_nodes.find(node => node.id === action.payload.id);
             const canvas_node = state.canvas_nodes.find(node => node.id === action.payload.id);
@@ -132,6 +143,7 @@ export const {
     deleteNode,
 
     // target node changes
+    updateNodeType,
     updateNodeName,
     updateNodePosition,
     updateNodeColor,

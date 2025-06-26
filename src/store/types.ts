@@ -14,6 +14,15 @@ export type currentToolType = {
 
 export type CanvasNode = {
     id: string | "-";
+    type:
+        "untyped" |
+        "quest" |
+        "location" |
+        "character" |
+        "event" |
+        "boss" |
+        "item" |
+        "cluster"
     name: string  | "-";
     pointColor: string | "-";
     projectId: string | "-";

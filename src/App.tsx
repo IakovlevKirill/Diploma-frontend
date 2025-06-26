@@ -13,6 +13,7 @@ import {Inbox} from "./components/Menu/Inbox/Inbox.tsx";
 import Templates from "./components/Menu/Templates/Templates.tsx";
 import {ReactNode} from "react";
 import {WorkSpaceLoading} from "./components/WorkSpace/WorkSpaceLoading.tsx";
+import {ProjectFromDataPage} from "./components/ProjectFromDataPage.tsx";
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -62,6 +63,7 @@ export const App = () => {
 
                     </Route>
 
+                    <Route path="/projects/project-from-data" element={<ProjectFromDataPage/>}/>
                     <Route path="/workspace" element={<WorkSpaceLoading/>}/>
                     <Route path="/workspace/project/:projectId/*" element={<WorkSpace/>}/>
 

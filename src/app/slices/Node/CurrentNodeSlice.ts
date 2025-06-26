@@ -11,6 +11,7 @@ interface currentNodeState {
 const initialState: currentNodeState = {
     node: {
         id: '-',
+        type: 'untyped',
         name: '-',
         pointColor: '-',
         projectId: '-',

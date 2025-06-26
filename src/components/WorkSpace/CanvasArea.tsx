@@ -179,13 +179,14 @@ export const CanvasArea = () => {
         dispatch(setCurrentNode({
             id: node.id,
             name: node.name,
+            type: node.type,
             pointColor: node.pointColor,
             color: node.color,
             children: node.children,
             parentId: node.parentId,
             position: node.position,
             size: node.size,
-            projectId: node.projectId,
+            projectId: node.projectId
         }));
         dispatch(setCurrentTool('default'));
     };
@@ -200,29 +201,57 @@ export const CanvasArea = () => {
 
         if (currentTool == 'default') {
             dispatch(unsetCurrentNode())
-        }
-
-        if (currentTool === 'node_creation') {
-            const { x, y } = getRelativeCursorPosition(e);
-
-            const newNode: CanvasNode = {
-                id: uuidv4(),
-                name: `node${objects_count}`,
-                pointColor: '#ffa500',
-                projectId: String(projectId.projectId),
-                position: { x, y },  // Теперь координаты согласованы
-                size: { width: 120, height: 80 },
-                parentId: path[path.length - 1],
-                children: [],
-                color: '#1c1f24',
-            };
-
-            createNode(newNode);
-            dispatch(addNode(newNode));
-            dispatch(incrementNodeCount());
-            dispatch(setCurrentNode(newNode));
             return;
         }
+
+        const { x, y } = getRelativeCursorPosition(e);
+
+        const newNode: CanvasNode = {
+            id: uuidv4(),
+            type: "untyped",
+            name: `node${objects_count}`,
+            pointColor: '#ffa500',
+            projectId: String(projectId.projectId),
+            position: { x, y },  // Теперь координаты согласованы
+            size: { width: 100, height: 100 },
+            parentId: path[path.length - 1],
+            children: [],
+            color: '#1c1f24',
+        };
+
+        switch (currentTool) {
+            case 'node_creation':
+                newNode.type = "untyped"
+                break;
+            case 'quest_creation':
+                newNode.type = "quest"
+                break;
+            case 'location_creation':
+                newNode.type = "location"
+                break;
+            case 'character_creation':
+                newNode.type = "character"
+                break;
+            case 'event_creation':
+                newNode.type = "event"
+                break;
+            case 'boss_creation':
+                newNode.type = "boss"
+                break;
+            case 'item_creation':
+                newNode.type = "item"
+                break;
+            case 'cluster_creation':
+                newNode.type = "cluster"
+                break;
+        }
+
+
+        createNode(newNode);
+        dispatch(addNode(newNode));
+        dispatch(incrementNodeCount());
+        dispatch(setCurrentNode(newNode));
+
     };
 
     // Обработчик контекстного меню
@@ -394,8 +423,8 @@ export const CanvasArea = () => {
         e.stopPropagation();
         setIsDragging(true);
         setDragStartPos({
-            x: e.clientX - position.x - node.position.x * scale,
-            y: e.clientY - position.y - node.position.y * scale
+            x: e.clientX - position.x - node?.position?.x * scale,
+            y: e.clientY - position.y - node?.position?.y * scale
         });
     };
 
@@ -420,6 +449,7 @@ export const CanvasArea = () => {
         } else {
             const updatedNode = {
                 id: currentNode.id,
+                type: currentNode.type,
                 name: currentNode.name,
                 pointColor: currentNode.pointColor,
                 position: currentNode.position,
@@ -463,18 +493,39 @@ export const CanvasArea = () => {
                 onMouseMove={handleDrag}
                 onMouseUp={handleDragEnd}
                 onMouseLeave={handleDragEnd}
-                className={`absolute z-4 border-2 border-[#F5F5F5] rounded-[5px] 
-                            ${(currentSelectedNodeId === props.node.id) ? "border-[2px] border-[#0d99ff]!": ""}
-                            ${isDragging ? "rounded-[0px] hover:border-[2px] cursor-pointer" : "cursor-pointer"}
-                          `}
+                className={`
+                    absolute
+                    flex 
+                    items-center 
+                    flex-col 
+                    justify-center 
+                    z-4 
+                    border-2 
+                    border-[#F5F5F5] 
+                    rounded-[100px]
+                    hover:scale-125
+                    transition-transform
+                    duration-200
+                    
+                    ${(currentSelectedNodeId === props.node.id) ? "border-[2px] scale-125 border-[#0d99ff]!": ""}
+                    ${isDragging ? "rounded-[0px] hover:border-[2px] cursor-pointer" : "cursor-pointer"}
+                    ${(props.node.type == "untyped") ? "bg-[#1c1f24]" : ""}
+                    ${(props.node.type == "quest") ? "bg-[#207E0D]" : ""}
+                    ${(props.node.type == "location") ? "bg-[#1BBAAD]" : ""}
+                    ${(props.node.type == "character") ? "bg-[#0647A8]" : ""}
+                    ${(props.node.type == "event") ? "bg-[#C1CF00]" : ""}
+                    ${(props.node.type == "boss") ? "bg-[#A80104]" : ""}
+                    ${(props.node.type == "item") ? "bg-[#9000C9]" : ""}
+                    ${(props.node.type == "cluster") ? "bg-[#FF14B8]" : ""}
+                     `}
                 style={{
                     left: canvasCenterX + x * scale + position.x,
                     top: canvasCenterY + y * scale + position.y,
                     width: `${props.node.size.width}px`,
                     height: `${props.node.size.height}px`,
-                    backgroundColor: props.node.color
                 }}
             >
+                {/*
                 <div className="flex flex-col w-[calc(100%)] h-[calc(100%)] ">
                     <div className="w-[calc(100%-10px)] p-[5px] gap-[5px] flex flex-row items-center">
                         <div
@@ -487,6 +538,9 @@ export const CanvasArea = () => {
                     </div>
                     <div className="w-full h-[2px] bg-[#474a4e]"></div>
                 </div>
+                */}
+                <span className="text-[#FFF] text-[14px] font-[Inter-bold]">{props.node.name}</span>
+                <span className="text-[#FFF] text-[12px] font-[Inter-bold]">{props.node.type}</span>
             </div>
         )
     }

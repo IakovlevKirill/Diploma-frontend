@@ -211,6 +211,7 @@ export const diplomaApi = createApi({
             }
         }, {
             id: string,
+            type: string,
             pointColor: string,
             name: string,
             projectId: string,
@@ -255,6 +256,7 @@ export const diplomaApi = createApi({
             message: string
         }, {
             id: string,
+            type: string
             pointColor: string,
             name: string,
             position: { x: number; y: number },

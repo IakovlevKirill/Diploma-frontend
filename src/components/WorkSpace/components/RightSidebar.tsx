@@ -7,6 +7,7 @@ import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import {
     updateNodeHeight,
     updateNodeName,
+    updateNodeType,
     updateNodeWidth,
     updateNodeX, updateNodeY
 } from "../../../app/slices/Node/CanvasNodesSlice.ts";
@@ -58,26 +59,30 @@ export const RightSidebar = () => {
     }, []);
 
     const nameInputRef = useRef<HTMLInputElement>(null);
+    const typeInputRef = useRef<HTMLInputElement>(null);
     const widthInputRef = useRef<HTMLInputElement>(null);
     const heightInputRef = useRef<HTMLInputElement>(null);
     const xInputRef = useRef<HTMLInputElement>(null);
     const yInputRef = useRef<HTMLInputElement>(null);
 
-    const [nodeName, setNodeName] = useState<string>(String(currentSelectedNode?.name));
-    const [nodeWidth, setNodeWidth] = useState<string>(String(currentSelectedNode?.size.width));
-    const [nodeHeight, setNodeHeight] = useState<string>(String(currentSelectedNode?.size.height));
-    const [nodeX, setNodeX] = useState<string>(String(currentSelectedNode?.position.x));
-    const [nodeY, setNodeY] = useState<string>(String(currentSelectedNode?.position.y));
+    const [nodeName, setNodeName] = useState((currentSelectedNode?.name));
+    const [nodeType, setNodeType] = useState((currentSelectedNode?.type));
+    const [nodeWidth, setNodeWidth] = useState((currentSelectedNode?.size.width));
+    const [nodeHeight, setNodeHeight] = useState((currentSelectedNode?.size.height));
+    const [nodeX, setNodeX] = useState((currentSelectedNode?.position.x));
+    const [nodeY, setNodeY] = useState((currentSelectedNode?.position.y));
 
     useEffect(() => {
-        setNodeName(String(currentSelectedNode?.name));
-        setNodeWidth(String(currentSelectedNode?.size.width));
-        setNodeHeight(String(currentSelectedNode?.size.height));
-        setNodeY(String(currentSelectedNode?.position.y));
-        setNodeX(String(currentSelectedNode?.position.x));
+        setNodeName((currentSelectedNode?.name));
+        setNodeType((currentSelectedNode?.type));
+        setNodeWidth((currentSelectedNode?.size.width));
+        setNodeHeight((currentSelectedNode?.size.height));
+        setNodeY((currentSelectedNode?.position.y));
+        setNodeX((currentSelectedNode?.position.x));
     }, [currentSelectedNode]);
 
     const [isChangeNameInputActive, setIsChangeNameInputActive] = useState(true);
+    const [isChangeTypeInputActive, setIsChangeTypeInputActive] = useState(true);
     const [isChangeWidthInputActive, setIsChangeWidthInputActive] = useState(true);
     const [isChangeHeightInputActive, setIsChangeHeightInputActive] = useState(true);
     const [isChangeXInputActive, setIsChangeXInputActive] = useState(true);
@@ -87,6 +92,10 @@ export const RightSidebar = () => {
         if (!isChangeNameInputActive) {
             nameInputRef?.current?.focus();
             nameInputRef?.current?.select();
+        }
+        if (!isChangeTypeInputActive) {
+            typeInputRef?.current?.focus();
+            typeInputRef?.current?.select();
         }
         if (!isChangeWidthInputActive) {
             widthInputRef?.current?.focus();
@@ -203,6 +212,61 @@ export const RightSidebar = () => {
                                         setNodeName(newName);
                                         dispatch(updateNodeName({id: String(currentSelectedNode?.id), name: newName}));
                                         setIsChangeNameInputActive(!isChangeNameInputActive);
+                                    }
+                                }}
+                                type="text"
+                                className="
+                                w-[calc(100%-10px)] h-[20px] text-[16px] p-[4px] rounded-[4px] select-none font-[Inter-bold] text-[#FFF] bg-[#1C1F24] border-[1px] border-[#FFF]
+                                focus:outline-none"
+                            />
+                        </div>
+                        <div className="w-full flex flex-col gap-[5px]">
+                            <span className="font-[Inter-medium] text-[#FFF] text-[14px]">Object Type</span>
+                            <button
+                                hidden={!isChangeNameInputActive}
+                                onClick={() => {
+                                    setIsChangeTypeInputActive(!isChangeTypeInputActive);
+                                }}
+                                className="
+                                    w-[calc(100%)]
+                                    h-[30px]
+                                    text-[16px]
+                                    p-[4px]
+                                    rounded-[4px]
+                                    text-start
+                                    select-none
+                                    font-[Inter-bold]
+                                    border-[1px]
+                                    text-[#FFF]
+                                    border-[#7D7D7D]
+                                    bg-[#1C1F24]
+                                    hover:cursor-text
+                                    "
+                            >
+                                <div className="text-[#FFF]">
+                                    {nodeType}
+                                </div>
+                            </button>
+                            <input
+                                ref={typeInputRef}
+                                hidden={isChangeTypeInputActive}
+                                id="type-input"
+                                placeholder="Choose type"
+                                defaultValue={currentSelectedNode?.name}
+                                onBlur={(e) => {
+                                    const newType = e?.target?.value;
+                                    setNodeType(newType);
+                                    dispatch(updateNodeType({id: String(currentSelectedNode?.id), type: newType}));
+                                    setIsChangeTypeInputActive(!isChangeTypeInputActive);
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                        // @ts-expect-error
+                                        const newType = e?.target?.value;
+                                        setNodeName(newType);
+                                        dispatch(updateNodeType({id: String(currentSelectedNode?.id), type: newType}));
+                                        setIsChangeTypeInputActive(!isChangeTypeInputActive);
                                     }
                                 }}
                                 type="text"
@@ -350,7 +414,7 @@ export const RightSidebar = () => {
                                             hover:cursor-text
                                         "
                                     >
-                                        {nodeX}
+                                        {(nodeX == "-") ? "-" : (Math.round(Number(nodeX)))}
                                     </button>
                                     <input
                                         ref={xInputRef}
@@ -410,7 +474,7 @@ export const RightSidebar = () => {
                                              bg-[#1C1F24]
                                              hover:cursor-text"
                                     >
-                                        {nodeY}
+                                        {(nodeX == "-") ? "-" : (Math.round(Number(nodeY)))}
                                     </button>
                                     <input
                                         ref={yInputRef}
@@ -453,39 +517,34 @@ export const RightSidebar = () => {
                             </div>
                         </div>
                         <div className="flex flex-col gap-[5px]">
-                            <span className="font-[Inter-medium] text-[14px] text-[#FFF] ">Point color</span>
+                            <span className="font-[Inter-medium] text-[14px] text-[#FFF] ">Group color</span>
                             <div className="w-[25px] h-[25px] border-[1px] border-[#7D7D7D] rounded-[5px] flex items-center justify-center">
                                 {
                                     (currentSelectedNode?.pointColor == "-")
                                     ?
                                     (<div className="w-[17px] h-[17px] rounded-[5px]"></div>)
                                     :
-                                    (
-                                        <div className="w-[17px] h-[17px] rounded-[5px]"
-                                            style={{
-                                                backgroundColor: currentSelectedNode?.pointColor}}
-                                        >
-                                        </div>
-                                    )
+                                    (<div className={`
+                                    w-[17px] h-[17px] rounded-[5px]
+                                    ${(currentSelectedNode?.type == "untyped") ? "bg-[#1c1f24]" : ""}
+                                    ${(currentSelectedNode?.type== "quest") ? "bg-[#207E0D]" : ""}
+                                    ${(currentSelectedNode?.type == "location") ? "bg-[#1BBAAD]" : ""}
+                                    ${(currentSelectedNode?.type == "character") ? "bg-[#0647A8]" : ""}
+                                    ${(currentSelectedNode?.type == "event") ? "bg-[#C1CF00]" : ""}
+                                    ${(currentSelectedNode?.type == "boss") ? "bg-[#A80104]" : ""}
+                                    ${(currentSelectedNode?.type == "item") ? "bg-[#9000C9]" : ""}
+                                    ${(currentSelectedNode?.type == "cluster") ? "bg-[#FF14B8]" : ""}
+                                    `}></div>)
                                 }
                             </div>
                         </div>
                         <div className="flex flex-col gap-[5px]">
                             <span className="font-[Inter-medium] text-[14px] text-[#FFF] ">ID</span>
-                            {(currentSelectedNode?.id) && (
-                                <div className="cursor-pointer w-full flex items-center justify-center p-[4px] rounded-[5px] border-[#7D7D7D] border-[1px] h-[35px]">
+                            <div className="cursor-pointer w-full flex items-center justify-center p-[4px] rounded-[5px] border-[#7D7D7D] border-[1px] h-[35px]">
                                 <span className="font-[Inter-medium] text-[14px] text-[#FFF]">
                                     {currentSelectedNode?.id}
                                 </span>
-                                </div>
-                            )}
-                            {(!currentSelectedNode?.id) && (
-                                <div className="cursor-default select-none w-full flex items-center justify-center p-[4px] rounded-[5px] border-[#7D7D7D] border-[1px] h-[35px]">
-                                <span className="font-[Inter-medium] text-[14px] text-[#7D7D7D]">
-                                    select an object
-                                </span>
-                                </div>
-                            )}
+                            </div>
                         </div>
                     </div>
                 </div>
