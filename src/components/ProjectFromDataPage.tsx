@@ -14,13 +14,7 @@ export const ProjectFromDataPage = () => {
             const chart = echarts.init(chartRef.current);
             setChartInstance(chart);
 
-            // Базовый пример Survey chart
             const option = {
-                title: {
-                    text: 'Cluster Visualization',
-                    subtext: 'Data Survey Chart',
-                    left: 'center'
-                },
                 tooltip: {
                     trigger: 'item',
                     formatter: '{a} <br/>{b}: {c} ({d}%)'
@@ -28,18 +22,31 @@ export const ProjectFromDataPage = () => {
                 legend: {
                     orient: 'vertical',
                     left: 'left',
-                    data: ['Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5']
+                    textStyle: {
+                        color: '#FFF',
+                        fontSize: '14px',
+                        fontWeight: 'bold'  ,
+                        fontFamily: 'sans-serif'
+
+                    },
+                    data: [
+                        'Example Cluster 1',
+                        'Example Cluster 2',
+                        'Example Cluster 3',
+                        'Example Cluster 4',
+                        'Example Cluster 5'
+                    ]
                 },
                 series: [
                     {
                         name: 'Cluster Distribution',
                         type: 'pie',
-                        radius: ['50%', '70%'],
+                        radius: ['30%', '75%'],
                         avoidLabelOverlap: false,
                         itemStyle: {
-                            borderRadius: 10,
-                            borderColor: '#191c21',
-                            borderWidth: 2
+                            borderRadius: 0,
+                            borderColor: '#FFF',
+                            borderWidth: 6
                         },
                         label: {
                             show: false,
@@ -49,20 +56,22 @@ export const ProjectFromDataPage = () => {
                             label: {
                                 show: true,
                                 fontSize: '18',
-                                fontWeight: 'bold'
+                                fontWeight: 'bold',
+                                color: 'white'
                             }
                         },
                         labelLine: {
                             show: false
                         },
                         data: [
-                            { value: 335, name: 'Cluster 1' },
-                            { value: 310, name: 'Cluster 2' },
-                            { value: 234, name: 'Cluster 3' },
-                            { value: 135, name: 'Cluster 4' },
-                            { value: 1548, name: 'Cluster 5' }
+                            { value: 335, name: 'Example Cluster 1' },
+                            { value: 310, name: 'Example Cluster 2' },
+                            { value: 234, name: 'Example Cluster 3' },
+                            { value: 135, name: 'Example Cluster 4' },
+                            { value: 1548, name: 'Example Cluster 5' }
                         ],
                         animationType: 'scale',
+                        animationDuration: 1000,
                         animationEasing: 'elasticOut',
                         animationDelay: function (idx: number) {
                             return Math.random() * 200;
@@ -127,7 +136,7 @@ export const ProjectFromDataPage = () => {
                             </div>
 
                             <div className="flex flex-col gap-[5px]">
-                                <label className="block text-[14px] font-[Inter-medium] text-[#a0a4a8]">
+                                <label className="block text-[14px] font-[Inter-medium] text-[#fff]">
                                     Project Name
                                 </label>
                                 <input
@@ -137,9 +146,9 @@ export const ProjectFromDataPage = () => {
                                 />
                             </div>
 
-                            <div className="mb-6">
-                                <label className="block text-[14px] text-[#a0a4a8] mb-2">
-                                    Upload Data File
+                            <div className="flex flex-col gap-[5px] font-[Inter-medium]">
+                                <label className="block text-[14px] font-[Inter-medium] text-[#fff]">
+                                    Upload data file
                                 </label>
                                 <div className="border-2 border-dashed border-[#535558] rounded p-6 text-center cursor-pointer hover:border-[#6c757d] transition-colors">
                                     <input
@@ -155,7 +164,7 @@ export const ProjectFromDataPage = () => {
                                                 {file ? file.name : 'Drag & drop or click to upload'}
                                             </p>
                                             <p className="text-[10px] text-[#535558] mt-1">
-                                                CSV, JSON or TXT
+                                                JSON
                                             </p>
                                         </div>
                                     </label>
@@ -163,33 +172,29 @@ export const ProjectFromDataPage = () => {
                             </div>
 
                             <button
-                                className="w-full py-2 bg-[#3a57e8] text-white rounded hover:bg-[#2d46c5] transition-colors disabled:opacity-50"
                                 onClick={handleSubmit}
-                                disabled={!file}
-                            >
-                                Create Project
+                                className="flex items-center justify-center rounded-[2px] border-[0] font-[Inter-bold] py-[8px] hover:opacity-80">
+                                Start clusterization
                             </button>
                         </div>
                     </div>
                 </div>
 
                 {/* Правая панель - визуализация */}
-                <div className="w-[calc(100%-300px)] h-full relative">
-                    <div
-                        ref={chartRef}
-                        className="w-full h-full"
-                        style={{ minHeight: '500px' }}
-                    />
+                <div className="w-[calc(100%-300px)] h-[95vh] relative">
+                    <div className="flex w-[calc(100%-100px)] h-[calc(100%-100px)] p-[50px]">
+                        <div
+                            ref={chartRef}
+                            className="w-full h-full flex items-center"
+                            style={{ minHeight: '500px' }}
+                        />
 
-                    {/* Placeholder для будущей анимации */}
-                    {!file && (
-                        <div className="absolute inset-0 flex items-center justify-center flex-col text-[#a0a4a8]">
-                            <div className="text-[24px] mb-4">Cluster Visualization</div>
-                            <div className="text-[14px] max-w-md text-center">
-                                Upload your data file to see beautiful cluster visualization
-                            </div>
+                        {/* Placeholder для будущей анимации */}
+                        <div className=" flex text-left  flex-col gap-[10px]">
+                            <div className="text-[24px] font-[Inter-medium] mb-4 text-[#FFF]">Cluster Visualization</div>
+                            <div className="text-[18px] font-[Inter-medium] mb-4 text-[#D9D9D9]">Louvain Algorithm</div>
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>
