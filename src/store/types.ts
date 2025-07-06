@@ -13,24 +13,17 @@ export type currentToolType = {
 }
 
 export type CanvasNode = {
-    id: string | "-";
-    type:
-        "untyped" |
-        "quest" |
-        "location" |
-        "character" |
-        "event" |
-        "boss" |
-        "item" |
-        "cluster"
-    name: string  | "-";
-    pointColor: string | "-";
-    projectId: string | "-";
-    position: {x: number | "-", y: number | "-"};
-    size: {width: number | "-", height: number | "-"};
-    parentId: string | "-";
+    id: string;
+    type: string;
+    name: string;
+    pointColor: string;
+    projectId: string;
+    position: {x: number, y: number};
+    size: {width: number, height: number};
+    parentId: string;
     children: string[];
-    color: string | "-";
+    color: string;
+    dependencies: string[];
 };
 
 export type User = {

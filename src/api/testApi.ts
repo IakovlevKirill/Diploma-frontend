@@ -284,6 +284,60 @@ export const diplomaApi = createApi({
                 method: 'GET',
             })
         }),
+
+
+        // ClUSTERIZATION
+
+        createProjectWithClustering: builder.mutation<{
+            result: 'success';
+            data: {
+                projectId: string;
+                analytics: any;
+            };
+        }, {
+            userId: string,
+            projectTitle: string,
+            file: File;
+        }>({
+            //ts-ignore
+            queryFn: async ({
+                                userId,
+                                file,
+                                projectTitle
+                            }, _api, _extraOptions, baseQuery) => {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    // Выполняем запрос через fetch, так как Axios не всегда удобен в таких случаях
+                    const response = await fetch(`${baseUrl}/api/project/create-with-clustering?userId=${userId}&projectTitle=${projectTitle}`, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        return {
+                            error: {
+                                status: response.status,
+                                data: data.message || 'Ошибка при создании проекта',
+                            },
+                        };
+                    }
+
+                    return { data };
+                } catch (error) {
+                    return {
+                        error: {
+                            status: 'FETCH_ERROR',
+                            data: 'Не удалось подключиться к серверу',
+                        },
+                    };
+                }
+            },
+        }),
+
     }),
 });
 
@@ -306,5 +360,6 @@ export const {
     useDeleteNodeMutation,
     useGetAllProjectNodesByProjectIdQuery,
     useUpdateNodeMutation,
-    useLazyGetNodeChildrenQuery
+    useLazyGetNodeChildrenQuery,
+    useCreateProjectWithClusteringMutation
 } = diplomaApi;

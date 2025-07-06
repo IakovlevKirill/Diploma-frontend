@@ -46,14 +46,6 @@ export const ModalNewObjectTypeCreation = () => {
                                         <label className="font-[Inter-medium] text-[12px]" htmlFor="">Description</label>
                                         <input type="text"/>
                                     </div>
-                                    <div className="flex flex-col gap-[5px]">
-                                        <label className="font-[Inter-medium] text-[12px]" htmlFor="">Main color</label>
-                                        <input type="text"/>
-                                    </div>
-                                    <div className="flex flex-col gap-[5px]">
-                                        <label className="font-[Inter-medium] text-[12px]" htmlFor="">Icon</label>
-                                        <input type="text"/>
-                                    </div>
                                     <div className="flex flex-row justify-between my-[10px]">
                                         <button
                                             className="w-[45%] font-[Inter-medium] text-[12px]"

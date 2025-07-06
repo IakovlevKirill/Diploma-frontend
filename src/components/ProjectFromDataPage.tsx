@@ -1,12 +1,35 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as echarts from 'echarts';
 import { LayoutBar } from "./LayoutBar.tsx";
+import {useCreateProjectWithClusteringMutation} from "../api/testApi.ts";
+import {BarLoader} from "react-spinners";
 
 export const ProjectFromDataPage = () => {
-    const [projectName, setProjectName] = useState('New Project');
+
+    const [createProject, { isLoading }] = useCreateProjectWithClusteringMutation();
+
+    const [projectTitle, setProjectTitle] = useState('New Project');
     const [file, setFile] = useState<File | null>(null);
     const chartRef = useRef<HTMLDivElement>(null);
     const [chartInstance, setChartInstance] = useState<echarts.ECharts | null>(null);
+
+    const handleFileUpload = () => {
+
+        const userId = localStorage.getItem("userId");
+
+        if (file && userId) {
+            createProject({ userId, file, projectTitle }).unwrap()
+                .then((result) => {
+                    console.log('Проект создан:', result.data.projectId);
+                    // Перенаправление, обновление UI и т.д.
+                })
+                .catch((error) => {
+                    console.error('Ошибка при создании проекта:', error);
+                });
+        }
+        // После получения данных обновите график:
+        // updateChart(clusterData);
+    };
 
     // Инициализация ECharts
     useEffect(() => {
@@ -100,14 +123,6 @@ export const ProjectFromDataPage = () => {
         }
     };
 
-    const handleSubmit = () => {
-        if (!file) return;
-
-        // TODO: Добавьте здесь обработку файла и METIS кластеризацию
-        // После получения данных обновите график:
-        // updateChart(clusterData);
-    };
-
     const updateChart = (clusterData: any) => {
         if (chartInstance) {
             const newOption = {
@@ -141,8 +156,8 @@ export const ProjectFromDataPage = () => {
                                 </label>
                                 <input
                                     className="w-[calc(100%-10px)] rounded-[4px] px-[6px] py-[6px] bg-[#191c21] font-[Inter-medium] text-[#FFF] border border-[#535558] rounded text-white focus:outline-none focus:border-[#6c757d]"
-                                    value={projectName}
-                                    onChange={(e) => setProjectName(e.target.value)}
+                                    value={projectTitle}
+                                    onChange={(e) => setProjectTitle(e.target.value)}
                                 />
                             </div>
 
@@ -172,10 +187,11 @@ export const ProjectFromDataPage = () => {
                             </div>
 
                             <button
-                                onClick={handleSubmit}
+                                onClick={handleFileUpload}
                                 className="flex items-center justify-center rounded-[2px] border-[0] font-[Inter-bold] py-[8px] hover:opacity-80">
                                 Start clusterization
                             </button>
+
                         </div>
                     </div>
                 </div>
@@ -196,6 +212,18 @@ export const ProjectFromDataPage = () => {
                         </div>
                     </div>
                 </div>
+
+                {(isLoading) && (
+                    <div className="flex items-center flex-col gap-[40px] justify-center font-[Inter-medium] bg-[rgba(40,40,40,0.75)] backdrop-blur-md absolute w-full h-[95vh] z-3">
+                        <div className="text-[40px] text-[#FFF]">Clusterization in process</div>
+                        <BarLoader
+                            speedMultiplier={0.4}
+                            width={300}
+                            height={8}
+                            color="#FFF"
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

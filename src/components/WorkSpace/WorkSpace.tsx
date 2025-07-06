@@ -143,13 +143,13 @@ export const WorkSpace = () => {
                     transition={{ delay: 0.1 }}
                     className="h-[95vh] w-[100vw] flex flex-row"
                 >
-                    {/*z-2 flex h-full w-[calc(15%-1px)] bg-[#1C1F24] border-r-[1px] border-[#535558]*/}
-                    <LeftSidebar projectTitle={String(project?.title)} userId={userId} projectId={String(project?.id)}></LeftSidebar>
-                    {/*z-1 relative flex h-full w-[85%]*/}
+                    <LeftSidebar
+                        projectTitle={String(project?.title)}
+                        userId={userId}
+                        projectId={String(project?.id)}
+                    ></LeftSidebar>
                     <CanvasArea></CanvasArea>
-
                     <RightSidebar></RightSidebar>
-
                 </motion.div>
             )}
         </div>
