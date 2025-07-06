@@ -56,6 +56,8 @@ export const CanvasArea = () => {
 
     const [path, setPath] = useState<string[]>(location.pathname.split("/"));
 
+    const [isCreatingLink, setIsCreatingLink] = useState<{ nodeId: string; side: 'left' | 'right' } | null>(null);
+
     const [getNodeChildren, { isLoading: isChildrenLoading}] = useLazyGetNodeChildrenQuery()
 
     const [createNode, { isLoading : isCreateLoading}] = useCreateNodeMutation();
@@ -174,9 +176,19 @@ export const CanvasArea = () => {
         isPanning.current = false;
     };
 
+    const createLink = (from: { nodeId: string; side: 'left' | 'right' }, toNodeId: string) => {
+        console.log("link created");
+    };
+
     // Обработчик нажатия на ноду
     const handleNodeClick = (e: React.MouseEvent, node: CanvasNode) => {
         e.stopPropagation();
+
+        if (isCreatingLink) {
+            createLink(isCreatingLink, node.id);
+            setIsCreatingLink(null);
+        }
+
         dispatch(setCurrentNode({
             id: node.id,
             name: node.name,
@@ -405,13 +417,17 @@ export const CanvasArea = () => {
             (e.ctrlKey) &&
             (e.deltaY > 0)
         ) {
-            console.log('всплываю вверх')
+            dispatch(setZoom(1))
+            navigate(-1)
         } else if (
             (Math.round(scale*100) == 250) &&
             (e.ctrlKey) &&
             (e.deltaY < 0)
         ) {
-            console.log('проваливаюсь в ноду')
+            if (currentSelectedNodeId) {
+                dispatch(setZoom(1))
+                navigate(currentSelectedNodeId)
+            }
         }
     };
 
@@ -540,6 +556,21 @@ export const CanvasArea = () => {
                     <div className="w-full h-[2px] bg-[#474a4e]"></div>
                 </div>
                 */}
+                <div
+                    className="z-100 absolute left-[-6px] bg-[#D9D9D9] w-[8px] h-[8px] rounded-[100px] border-[#000] border-[2px] cursor-pointer"
+                    onClick={(e) => {
+                        e.stopPropagation(); // чтобы не сработал клик на Node
+                        setIsCreatingLink({ nodeId: props.node.id, side: 'left' });
+                    }}
+                ></div>
+
+                <div
+                    className="z-100 absolute right-[-6px] bg-[#D9D9D9] w-[8px] h-[8px] rounded-[100px] border-[#000] border-[2px] cursor-pointer"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setIsCreatingLink({ nodeId: props.node.id, side: 'right' });
+                    }}
+                ></div>
                 <span className="text-[#FFF] text-[14px] font-[Inter-bold]">{props.node.name}</span>
                 <span className="text-[#FFF] text-[12px] font-[Inter-bold]">{props.node.type}</span>
             </div>

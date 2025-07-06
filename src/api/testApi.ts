@@ -277,10 +277,11 @@ export const diplomaApi = createApi({
                 nodes: CanvasNode[]
             }
         }, {
-            nodeId: string
+            nodeId: string,
+            projectId: string
         }>({
             query: (nodeId) => ({
-                url: `${baseUrl}/api/project/node/get/children?nodeId=${nodeId.nodeId}`,
+                url: `${baseUrl}/api/project/node/get/children?nodeId=${nodeId.nodeId}$projectId=${nodeId.nodeId}`,
                 method: 'GET',
             })
         }),

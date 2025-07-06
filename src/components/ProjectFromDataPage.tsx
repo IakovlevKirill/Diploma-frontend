@@ -53,7 +53,6 @@ export const ProjectFromDataPage = () => {
             setChartInstance(chart);
 
             const option = {
-                color: ['#66B2FF', '#5CD6D6', '#99FF99', '#FFD700', '#FFA07A'],
                 tooltip: {
                     trigger: 'item',
                     formatter: '{a}<br/>{b}: {c} nodes ({d}%)'
@@ -68,7 +67,7 @@ export const ProjectFromDataPage = () => {
                         fontWeight: 'bold',
                         fontFamily: 'sans-serif'
                     },
-                    data: ['Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5']
+                    data: ['Cluster 1', 'Cluster 2', 'Cluster 3',]
                 },
                 series: [
                     {
@@ -84,8 +83,6 @@ export const ProjectFromDataPage = () => {
                             { value: 42, name: 'Cluster 1' },
                             { value: 23, name: 'Cluster 2' },
                             { value: 31, name: 'Cluster 3' },
-                            { value: 19, name: 'Cluster 4' },
-                            { value: 35, name: 'Cluster 5' }
                         ],
                         label: {
                             show: true,
@@ -230,7 +227,7 @@ export const ProjectFromDataPage = () => {
                                             onClick={()=>{
                                                 navigate(`/workspace/project/${newProjectId}/root`)
                                             }}
-                                            className="flex items-center justify-center rounded-[2px] border-[0] font-[Inter-bold] py-[8px] hover:opacity-80">
+                                            className="mt-[50px] flex items-center justify-center rounded-[2px] border-[0] font-[Inter-bold] py-[8px] hover:opacity-80">
                                             open project
                                         </button>
                                     </div>
