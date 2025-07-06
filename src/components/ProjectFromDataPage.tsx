@@ -3,9 +3,13 @@ import * as echarts from 'echarts';
 import { LayoutBar } from "./LayoutBar.tsx";
 import {useCreateProjectWithClusteringMutation} from "../api/testApi.ts";
 import {BarLoader} from "react-spinners";
+import {ClusterAnalyticsPanel} from "./ClusterAnalyticsPanel.tsx";
 
 export const ProjectFromDataPage = () => {
+
     const [createProject, { isLoading }] = useCreateProjectWithClusteringMutation();
+
+    const [analytics, setAnalytics] = useState<any>(null);
 
     const [projectTitle, setProjectTitle] = useState('New Project');
     const [file, setFile] = useState<File | null>(null);
@@ -25,10 +29,14 @@ export const ProjectFromDataPage = () => {
 
                     // Обновляем диаграмму
                     updateChart(clusterData);
+
+                    // Сохраняем аналитику в состоянии
+                    setAnalytics(result.data.analytics);
                 })
                 .catch((error) => {
                     console.error('Ошибка при создании проекта:', error);
                 });
+
         }
     };
 
@@ -200,10 +208,18 @@ export const ProjectFromDataPage = () => {
                         />
 
                         {/* Placeholder для будущей анимации */}
-                        <div className=" flex text-left  flex-col gap-[10px]">
-                            <div className="text-[24px] font-[Inter-medium] mb-4 text-[#FFF]">Cluster Visualization</div>
-                            <div className="text-[18px] font-[Inter-medium] mb-4 text-[#D9D9D9]">Louvain Algorithm</div>
+                        <div className="w-[300px] flex flex-col font-[Inter-medium] text-[#FFF]">
+                            <div className=" flex text-left  flex-col gap-[10px]">
+                                <div className="text-[24px] font-[Inter-medium] mb-4 text-[#FFF]">Cluster Visualization</div>
+                                <div className="text-[18px] font-[Inter-medium] mb-4 text-[#D9D9D9]">Louvain Algorithm</div>
+                            </div>
+
+                            <div className="flex justify-center items-center bg-gray-900">
+                                {/* Отображаем только если есть данные */}
+                                {analytics && <ClusterAnalyticsPanel analytics={analytics} />}
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
