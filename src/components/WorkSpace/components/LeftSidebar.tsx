@@ -81,18 +81,18 @@ export const LeftSidebar = ( props: LeftSidebarProps) => {
 
     return (
         <div
-            className="h-[95vh] z-2 left-[0px] flex bg-[#1C1F24] border-r-[1px] border-[#535558]"
+            className="h-[95vh] z-12 left-[0px] flex bg-[#1C1F24] border-r-[1px] border-[#535558]"
             style={{ width: `${width}px` }}
         >
             <div className="w-full h-full flex flex-col items-center">
                 <div className="w-[calc(100%-40px)] h-[calc(15%-41px)] p-[20px] flex flex-col items-start justify-center gap-[10px] border-b-[1px] border-[#535558]">
-                    <div className="w-full ">
+                    <div className="w-full overflow-hidden">
                         <button
                             hidden={!isChangeTitleInputActive}
                             onClick={() => {
                                 setIsChangeTitleInputActive(!isChangeTitleInputActive);
                             }}
-                            className="w-[calc(100%)] text-[20px] p-[4px] rounded-[8px] text-start select-none font-[Inter-semibold] text-[#FFF]
+                            className="w-[calc(100%)] overflow-hidden text-[20px] p-[4px] rounded-[8px] text-start select-none font-[Inter-semibold] text-[#FFF]
                                 border-[1px]
                                 border-[#1C1F24]
                                 bg-[#1C1F24]

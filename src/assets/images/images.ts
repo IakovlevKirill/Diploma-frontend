@@ -49,6 +49,7 @@ import item_icon_white from './item_icon_white.png'
 import cross from './cross.png'
 import root_icon_white from './root_icon_white.png'
 import arrow_icon_white from './arrow_icon_white.png'
+import dot from './dot.png'
 
 export const images =
 {
@@ -102,5 +103,6 @@ export const images =
     close_modal_icon,
     linear_format_img,
     tree_format_img,
-    layer_icon_white
+    layer_icon_white,
+    dot
 }

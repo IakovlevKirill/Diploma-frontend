@@ -5,7 +5,6 @@ import {useCreateProjectWithClusteringMutation} from "../api/testApi.ts";
 import {BarLoader} from "react-spinners";
 
 export const ProjectFromDataPage = () => {
-
     const [createProject, { isLoading }] = useCreateProjectWithClusteringMutation();
 
     const [projectTitle, setProjectTitle] = useState('New Project');
@@ -14,90 +13,78 @@ export const ProjectFromDataPage = () => {
     const [chartInstance, setChartInstance] = useState<echarts.ECharts | null>(null);
 
     const handleFileUpload = () => {
-
         const userId = localStorage.getItem("userId");
 
         if (file && userId) {
             createProject({ userId, file, projectTitle }).unwrap()
                 .then((result) => {
-                    console.log('Проект создан:', result.data.projectId);
-                    // Перенаправление, обновление UI и т.д.
+                    console.log('Проект создан:', result.data);
+
+                    // Получаем аналитику о кластерах
+                    const clusterData = result.data.analytics.clustersSummary;
+
+                    // Обновляем диаграмму
+                    updateChart(clusterData);
                 })
                 .catch((error) => {
                     console.error('Ошибка при создании проекта:', error);
                 });
         }
-        // После получения данных обновите график:
-        // updateChart(clusterData);
     };
 
-    // Инициализация ECharts
+// Инициализация ECharts
     useEffect(() => {
         if (chartRef.current) {
             const chart = echarts.init(chartRef.current);
             setChartInstance(chart);
 
             const option = {
+                color: ['#66B2FF', '#5CD6D6', '#99FF99', '#FFD700', '#FFA07A'],
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{a} <br/>{b}: {c} ({d}%)'
+                    formatter: '{a}<br/>{b}: {c} nodes ({d}%)'
                 },
                 legend: {
                     orient: 'vertical',
                     left: 'left',
+                    top: 'center',
                     textStyle: {
                         color: '#FFF',
-                        fontSize: '14px',
-                        fontWeight: 'bold'  ,
+                        fontSize: '16px',
+                        fontWeight: 'bold',
                         fontFamily: 'sans-serif'
-
                     },
-                    data: [
-                        'Example Cluster 1',
-                        'Example Cluster 2',
-                        'Example Cluster 3',
-                        'Example Cluster 4',
-                        'Example Cluster 5'
-                    ]
+                    data: ['Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5']
                 },
                 series: [
                     {
-                        name: 'Cluster Distribution',
+                        name: 'Clusters',
                         type: 'pie',
-                        radius: ['30%', '75%'],
-                        avoidLabelOverlap: false,
+                        radius: '80%',
                         itemStyle: {
                             borderRadius: 0,
                             borderColor: '#FFF',
                             borderWidth: 6
                         },
+                        data: [
+                            { value: 42, name: 'Cluster 1' },
+                            { value: 23, name: 'Cluster 2' },
+                            { value: 31, name: 'Cluster 3' },
+                            { value: 19, name: 'Cluster 4' },
+                            { value: 35, name: 'Cluster 5' }
+                        ],
                         label: {
-                            show: false,
-                            position: 'center'
+                            show: true,
+                            position: 'inside',
+                            formatter: '{b}: {c} nodes'
                         },
                         emphasis: {
                             label: {
                                 show: true,
-                                fontSize: '18',
+                                fontSize: '16',
                                 fontWeight: 'bold',
                                 color: 'white'
                             }
-                        },
-                        labelLine: {
-                            show: false
-                        },
-                        data: [
-                            { value: 335, name: 'Example Cluster 1' },
-                            { value: 310, name: 'Example Cluster 2' },
-                            { value: 234, name: 'Example Cluster 3' },
-                            { value: 135, name: 'Example Cluster 4' },
-                            { value: 1548, name: 'Example Cluster 5' }
-                        ],
-                        animationType: 'scale',
-                        animationDuration: 1000,
-                        animationEasing: 'elasticOut',
-                        animationDelay: function (idx: number) {
-                            return Math.random() * 200;
                         }
                     }
                 ]
@@ -123,18 +110,25 @@ export const ProjectFromDataPage = () => {
         }
     };
 
-    const updateChart = (clusterData: any) => {
-        if (chartInstance) {
-            const newOption = {
-                series: [{
-                    data: clusterData.map((cluster: any, index: number) => ({
-                        value: cluster.size,
-                        name: `Cluster ${index + 1}`
-                    }))
-                }]
-            };
-            chartInstance.setOption(newOption);
-        }
+    const updateChart = (clusterData: Array<{ clusterId: string; nodeCount: number }>) => {
+        if (!chartInstance || !clusterData?.length) return;
+
+        const seriesData = clusterData.map((cluster, index) => ({
+            value: cluster.nodeCount,
+            name: `Cluster ${index + 1}`,
+        }));
+
+        const newOption = {
+            legend: {
+                data: seriesData.map(item => item.name),
+            },
+            series: [{
+                data: seriesData,
+                name: 'Cluster Distribution'
+            }]
+        };
+
+        chartInstance.setOption(newOption);
     };
 
     return (

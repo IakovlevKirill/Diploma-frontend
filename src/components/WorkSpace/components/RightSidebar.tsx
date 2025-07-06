@@ -118,7 +118,7 @@ export const RightSidebar = () => {
 
     return (
         <div
-            className="h-[95vh] z-2 flex flex-row right-[0px] bg-[#1C1F24] border-r-[1px] border-[#535558]"
+            className="h-[95vh] z-5 flex flex-row right-[0px] bg-[#1C1F24] border-r-[1px] border-[#535558]"
             style={{ width: `${width}px` }}
         >
             <div

@@ -39,7 +39,7 @@ import {
     useParams,
 } from "react-router-dom";
 import {
-    ClipLoader
+    ClipLoader, RingLoader
 } from "react-spinners";
 import {addBreadCrumb} from "../../app/slices/Other/BreadCrumbsSlice.ts";
 import {store} from "../../store/store.ts";
@@ -56,7 +56,7 @@ export const CanvasArea = () => {
 
     const [path, setPath] = useState<string[]>(location.pathname.split("/"));
 
-    const [getNodeChildren] = useLazyGetNodeChildrenQuery()
+    const [getNodeChildren, { isLoading: isChildrenLoading}] = useLazyGetNodeChildrenQuery()
 
     const [createNode, { isLoading : isCreateLoading}] = useCreateNodeMutation();
     const [updateNode, { isLoading : isUpdateLoading}] = useUpdateNodeMutation();
@@ -71,6 +71,9 @@ export const CanvasArea = () => {
     const all_nodes_array = useAppSelector((state) => state.nodes.all_nodes);
     const canvas_nodes_array = useAppSelector((state) => state.nodes.canvas_nodes);
     const scale = useAppSelector((state) => state.zoomCanvas.zoom);
+
+    console.log(all_nodes_array);
+    console.log(canvas_nodes_array);
 
     const objects_count = useAppSelector((state) => state.nodeCount.nodeCount);
 
@@ -124,8 +127,6 @@ export const CanvasArea = () => {
             name: currentSelectedNodeName,
             layer_id: currentSelectedNodeId,
         }))
-
-        console.log(store.getState());
 
         navigate(`${currentSelectedNodeId}`);
 
@@ -663,8 +664,7 @@ export const CanvasArea = () => {
     }
 
     return (
-        <div
-            className={`z-1 relative flex h-full bg-[#F5F5F5] flex-1 overflow-hidden
+        <div className={`z-2 relative flex h-full bg-[#F5F5F5] flex-1 overflow-hidden
                ${currentTool === "default" ? "cursor-default" : ""}
                ${currentTool === "node_creation" ? "cursor-crosshair" : ""}`}
             ref={canvasRef}
@@ -689,20 +689,24 @@ export const CanvasArea = () => {
 
             <ModalNewObjectTypeCreation></ModalNewObjectTypeCreation>
 
-            {(canvas_nodes_array.length == 0) && (
-                <div className="z-3 absolute w-full h-full flex items-center justify-center ">
+            {((canvas_nodes_array.length == 0) && (!isChildrenLoading)) && (
+                <div className="z-6 absolute w-full h-full flex items-center justify-center ">
                     <div className="select-none font-[Inter-medium] text-[#454545]">
                         This layer is empty
                     </div>
                 </div>
             )}
-
+            {(isChildrenLoading) && (
+                <div className="flex flex-col z-10 absolute w-full bg-[#F5F5F5] h-full items-center justify-center ">
+                    <RingLoader></RingLoader>
+                </div>
+            )}
             {(isCreateLoading || isUpdateLoading || isDeleteLoading) && (
                 <TreeUpdateIndicator></TreeUpdateIndicator>
             )}
 
             <motion.div
-                className="absolute bg-[#F5F5F5] z-1 w-[1000px] h-[1000px] origin-center"
+                className="absolute  z-6 w-[1000px] h-[1000px] origin-center"
                 style={{
                     x: position.x,
                     y: position.y,

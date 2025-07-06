@@ -67,7 +67,7 @@ export const Toolbar = () => {
     return (
         <div
             onClick={handleToolbarClick}
-            className="z-5"
+            className="z-15"
         >
             <div className="
                  select-none
