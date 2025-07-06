@@ -4,8 +4,11 @@ import { LayoutBar } from "./LayoutBar.tsx";
 import {useCreateProjectWithClusteringMutation} from "../api/testApi.ts";
 import {BarLoader} from "react-spinners";
 import {ClusterAnalyticsPanel} from "./ClusterAnalyticsPanel.tsx";
+import {useNavigate} from "react-router-dom";
 
 export const ProjectFromDataPage = () => {
+
+    const navigate = useNavigate();
 
     const [createProject, { isLoading }] = useCreateProjectWithClusteringMutation();
 
@@ -13,6 +16,7 @@ export const ProjectFromDataPage = () => {
 
     const [projectTitle, setProjectTitle] = useState('New Project');
     const [file, setFile] = useState<File | null>(null);
+    const [newProjectId, setNewProjectId] = useState<string>();
     const chartRef = useRef<HTMLDivElement>(null);
     const [chartInstance, setChartInstance] = useState<echarts.ECharts | null>(null);
 
@@ -32,6 +36,8 @@ export const ProjectFromDataPage = () => {
 
                     // Сохраняем аналитику в состоянии
                     setAnalytics(result.data.analytics);
+
+                    setNewProjectId(result.data.projectId)
                 })
                 .catch((error) => {
                     console.error('Ошибка при создании проекта:', error);
@@ -214,9 +220,21 @@ export const ProjectFromDataPage = () => {
                                 <div className="text-[18px] font-[Inter-medium] mb-4 text-[#D9D9D9]">Louvain Algorithm</div>
                             </div>
 
-                            <div className="flex justify-center items-center bg-gray-900">
+                            <div className="flex flex-col justify-center items-center bg-gray-900">
                                 {/* Отображаем только если есть данные */}
-                                {analytics && <ClusterAnalyticsPanel analytics={analytics} />}
+                                {analytics &&
+                                    <div className="flex flex-col">
+                                        <ClusterAnalyticsPanel analytics={analytics}>
+                                        </ClusterAnalyticsPanel>
+                                        <button
+                                            onClick={()=>{
+                                                navigate(`/workspace/project/${newProjectId}/root`)
+                                            }}
+                                            className="flex items-center justify-center rounded-[2px] border-[0] font-[Inter-bold] py-[8px] hover:opacity-80">
+                                            open project
+                                        </button>
+                                    </div>
+                                }
                             </div>
                         </div>
 
